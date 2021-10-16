@@ -34,10 +34,12 @@ const Login: React.FC<Props> = ({ email, password }) => {
   return (
     <div className={classes.root}>
       <div style={{ flex: 0.1 }}>
+        <div style={{ width: 700, display: 'flex', justifyContent: 'center' }}>
         <img src='https://pacira-operations-portal-ui-staging.azurewebsites.net/static/media/pacira-logo.2f28cc6e.png'
           alt='pacira logo'
           className={classes.logo}
-        />
+          />
+        </div>
         <img src='https://pacira-operations-portal-ui-staging.azurewebsites.net/static/media/pacirabg.40fae6f2.png'
           alt='pacira login page'
           className={classes.image}

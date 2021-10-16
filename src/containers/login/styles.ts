@@ -29,7 +29,7 @@ export const useStyles = makeStyles({
     height: '10vh',
     width: 300,
     marginTop: 23,
-    scale: 1.1
+    scale: 1.1,
   },
   loginBox: {
     boxShadow: 'rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px',
