@@ -1,6 +1,6 @@
 import { useFormik } from 'formik'
 import { useDispatch } from 'react-redux'
-import { createNewAccountAction } from './actions'
+import { createNewAccountAction, getAccountsAction } from './actions'
 import CustomInput from '../../components/input/CustomInput'
 import { useStyles } from './styles'
 import FirstCard from './cards/firstCard'
@@ -34,6 +34,7 @@ const UseAccountFormik = ({ handleClose }: Partial<UseAccountProps>) => {
     dispatch(createNewAccountAction({ accountName, ein, subtype, phone, city, email, state, street1address, street2address, street3address, zip }))
     console.log("email and password from use custom formik ---> ", accountName, ein, subtype);
     handleClose(false)
+    dispatch(getAccountsAction())
   }
   const { handleChange, handleBlur, handleSubmit, values, } = useFormik<UseAccountProps>({
     initialValues: {

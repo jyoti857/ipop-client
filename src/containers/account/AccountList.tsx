@@ -45,7 +45,7 @@ function AccountList({ }: Props): ReactElement {
   const accounts: any = result.accounts.length > 0 && result.accounts.map(({ name, status, city, state, addressLine1, zip, country }: any) => {
     console.log("000000000000000000000", name, status, city)
     return (
-      createData(name, status, addressLine1, city, state, '', zip)
+      createData(name, status, addressLine1, city, state, country, zip)
     )
   })
   console.log("accounts --->", accounts, rows)
