@@ -3,6 +3,7 @@ import { useFormik } from 'formik'
 import { useDispatch, useSelector, shallowEqual } from 'react-redux'
 import { loginDispatch } from './actions';
 import { useStyles } from './styles'
+import CustomInput from '../../components/input/CustomInput';
 
 interface Props {
   email: string;
@@ -45,21 +46,28 @@ const Login: React.FC<Props> = ({ email, password }) => {
       <div className={classes.loginBox}>
         <form onSubmit={handleSubmit} className={classes.form}>
           <text className={classes.signinText}>Sign in to your account</text>
-          <input
+          <CustomInput
             name='email'
             type='email'
-            onChange={handleChange}
+            handleChange={handleChange}
             value={values.email}
-            className={classes.inputTextField}
             placeholder='email'
           />
-          <input
+          {/* <input
             name='password'
             type='password'
             onChange={handleChange}
             value={values.password}
             className={classes.inputTextField}
             placeholder='password'
+          /> */}
+
+          <CustomInput
+            name='password'
+            type='password'
+            placeholder='password'
+            value={values.password}
+            handleChange={handleChange}
           />
           <button className={classes.loginButton} type='submit'>login</button>
         </form>

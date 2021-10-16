@@ -1,0 +1,1 @@
+export const CREATE_ACCOUNT_ACTION = '@order_management/create_account_action';

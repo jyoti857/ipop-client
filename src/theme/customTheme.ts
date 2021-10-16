@@ -20,6 +20,10 @@ export const theme: ThemeOptions = createTheme({
     fontSize: {
       primary: 20,
       secondary: 18
+    },
+    margin: {
+      primary: 20, 
+      secondary: 18
     }
   },
   color: {
@@ -27,7 +31,6 @@ export const theme: ThemeOptions = createTheme({
     secondary: "#C53DAE",
     danger: "#EE2829",
     grey: "#B2B3AB"
-
   }
 });
 
@@ -55,6 +58,10 @@ declare module '@mui/material/styles' {
         secondary: number;
       },
       fontSize: {
+        primary: number;
+        secondary: number;
+      },
+      margin: {
         primary: number;
         secondary: number;
       }
