@@ -53,7 +53,7 @@ function AccountList({ }: Props): ReactElement {
       </div>
       {
         open ? <CustomModal open={open} handleClose={handleClose}>
-          <AccountModal />
+          <AccountModal handleClose={handleClose} />
         </CustomModal> : null
       }
       <Paper style={{ marginTop: 12, height: 340, width: '100%' }}>

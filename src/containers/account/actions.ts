@@ -1,4 +1,4 @@
-import { UseAccountProps } from "../../components/input/useCustomFormik"
+import { UseAccountProps } from "./UseAccountFormik"
 import { CREATE_ACCOUNT_ACTION } from "./constants"
 
 

@@ -28,6 +28,17 @@ export const useStyles = makeStyles({
     borderColor: theme.color?.primary,
     boxShadow: '5px 5px 20px  #151254'
   },
+  previousButton: {
+    backgroundColor: theme.color?.grey,
+    color: 'white',
+    fontWeight: 400,
+    padding: '6px 12px',
+    outline: "none",
+    borderRadius: 7,
+    borderColor: '#747473',
+    boxShadow: '5px 5px 20px  #747473',
+    marginRight: 12,
+  },
   flexContaier: {
     display: 'flex',
     alignItems: 'center',

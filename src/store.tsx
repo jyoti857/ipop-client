@@ -1,9 +1,8 @@
-
 import { createStore, applyMiddleware } from 'redux'
 import rootReducers from './reducers/rootReducers'
 import createSagaMiddleware from 'redux-saga'
 import loginSaga from './containers/login/loginSaga';
-import { all, fork, spawn } from '@redux-saga/core/effects';
+import { spawn } from '@redux-saga/core/effects';
 import accountSaga from './containers/account/accountSaga';
 
 // create saga createSagaMiddleware

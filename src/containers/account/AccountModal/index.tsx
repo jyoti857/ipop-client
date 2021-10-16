@@ -1,16 +1,17 @@
+import { Divider } from '@mui/material'
 import React, { ReactElement } from 'react'
-import UseAccountFormik, { UseAccountProps } from '../../../components/input/useCustomFormik'
-import CustomModal from '../../../components/modal'
+import UseAccountFormik, { UseAccountProps } from '../UseAccountFormik'
 
 interface Props {
-  k: UseAccountProps
+  handleClose: any
 }
 
-function AccountModal(): ReactElement {
+function AccountModal({ handleClose }: Props) {
   return (
     <div>
       <div style={{ top: 10, left: 10, position: 'absolute' }}>Create New Account</div>
-      <UseAccountFormik />
+      <Divider style={{ marginTop: -20 }} />
+      <UseAccountFormik handleClose={handleClose} />
     </div>
   )
 }
