@@ -1,4 +1,4 @@
-import {take, takeLatest, all, put, call} from 'redux-saga/effects';
+import { takeLatest, put, call} from 'redux-saga/effects';
 import { customFetch, uri } from '../../utils/fetchUrl';
 import { setTokenAction } from './actions';
 import { LOGIN_SAGA_DISPATCH } from './constants';

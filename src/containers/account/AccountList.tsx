@@ -1,9 +1,11 @@
-import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material';
-import React, { ReactElement, useState } from 'react'
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material';
+import { ReactElement, useEffect, useState } from 'react'
 import CustomModal from '../../components/modal';
 import AccountModal from './AccountModal';
-import AccountTable, { Data } from './AccountTable';
+import { useDispatch, useSelector } from 'react-redux'
+import { Data } from './AccountTable';
 import { useStyles } from './styles'
+import { getAccountsAction } from './actions';
 interface Props {
 
 }
@@ -28,20 +30,34 @@ function createData(
   // const density = population / size;
   return { name, status, address, city, state, country, zip };
 }
-const rows = [
-  createData('STANFORD UNIVERSITY MEDICAL CE', 'Pending', "899 EATON AVE", "BETHLEHEM", "PA", '', '18025'),
+const rows: any = [
+  // createData('STANFORD UNIVERSITY MEDICAL CE1', 'Pending', "899 EATON AVE", "BETHLEHEM", "PA", '', '18025'),
 ];
 function AccountList({ }: Props): ReactElement {
   const classes = useStyles();
+  const result = useSelector(({ accountReducers }: any) => accountReducers)
+  const dispatch = useDispatch();
   const [open, setOpen] = useState<boolean>(false)
   const handleOpen = (open: boolean) => setOpen(open)
   const handleClose = (close: boolean) => setOpen(close)
+  console.log("account result ---> ", result.accounts)
+  // rows.push({name: account})
+  const accounts: any = result.accounts.length > 0 && result.accounts.map(({ name, status, city, state, addressLine1, zip, country }: any) => {
+    console.log("000000000000000000000", name, status, city)
+    return (
+      createData(name, status, addressLine1, city, state, '', zip)
+    )
+  })
+  console.log("accounts --->", accounts, rows)
+  useEffect(() => {
+    dispatch(getAccountsAction())
+  }, [])
   return (
     <div className={classes.root}>
       <div style={{ display: 'flex', justifyContent: 'space-between' }} >
         <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
           <div className={classes.accountsText}>Accounts</div>
-          <div className={classes.accountCount}>903</div>
+          <div className={classes.accountCount}>{accounts.length}</div>
         </div>
         <div>
           {/* <a href='https://wa.me/+91998643219w'>whatsapp me </a> */}
@@ -71,7 +87,7 @@ function AccountList({ }: Props): ReactElement {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
+              {accounts.length > 0 && accounts
                 .map((row: any) => {
                   return (
                     <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>

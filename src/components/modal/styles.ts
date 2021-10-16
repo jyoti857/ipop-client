@@ -1,6 +1,5 @@
 
 
-import {makeStyles} from '@mui/styles'
 import { ThemeOptions } from '@mui/system'
 
 export const useStyles = (theme: ThemeOptions) => ({

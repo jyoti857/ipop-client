@@ -1,11 +1,10 @@
-import React, { ReactElement, useState } from 'react'
-import Typography from '@mui/material/Typography';
+import { ReactElement } from 'react'
 import Modal from '@mui/material/Modal';
 import { Box } from '@mui/system';
 import { useStyles } from './styles';
 import { theme } from '../../theme/customTheme';
 import { IconButton } from '@mui/material';
-import { CloseOutlined, ThreeDRotation } from '@mui/icons-material';
+import { CloseOutlined } from '@mui/icons-material';
 interface Props {
   open: boolean;
   handleClose: (close: boolean) => void;

@@ -1,4 +1,4 @@
-import { ActionsType, StateType } from "../../types/login/types";
+import { ActionsType } from "../../types/login/types";
 import { SET_TOKEN_FROM_SAGA } from "./constants";
 
 export const initialState = {

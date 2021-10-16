@@ -1,4 +1,4 @@
-import { CREATE_ACCOUNT_ACTION } from "./constants"
+import { CREATE_ACCOUNT_ACTION, SAVE_ACCOUNTS_FROM_SAGA } from "./constants"
 import { AccountActionType } from "./types/accountTypes"
 
 export const initialState = {
@@ -6,27 +6,45 @@ export const initialState = {
   ein: '',
   subtype: '',
   addressLine1 : '',
+  addressLine2 : '',
+  addressLine3 : '',
   city : '',
   state: '',
   country: '',
-  zipCode: "",
+  zip: "",
   attention: "",
   phone: '',
   email: '',
-  affiliated_hcp_name: ""
+  affiliated_hcp_name: "", 
+  accounts: []
 }
 
-export const AccountReducers = (state = initialState, action: AccountActionType) => {
+export const AccountReducers = (state_ = initialState, action: AccountActionType) => {
   switch(action.type){
     case CREATE_ACCOUNT_ACTION: {
-      const {accountName, ein, subtype} = action.payload
+      const {accountName, ein, subtype, addressLine1, addressLine2, addressLine3, city, email, state, phone, zip, country } = action.payload
       return {
-        ...state, 
+        ...state_,
         accountName, 
         ein, 
-        subtype
+        subtype,
+        addressLine1,
+        addressLine2,
+        addressLine3,
+        city,
+        state,
+        email,
+        phone,
+        zip,
+        country
       }
     }
-    default: return state;
+    case SAVE_ACCOUNTS_FROM_SAGA: {
+      return {
+        ...state_,
+        accounts: action.payload
+      }
+    }
+    default: return state_;
   }
 }

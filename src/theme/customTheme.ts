@@ -1,5 +1,4 @@
 import { createTheme, ThemeOptions } from "@mui/material";
-import { orange, red, grey, pink, blue} from "@mui/material/colors";
 
 export const theme: ThemeOptions = createTheme({
   status: {

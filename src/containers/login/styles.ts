@@ -1,6 +1,5 @@
 import { theme } from '../../theme/customTheme';
 import { makeStyles } from '@mui/styles';
-import { ThemeOptions } from '@mui/system';
 
 export const useStyles = makeStyles({
   root: {

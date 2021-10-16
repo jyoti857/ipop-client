@@ -1,11 +1,10 @@
-import React from 'react';
 import './App.css';
 import Login from './containers/login';
 import { Provider } from 'react-redux'
 import store from './store';
 import { ThemeProvider } from '@mui/system';
 import { theme } from './theme/customTheme';
-import { BrowserRouter as Router, Route, Link, NavLink, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import AccountList from './containers/account/AccountList';
 function App() {
   return (
