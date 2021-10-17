@@ -27,14 +27,16 @@ function AccountDetail({ accountName, ein, phone, email }: Props): ReactElement 
     dispatch(getAccountByIdAction(params.accountId));
   };
   useEffect(() => {
-    getAccountDetail();
-  }, []);
+    (async () => await getAccountDetail())();
+  }, [accountDetail]);
   const account = useSelector((state: ReducersType) => state.accountReducers, shallowEqual);
+  console.log("telnet *#@*#", account)
   useEffect(() => {
     setAccountDetail(account)
-  }, [accountDetail])
+  }, [account])
   return (
     <div>
+      {accountDetail?.name ?
       <Paper className={classes.paper}>
         <Divider style={{ marginTop: 23, marginBottom: 12 }} />
         <div>
@@ -197,6 +199,8 @@ function AccountDetail({ accountName, ein, phone, email }: Props): ReactElement 
           />
         </div>
       </Paper>
+        : <div>loading</div>
+      }
     </div>
   )
 }
