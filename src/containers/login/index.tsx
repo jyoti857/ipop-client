@@ -3,6 +3,7 @@ import { useFormik } from 'formik'
 import { useDispatch, useSelector, shallowEqual } from 'react-redux'
 import { loginDispatch } from './actions';
 import { useStyles } from './styles'
+import { useHistory } from 'react-router-dom'
 import CustomInput from '../../components/input/CustomInput';
 
 interface Props {
@@ -13,8 +14,11 @@ interface Props {
 const Login: React.FC<Props> = ({ email, password }) => {
   const classes = useStyles()
   const dispatch = useDispatch();
+  const history = useHistory();
+  const userRoleSelector = useSelector((state: any) => state.authReducers.userRole);
   const emailSelector = useSelector((state: any) => state.authReducers.email, shallowEqual);
   const [emailUs, setEmailUs] = React.useState<Props>();
+  const [userRole, setUserRole] = React.useState<any>();
   const { handleChange, handleBlur, handleSubmit, values, } = useFormik<Props>({
     initialValues: {
       email,
@@ -27,8 +31,16 @@ const Login: React.FC<Props> = ({ email, password }) => {
     dispatch(loginDispatch({ email, password }))
   }
   React.useEffect(() => {
+    console.log("userrole selec", userRole?._id, emailSelector)
+    const login_ = async () => {
+      const _id = await localStorage.getItem('userid');
+      console.log("**************--------", _id)
+      history.push(`/account/${_id}`)
+    }
+    login_();
     setEmailUs(emailSelector)
-  }, [emailSelector])
+    setUserRole(userRoleSelector)
+  }, [emailSelector, userRoleSelector])
   console.log("Sdls", emailSelector)
   console.log("handle this ", values.email)
   return (

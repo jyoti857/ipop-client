@@ -1,16 +1,18 @@
+import clsx from 'clsx';
 import React, { ReactElement } from 'react'
 import { useStyles } from './styles'
 
 interface Props {
-  handleChange: any;
+  handleChange?: any;
   value: string | number;
   name: string;
   type: string;
   placeholder: string;
-  style?: any
+  style?: any;
+  classNames?: any;
 }
 
-function CustomInput({ placeholder, name, type, handleChange, value, style }: Props): ReactElement {
+function CustomInput({ placeholder, name, type, handleChange, value, style, classNames }: Props): ReactElement {
   const classes = useStyles();
   return (
     <input
@@ -18,7 +20,7 @@ function CustomInput({ placeholder, name, type, handleChange, value, style }: Pr
       type={type}
       onChange={handleChange}
       value={value}
-      className={classes.inputTextField}
+      className={clsx(classes.inputTextField, classNames)}
       placeholder={placeholder}
       style={style}
     />

@@ -12,10 +12,11 @@ export const loginDispatch = ({email, password}: LoginType) => {
   }
 }
 
-export const setTokenAction = (token: string, role: any) => {
+export const setTokenAction = (accessToken: string, userRole: any) => {
+  console.log("susd ---> ", accessToken, userRole)
   return {
     type: SET_TOKEN_FROM_SAGA,
-    token,
-    role
+    accessToken,
+    userRole
   }
 }

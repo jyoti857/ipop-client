@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from "@redux-saga/core/effects"
 import { customFetch, uri } from "../../utils/fetchUrl";
-import { saveAccountsFromSaga } from "./actions";
-import { CREATE_ACCOUNT_ACTION, GET_ACCOUNTS_ACTION } from "./constants"
+import { saveAccountsFromSaga, saveOneAccountFromSaga } from "./actions";
+import { CREATE_ACCOUNT_ACTION, GET_ACCOUNTS_ACTION, GET_ACCOUNT_BY_ID_ACTION } from "./constants"
 
 
 
@@ -31,10 +31,25 @@ function* getAllAccounts(){
   const response: CreateAccountResponseType_[]= yield call(customFetch, uri+'/account', options);
   console.log("get Account response --->", response)
   yield put(saveAccountsFromSaga(response))
+}
 
+function* getAccountByIdApi({id}: any){
+  const options ={
+    method: "GET",
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }
+  console.log("get account by id ===> ", id );
+  const response: CreateAccountResponseType_[] = yield call(customFetch, uri+`/account/${id}`, options);
+  console.log("get account by id response saga ---> ", response);
+  if(response){
+    yield put(saveOneAccountFromSaga(response))
+  }
 }
 
 export default function* accountSaga(){
   yield takeLatest(CREATE_ACCOUNT_ACTION, createAccountSagaApi);
   yield takeLatest(GET_ACCOUNTS_ACTION, getAllAccounts);
+  yield takeLatest(GET_ACCOUNT_BY_ID_ACTION, getAccountByIdApi);
 }

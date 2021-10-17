@@ -18,6 +18,7 @@ export const loginReducers = (state = initialState, action: ActionsType) => {
         accessToken: action?.payload.accessToken
       }
     case SET_TOKEN_FROM_SAGA: {
+      console.log("susd ---> ", action.accessToken, action.userRole)
       return {
         ...state,
         userRole: action.userRole,

@@ -28,6 +28,7 @@ export interface Data {
   state: string;
   country: string;
   zip: string;
+  _id: string;
 }
 interface Props {
   columns: readonly ColumnData[];

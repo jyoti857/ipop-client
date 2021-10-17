@@ -1,5 +1,5 @@
 import { UseAccountProps } from "./UseAccountFormik"
-import { CREATE_ACCOUNT_ACTION, GET_ACCOUNTS_ACTION, SAVE_ACCOUNTS_FROM_SAGA } from "./constants"
+import { CREATE_ACCOUNT_ACTION, GET_ACCOUNTS_ACTION, GET_ACCOUNT_BY_ID_ACTION, SAVE_ACCOUNTS_FROM_SAGA, SAVE_ONE_ACCOUNT_FROM_SAGA } from "./constants"
 
 
 export const createNewAccountAction = (payload: UseAccountProps) => {
@@ -20,6 +20,21 @@ export const saveAccountsFromSaga = (payload: any) => {
   console.log("this save accounts from saga action is called")
   return ({
     type: SAVE_ACCOUNTS_FROM_SAGA,
+    payload
+  })
+}
+
+export const getAccountByIdAction = (id: string) => {
+  console.log("this one takes the user request of one the account id ")
+  return({
+    type: GET_ACCOUNT_BY_ID_ACTION,
+    id
+  })
+}
+export const saveOneAccountFromSaga = (payload: any) => {
+  console.log("this save accounts from saga action is called")
+  return ({
+    type: SAVE_ONE_ACCOUNT_FROM_SAGA,
     payload
   })
 }

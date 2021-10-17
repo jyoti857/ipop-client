@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Data } from './AccountTable';
 import { useStyles } from './styles'
 import { getAccountsAction } from './actions';
+import { Link } from 'react-router-dom';
 interface Props {
 
 }
@@ -25,10 +26,11 @@ function createData(
   city: string,
   state: string,
   country: string,
-  zip: string
+  zip: string,
+  _id: string
 ): Data {
   // const density = population / size;
-  return { name, status, address, city, state, country, zip };
+  return { name, status, address, city, state, country, zip, _id };
 }
 const rows: any = [
   // createData('STANFORD UNIVERSITY MEDICAL CE1', 'Pending', "899 EATON AVE", "BETHLEHEM", "PA", '', '18025'),
@@ -41,14 +43,12 @@ function AccountList({ }: Props): ReactElement {
   const handleOpen = (open: boolean) => setOpen(open)
   const handleClose = (close: boolean) => setOpen(close)
   console.log("account result ---> ", result.accounts)
-  // rows.push({name: account})
-  const accounts: any = result.accounts.length > 0 && result.accounts.map(({ name, status, city, state, addressLine1, zip, country }: any) => {
-    console.log("000000000000000000000", name, status, city)
+  const accounts: any = result.accounts.length > 0 && result.accounts.map(({ name, status, city, state, addressLine1, zip, country, _id }: any) => {
+    console.log("000000000000000000000", name, status, city, _id)
     return (
-      createData(name, status, addressLine1, city, state, country, zip)
+      createData(name, status, addressLine1, city, state, country, zip, _id)
     )
   })
-  console.log("accounts --->", accounts, rows)
   useEffect(() => {
     dispatch(getAccountsAction())
   }, [])
@@ -72,7 +72,7 @@ function AccountList({ }: Props): ReactElement {
           <AccountModal handleClose={handleClose} />
         </CustomModal> : null
       }
-      <Paper style={{ marginTop: 12, height: 340, width: '100%' }}>
+      <Paper style={{ marginTop: 12, width: '100%' }}>
         <TableContainer>
           <Table stickyHeader aria-label='sticky table'>
             <TableHead>
@@ -92,12 +92,14 @@ function AccountList({ }: Props): ReactElement {
                   return (
                     <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                       {columns.map((column: any) => {
+                        // const value = row[column.id] == 'name' ? <Link to='/login'>{row[column.id]}</Link> : row[column.id]
                         const value = row[column.id];
+                        console.log('value ---> ', column.id)
                         return (
                           <TableCell key={column.id} align={column.align}>
                             {column.format && typeof value === 'number'
                               ? column.format(value)
-                              : value}
+                              : column.id === 'name' ? <Link to={`/app-account/${row._id}`} style={{ textDecoration: 'none', color: '#0E1EBC' }}>{value}</Link> : value}
                           </TableCell>
                         );
                       })}

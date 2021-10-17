@@ -4,7 +4,7 @@ import { ThemeOptions } from '@mui/system'
 
 export const useStyles = (theme: ThemeOptions) => ({
   position: 'absolute' as 'absolute',
-  top: '70%',
+  top: '63%',
   left: '50%',
   transform: 'translate(-50%, -80%)',
   width: 900,

@@ -21,7 +21,13 @@ function* loginApi({email, password}: any){
   console.log("hello saga ----> ")
   const {data: {access_token, user: {userRole}}} = response;
   console.log(access_token, userRole)
-  yield put(setTokenAction(access_token, userRole))
+  if(response.data){
+    localStorage.setItem('token', access_token)
+    localStorage.setItem('userid', userRole._id)
+    yield put(setTokenAction(access_token, userRole))
+  }else {
+    console.log("loading ----")
+  }
 }
 
 export default function* loginSaga(){
