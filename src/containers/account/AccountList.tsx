@@ -4,9 +4,11 @@ import CustomModal from '../../components/modal';
 import AccountModal from './AccountModal';
 import { useDispatch, useSelector } from 'react-redux'
 import { Data } from './AccountTable';
+import { useQuery } from 'react-query'
 import { useStyles } from './styles'
 import { getAccountsAction } from './actions';
 import { Link } from 'react-router-dom';
+import { getAccountList } from '../../utils/baseUrl';
 interface Props {
 
 }
@@ -38,19 +40,24 @@ const rows: any = [
 function AccountList({ }: Props): ReactElement {
   const classes = useStyles();
   const result = useSelector(({ accountReducers }: any) => accountReducers)
+  const { data, isLoading, isError } = useQuery('accountList', getAccountList)
   const dispatch = useDispatch();
   const [open, setOpen] = useState<boolean>(false)
   const handleOpen = (open: boolean) => setOpen(open)
   const handleClose = (close: boolean) => setOpen(close)
   console.log("account result ---> ", result.accounts)
-  const accounts: any = result.accounts.length > 0 && result.accounts.map(({ name, status, city, state, addressLine1, zip, country, _id }: any) => {
-    console.log("000000000000000000000", name, status, city, _id)
+  console.log("data query ---> ", data, isLoading, isError)
+  // const accounts: any = result.accounts.length > 0 && result.accounts.map(({ name, status, city, state, addressLine1, zip, country, _id }: any) => {
+
+  // get the account list using react query above line is commented that is data we are getting using the 
+  // redux saga with triggering the action
+  const accounts: any = data?.length > 0 && data.map(({ name, status, city, state, addressLine1, zip, country, _id }: any) => {
     return (
       createData(name, status, addressLine1, city, state, country, zip, _id)
     )
   })
   useEffect(() => {
-    dispatch(getAccountsAction())
+    // dispatch(getAccountsAction())
   }, [])
   useEffect(() => { }, [result])
   return (
@@ -88,7 +95,8 @@ function AccountList({ }: Props): ReactElement {
               </TableRow>
             </TableHead>
             <TableBody>
-              {accounts.length > 0 && accounts
+              {!isLoading ?
+                accounts.length > 0 && accounts
                 .map((row: any) => {
                   return (
                     <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
@@ -106,7 +114,7 @@ function AccountList({ }: Props): ReactElement {
                       })}
                     </TableRow>
                   );
-                })}
+                }) : <div>Loading,,,</div>}
             </TableBody>
           </Table>
         </TableContainer>

@@ -26,21 +26,23 @@ const Login: React.FC<Props> = ({ email, password }) => {
     },
     onSubmit: () => loginSubmit()
   })
-  const loginSubmit = () => {
+  const loginSubmit = async () => {
     const { email, password } = values;
     dispatch(loginDispatch({ email, password }))
+    const _id = await localStorage.getItem('userid');
+    history.push(`/account/${_id}`)
   }
-  React.useEffect(() => {
-    console.log("userrole selec", userRole?._id, emailSelector)
-    const login_ = async () => {
-      const _id = await localStorage.getItem('userid');
-      console.log("**************--------", _id)
-      history.push(`/account/${_id}`)
-    }
-    login_();
-    setEmailUs(emailSelector)
-    setUserRole(userRoleSelector)
-  }, [emailSelector, userRoleSelector])
+  // React.useEffect(() => {
+  //   console.log("userrole selec", userRole?._id, emailSelector)
+  //   const login_ = async () => {
+  //     const _id = await localStorage.getItem('userid');
+  //     console.log("**************--------", _id)
+  //     history.push(`/account/${_id}`)
+  //   }
+  //   login_();
+  //   setEmailUs(emailSelector)
+  //   setUserRole(userRoleSelector)
+  // }, [emailSelector, userRoleSelector])
   console.log("Sdls", emailSelector)
   console.log("handle this ", values.email)
   return (
