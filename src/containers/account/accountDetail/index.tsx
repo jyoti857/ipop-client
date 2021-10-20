@@ -2,10 +2,12 @@ import { Divider, Paper } from '@mui/material';
 import { ReactElement, useEffect, useState } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom'
+import { useQuery } from 'react-query'
 import CustomInput from '../../../components/input/CustomInput'
 import { ReducersType } from '../../../reducers/rootReducers';
 import { getAccountByIdAction } from '../actions';
 import { useStyles } from './styles'
+import { getAccountById } from '../../../utils/baseUrl';
 
 interface Props {
   accountName: string;
@@ -23,32 +25,33 @@ function AccountDetail({ accountName, ein, phone, email }: Props): ReactElement 
   const params = useParams<{ accountId: string }>();
   const [accountDetail, setAccountDetail] = useState<AccountDetailType>()
   const dispatch = useDispatch();
-  const getAccountDetail = () => {
-    dispatch(getAccountByIdAction(params.accountId));
-  };
-  useEffect(() => {
-    (async () => await getAccountDetail())();
-  }, [accountDetail]);
-  const account = useSelector((state: ReducersType) => state.accountReducers, shallowEqual);
-  console.log("telnet *#@*#", account)
-  useEffect(() => {
-    setAccountDetail(account)
-  }, [account])
+  const { data } = useQuery(['accountDetail', params.accountId], () => getAccountById(params.accountId), { enabled: Boolean(params.accountId) })
+  // const getAccountDetail = () => {
+  //   dispatch(getAccountByIdAction(params.accountId));
+  // };
+  // useEffect(() => {
+  //   (async () => await getAccountDetail())();
+  // }, [accountDetail]);
+  // const account = useSelector((state: ReducersType) => state.accountReducers, shallowEqual);
+  console.log("telnet *#@*#", data)
+  // useEffect(() => {
+  //   setAccountDetail(account)
+  // }, [account])
   return (
     <div>
-      {accountDetail?.name ?
+      {data?.name ?
       <Paper className={classes.paper}>
         <Divider style={{ marginTop: 23, marginBottom: 12 }} />
         <div>
           <CustomInput
-            value={accountDetail?.name || ''}
+              value={data?.name || ''}
             name='accountName'
             type='text'
             placeholder='Account Name'
             classNames={classes.fields}
           />
           <CustomInput
-            value={+accountDetail?.attention! || ''}
+              value={+data?.attention! || ''}
             name='attention'
             type='text'
             placeholder='Attention'
@@ -64,7 +67,7 @@ function AccountDetail({ accountName, ein, phone, email }: Props): ReactElement 
             classNames={classes.fields}
           />
           <CustomInput
-            value={accountDetail?.ein || ''}
+              value={data?.ein || ''}
             name='ein'
             type='text'
             placeholder='EIN #'
