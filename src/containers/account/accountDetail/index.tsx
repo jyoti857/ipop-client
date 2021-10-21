@@ -1,7 +1,7 @@
 import { Button, Divider, Paper } from '@mui/material';
 import { ReactElement, useEffect, useState } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import CustomInput from '../../../components/input/CustomInput'
 import { ReducersType } from '../../../reducers/rootReducers';
@@ -22,6 +22,7 @@ export type AccountDetailType = {
 }
 function AccountDetail({ accountName, ein, phone, email }: Props): ReactElement {
   const classes = useStyles();
+  const history = useHistory()
   const params = useParams<{ accountId: string }>();
   const [accountDetail, setAccountDetail] = useState<AccountDetailType>()
   const dispatch = useDispatch();
@@ -46,7 +47,10 @@ function AccountDetail({ accountName, ein, phone, email }: Props): ReactElement 
   const [apEmail_, setApEmail_] = useState("")
   const [taxId_, setTaxId_] = useState("")
   const [dun_, setDun_] = useState("")
-  const [updateFlag, setUpdateFlag] = useState(false)
+  const [updateFlag, setUpdateFlag] = useState(false);
+
+  const [count, setCount] = useState(0)
+
   const { data: updateFields } = useQuery('updateAccountDetail',
     () => updateAccountById(params.accountId,
       {
@@ -59,14 +63,20 @@ function AccountDetail({ accountName, ein, phone, email }: Props): ReactElement 
       }),
     { enabled: Boolean(updateFlag) }
   )
+
   useEffect(() => {
     setName_(data?.name)
     setphone_(data?.phone_)
     setCity_(data?.city)
     setEmail_(data?.email)
     setAddressLine1_(data?.addressLine1)
+    console.log("setupdate flag sd")
+    setUpdateFlag(false)
   }, [data, updateFlag])
+
+
   const onSubmit = () => {
+    // history.push(`account/${params.accountId}`)
     console.log("setupdate flag --->", updateFlag)
     setUpdateFlag(true)
   }
@@ -80,6 +90,7 @@ function AccountDetail({ accountName, ein, phone, email }: Props): ReactElement 
             style={{ position: 'absolute', top: 10, right: 10, marginBottom: 12 }}
             type='submit'
             onClick={onSubmit}
+            disabled={updateFlag}
           >Save</Button>
           <Divider style={{ marginTop: 43, marginBottom: 12 }} />
           <div className={classes.rowWrap}>
