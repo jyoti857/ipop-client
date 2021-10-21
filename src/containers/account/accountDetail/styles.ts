@@ -12,7 +12,21 @@ export const useStyles = makeStyles({
     margin: '22px auto'
   },
   fields: {
-    width: '44%', 
+    width: '96%', 
     marginRight: 32
+  },
+  label: {
+    marginTop: 10, 
+    fontWeight: 500,
+  },
+  inputWrap: {
+    width: '48%', 
+    display: 'flex', 
+    flexDirection: 'column', 
+    lineHeight: 1 
+  },
+  rowWrap: {
+    display: 'flex', 
+    justifyContent: 'space-between'
   }
 })

@@ -18,3 +18,9 @@ export const getAccountById = (id: string) =>{
     return res.data;
   })
 }
+
+export const updateAccountById = (id: string, body: any) => {
+  return api.put(`/account/${id}`, {...body}).then((res: any) => {
+    return res.data;
+  })
+}

@@ -60,6 +60,7 @@ function AccountList({ }: Props): ReactElement {
     // dispatch(getAccountsAction())
   }, [])
   useEffect(() => { }, [result])
+
   return (
     <div className={classes.root}>
       <div style={{ display: 'flex', justifyContent: 'space-between' }} >

@@ -7,7 +7,7 @@ import FirstCard from './cards/firstCard'
 import SecondCard from './cards/secondCard'
 import { useState } from 'react'
 import ThirdCard from './cards/thirdCard'
-
+import CustomAccountForm from '../../utils/useCustomAccountFormik'
 
 export interface UseAccountProps {
   accountName: string;
@@ -36,22 +36,23 @@ const UseAccountFormik = ({ handleClose }: Partial<UseAccountProps>) => {
     handleClose(false)
     dispatch(getAccountsAction())
   }
-  const { handleChange, handleBlur, handleSubmit, values, } = useFormik<UseAccountProps>({
-    initialValues: {
-      accountName: 'STANFORD UNIVERSITY MEDICAL CE',
-      ein: '2324234',
-      subtype: 'HDOP',
-      phone: '3213123',
-      city: 'THEMVEL',
-      email: 'asd@lds.com',
-      state: 'PA',
-      street1address: 'e2043423',
-      street2address: '32234',
-      street3address: '324234',
-      zip: '93020'
-    },
-    onSubmit
-  })
+  const { handleChange, values, handleSubmit } = CustomAccountForm({ onSubmit })
+  // const { handleChange, handleBlur, handleSubmit, values, } = useFormik<UseAccountProps>({
+  //   initialValues: {
+  //     accountName: 'STANFORD UNIVERSITY MEDICAL CE',
+  //     ein: '2324234',
+  //     subtype: 'HDOP',
+  //     phone: '3213123',
+  //     city: 'THEMVEL',
+  //     email: 'asd@lds.com',
+  //     state: 'PA',
+  //     street1address: 'e2043423',
+  //     street2address: '32234',
+  //     street3address: '324234',
+  //     zip: '93020'
+  //   },
+  //   onSubmit
+  // })
   const modalCard = (cardType: string) => {
 
     switch (cardType) {
