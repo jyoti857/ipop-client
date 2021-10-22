@@ -15,10 +15,10 @@ function App() {
         <Router>
           <Route exact path='/' render={() => <Login email='macina@1.com' password='123' />} />
           <Header>
-            <Switch>
-              <Route path='/account/:id' component={AccountList} />
-              <Route path='/app-account/:accountId' component={AccountDetail} />
-            </Switch>
+          <Switch>
+            <Route path='/account/:id' component={AccountList} />
+            <Route path='/app-account/:accountId' component={AccountDetail} />
+          </Switch>
           </Header>
           </Router>
         {/* <Login email='macina@1.com' password='123' />  */}

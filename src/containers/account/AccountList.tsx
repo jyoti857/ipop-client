@@ -9,6 +9,7 @@ import { useStyles } from './styles'
 import { getAccountsAction } from './actions';
 import { Link } from 'react-router-dom';
 import { getAccountList } from '../../utils/baseUrl';
+import Header from '../header';
 interface Props {
 
 }
@@ -128,7 +129,7 @@ function AccountList({ }: Props): ReactElement {
           page={0}
           onPageChange={() => { }}//handleChangePage}
           onRowsPerPageChange={() => { }} //handleChangeRowsPerPage}
-        />
+          />
       </Paper>
     </div>
   )
