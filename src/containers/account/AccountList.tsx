@@ -62,6 +62,7 @@ function AccountList({ }: Props): ReactElement {
   useEffect(() => { }, [result])
 
   return (
+    // <div>
     <div className={classes.root}>
       <div style={{ display: 'flex', justifyContent: 'space-between' }} >
         <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
@@ -129,7 +130,7 @@ function AccountList({ }: Props): ReactElement {
           onRowsPerPageChange={() => { }} //handleChangeRowsPerPage}
         />
       </Paper>
-    </div >
+    </div>
   )
 }
 
