@@ -9,6 +9,7 @@ import { getAccountByIdAction } from '../actions';
 import { useStyles } from './styles'
 import { getAccountById, updateAccountById } from '../../../utils/baseUrl';
 import CustomAccountForm from '../../../utils/useCustomAccountFormik';
+import AccountTabs from './accountTabs';
 interface Props {
   accountName: string;
   ein: string;
@@ -84,6 +85,7 @@ function AccountDetail({ accountName, ein, phone, email }: Props): ReactElement 
   console.log("**city ---> ", updateFields)
   return (
     <div>
+      <AccountTabs />
       {data?.name ?
         <Paper className={classes.paper} style={{ position: 'relative' }}>
           <Button
@@ -145,7 +147,7 @@ function AccountDetail({ accountName, ein, phone, email }: Props): ReactElement 
           <div className={classes.inputWrap}>
               <label className={classes.label}>Phone</label>
               <CustomInput
-              value={data?.phone || ''}
+                value={phone_}
               name='phone'
                 type='text'
                 placeholder=''

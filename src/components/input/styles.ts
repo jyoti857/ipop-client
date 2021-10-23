@@ -7,16 +7,12 @@ export const useStyles = makeStyles({
   },
   inputTextField: {
     borderColor: theme.color?.color1,
-    padding: 4,
-    paddingLeft: theme?.size?.padding.secondary,
-    // lineHeight: 1,
     marginTop: 12, 
-    // margin: 21,
     borderRadius: 6,
     color: theme?.color?.color1,
-    fontSize: theme.size?.fontSize.secondary,
+    // fontSize: theme.size?.fontSize.secondary,
     '&:focus': {
-      ouline: "#f00", // not working, will check 
+      ouline: "red", // not working, will check 
     }
   }
 });

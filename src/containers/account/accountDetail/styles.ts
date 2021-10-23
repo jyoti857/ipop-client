@@ -7,7 +7,7 @@ export const useStyles = makeStyles({
     margin: theme.size?.margin.primary
   },
   paper: {
-    width: '70%',
+    width: '90%',
     padding: 12, 
     margin: '22px auto'
   },
@@ -16,8 +16,11 @@ export const useStyles = makeStyles({
     marginRight: 32
   },
   label: {
-    marginTop: 10, 
-    fontWeight: 500,
+    marginTop: 2, 
+    marginLeft: 10, 
+    fontWeight: 300,
+    fontFamily: "sans-serif",
+    fontSize: 14,
   },
   inputWrap: {
     width: '48%', 

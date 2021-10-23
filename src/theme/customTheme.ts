@@ -1,4 +1,4 @@
-import { createTheme, ThemeOptions } from "@mui/material";
+import { createTheme, ThemeOptions, Transitions, TransitionsOptions } from "@mui/material";
 
 export const theme: ThemeOptions = createTheme({
   status: {
@@ -31,16 +31,10 @@ export const theme: ThemeOptions = createTheme({
     danger: "#EE2829",
     grey: "#B2B3AB",
     color1: '#061422'
-  }
+  }, 
 });
 
 declare module '@mui/material/styles' {
-  // interface Theme {
-  //   status: {
-  //     danger: string;
-  //   };
-  // }
-  // allow configuration using `createTheme`
   interface ThemeOptions {
     status?: {
       primary: string;
@@ -72,6 +66,6 @@ declare module '@mui/material/styles' {
       danger: string;
       grey: string;
       color1: string;
-    }
+    }, 
   }
 }
