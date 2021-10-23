@@ -1,12 +1,7 @@
-import React, { ReactElement } from 'react'
-import PropTypes from 'prop-types';
+import { ReactElement } from 'react'
 import clsx from 'clsx';
-import { withStyles } from '@mui/styles';
-import { createTheme } from '@mui/material/styles';
 import TableCell from '@mui/material/TableCell';
-import Paper from '@mui/material/Paper';
 import { AutoSizer, Column, Table, TableCellRenderer, TableHeaderProps } from 'react-virtualized';
-import { height } from '@mui/system';
 import { useStyles } from './styles';
 interface ColumnData {
   dataKey: string;
@@ -15,12 +10,6 @@ interface ColumnData {
   width: number;
 }
 export interface Data {
-  // calories: number;
-  // carbs: number;
-  // dessert: string;
-  // fat: number;
-  // id: number;
-  // protein: number;
   name: string;
   status: string;
   address: string;

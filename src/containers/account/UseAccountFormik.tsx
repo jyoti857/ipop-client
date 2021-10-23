@@ -1,4 +1,3 @@
-import { useFormik } from 'formik'
 import { useDispatch } from 'react-redux'
 import { createNewAccountAction, getAccountsAction } from './actions'
 import CustomInput from '../../components/input/CustomInput'
@@ -37,24 +36,7 @@ const UseAccountFormik = ({ handleClose }: Partial<UseAccountProps>) => {
     dispatch(getAccountsAction())
   }
   const { handleChange, values, handleSubmit } = CustomAccountForm({ onSubmit })
-  // const { handleChange, handleBlur, handleSubmit, values, } = useFormik<UseAccountProps>({
-  //   initialValues: {
-  //     accountName: 'STANFORD UNIVERSITY MEDICAL CE',
-  //     ein: '2324234',
-  //     subtype: 'HDOP',
-  //     phone: '3213123',
-  //     city: 'THEMVEL',
-  //     email: 'asd@lds.com',
-  //     state: 'PA',
-  //     street1address: 'e2043423',
-  //     street2address: '32234',
-  //     street3address: '324234',
-  //     zip: '93020'
-  //   },
-  //   onSubmit
-  // })
   const modalCard = (cardType: string) => {
-
     switch (cardType) {
       case "first": {
         return <FirstCard handleChange={handleChange} classes={classes} values={values} setCardState={setCardState} />
@@ -67,6 +49,7 @@ const UseAccountFormik = ({ handleClose }: Partial<UseAccountProps>) => {
           accountName={values.accountName}
           city={values.city}
           ein={values.ein}
+          subtype={values.subtype}
           email={values.email}
           phone={values.phone}
           state={values.state}

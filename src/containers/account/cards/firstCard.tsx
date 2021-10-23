@@ -1,4 +1,5 @@
 import React, { ReactElement } from 'react'
+import CustomDropdown from '../../../components/dropdown'
 import CustomInput from '../../../components/input/CustomInput'
 
 interface Props {
@@ -7,6 +8,13 @@ interface Props {
   classes: any;
   setCardState?: any
 }
+const dropdownData = [
+  { value: 'Hospital', desc: 'Hospital' },
+  { value: 'AGS', desc: "Ambulatory Surgery System" },
+  { value: 'clinic', desc: 'Clinic' },
+  { value: 'DOD', desc: "Department of Defence" },
+  { value: 'HOPD', desc: 'HOPD' },
+]
 
 function FirstCard({ handleChange, values, classes, setCardState }: Props): ReactElement {
   return (
@@ -26,18 +34,16 @@ function FirstCard({ handleChange, values, classes, setCardState }: Props): Reac
           type='text'
           value={values.ein}
         />
-        <CustomInput
+        {/* <CustomInput
           name='subtype'
           handleChange={handleChange}
           placeholder='Subtype'
           type='text'
           value={values.subtype}
-        />
+        /> */}
+        <CustomDropdown data={dropdownData} value={values.subtype} handleChange={handleChange} />
       </div>
       <div style={{ position: 'absolute', bottom: 10, right: 10, display: 'flex' }}>
-        {/* <div
-          className={classes.previousButton}
-        >previous</div> */}
         <div
           className={classes.newAccountButton}
           onClick={() => setCardState('second')}

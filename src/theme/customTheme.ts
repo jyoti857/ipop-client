@@ -29,7 +29,8 @@ export const theme: ThemeOptions = createTheme({
     primary: "#151254",
     secondary: "#C53DAE",
     danger: "#EE2829",
-    grey: "#B2B3AB"
+    grey: "#B2B3AB",
+    color1: '#061422'
   }
 });
 
@@ -70,6 +71,7 @@ declare module '@mui/material/styles' {
       secondary: string,
       danger: string;
       grey: string;
+      color1: string;
     }
   }
 }

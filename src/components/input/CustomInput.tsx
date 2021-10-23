@@ -1,3 +1,4 @@
+import { TextField } from '@mui/material';
 import clsx from 'clsx';
 import React, { ReactElement } from 'react'
 import { useStyles } from './styles'
@@ -15,15 +16,18 @@ interface Props {
 function CustomInput({ placeholder, name, type, handleChange, value, style, classNames }: Props): ReactElement {
   const classes = useStyles();
   return (
-    <input
+    // <div>
+    <TextField
+      size='small'
       name={name}
       type={type}
       onChange={handleChange}
       value={value}
       className={clsx(classes.inputTextField, classNames)}
       placeholder={placeholder}
-      style={style}
+      style={{ ...style, margin: 10 }}
     />
+    // </div>
   )
 }
 

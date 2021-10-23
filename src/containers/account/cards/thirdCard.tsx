@@ -12,15 +12,16 @@ interface Props {
   zip: string;
   email: string;
   phone: string;
+  subtype: string;
   classes: any;
   setCardState?: any;
 }
 
 function ThirdCard({ accountName, ein, email, phone, street1address, street2address, street3address,
-  city, state, zip, classes, setCardState }: Props): ReactElement {
+  city, state, zip, subtype, classes, setCardState }: Props): ReactElement {
   return (
     <div>
-      <Paper style={{ width: '60%', margin: 'auto', padding: 20, marginTop: 12 }}>
+      <Paper style={{ width: '60%', margin: 'auto', padding: 20, marginTop: 12, fontSize: 10 }}>
         <div>
           <div>{accountName}</div>
           <div>EIN#: {ein}</div>
@@ -33,6 +34,10 @@ function ThirdCard({ accountName, ein, email, phone, street1address, street2addr
         <div style={{ display: 'flex', marginTop: 12, justifyContent: 'space-between', width: '50%', alignItems: 'flex-start' }}>
           <div style={{ fontWeight: 'bold', color: 'grey' }}>Phone</div>
           <div style={{ alignItems: 'center' }}>{phone}</div>
+        </div>
+        <div style={{ display: 'flex', marginTop: 12, justifyContent: 'space-between', width: '50%' }}>
+          <div style={{ fontWeight: 'bold', color: 'grey' }}>Subtype</div>
+          <div>{subtype}</div>
         </div>
         <div style={{ display: 'flex', marginTop: 12, justifyContent: 'space-between', width: '50%' }}>
           <div style={{ fontWeight: 'bold', color: 'grey' }}>Street Address  1</div>
