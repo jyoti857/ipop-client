@@ -1,4 +1,5 @@
 import { createTheme, ThemeOptions, Transitions, TransitionsOptions } from "@mui/material";
+import { green, purple } from "@mui/material/colors";
 
 export const theme: ThemeOptions = createTheme({
   status: {
@@ -31,7 +32,23 @@ export const theme: ThemeOptions = createTheme({
     danger: "#EE2829",
     grey: "#B2B3AB",
     color1: '#061422'
-  }, 
+  },
+  typography: {
+    button: {
+      fontSize: '.8rem',
+    },
+  },
+  palette: {
+    primary: {
+      main: '#151254',
+    },
+    secondary: {
+      main: '#C53DAE',
+    },
+  },
+  shape: {
+    borderRadius: 4,
+  },
 });
 
 declare module '@mui/material/styles' {
