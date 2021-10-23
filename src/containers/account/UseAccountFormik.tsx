@@ -21,6 +21,7 @@ export interface UseAccountProps {
   email: string;
   phone: string;
   handleClose?: any;
+  filetype?: string;
 }
 
 

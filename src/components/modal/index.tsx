@@ -8,14 +8,15 @@ import { CloseOutlined } from '@mui/icons-material';
 interface Props {
   open: boolean;
   handleClose: (close: boolean) => void;
-  children: ReactElement
+  children: ReactElement,
+  styles?: any,
 }
 
-function CustomModal({ open, handleClose, children }: Props): ReactElement {
+function CustomModal({ open, handleClose, children, styles }: Props): ReactElement {
   const classes = useStyles(theme);
   return (
     <div
-      style={{ position: 'relative' }}
+      style={{ ...styles, position: 'relative', }}
     >
       <Modal
         open={open}

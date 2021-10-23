@@ -39,5 +39,8 @@ export const useStyles = makeStyles({
   centerLine: {
     marginTop: 23, 
     transform: 'translate(-34%,-50%)'
+  }, 
+  customWidth: {
+    width: 439
   }
 })
