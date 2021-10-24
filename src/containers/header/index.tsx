@@ -21,7 +21,7 @@ function Header({ children }: Props): ReactElement {
         <div style={{ textAlign: 'center', margin: 10, marginRight: 20, width: 180, display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
           <FaChartPie className={classes.icons} />
           <FaHospitalUser className={classes.icons} />
-          <CustomAvatar />
+          <CustomAvatar alt="Remy Sharp" src="https://reqres.in/img/faces/5-image.jpg" />
         </div>
       </div>
       <Divider style={{ borderWidth: 1, backgroundColor: '#C54BC4' }} />

@@ -12,6 +12,7 @@ import CustomAccountForm from '../../../utils/useCustomAccountFormik';
 import AccountTabs from './accountTabs';
 import AccountInformation from './accountInformation';
 import SupportingDocuments from './supportingDocuments';
+import Purchaser from './purchaser';
 interface Props {
   accountName: string;
   ein: string;
@@ -26,15 +27,15 @@ export type AccountDetailType = {
 
 const accountTabs = [
   { label: "accountInformation", idx: 0 },
-  { label: "creditInformation", idx: 0 },
-  { label: "supportingDocuments", idx: 0 },
-  { label: "purchaser", idx: 0 },
-  { label: "accountPrice", idx: 0 },
-  { label: "quotes", idx: 0 },
+  { label: "creditInformation", idx: 1 },
+  { label: "supportingDocuments", idx: 2 },
+  { label: "purchaser", idx: 3 },
+  { label: "accountPrice", idx: 4 },
+  { label: "quotes", idx: 5 },
 ]
 function AccountDetail({ accountName, ein, phone, email }: Props): ReactElement {
   const classes = useStyles();
-  const [tabName, setTabName] = useState('');
+  const [tabName, setTabName] = useState('accountInformation');
   const [value, setValue] = useState(0)
   const handleChange = (e: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
@@ -45,10 +46,13 @@ function AccountDetail({ accountName, ein, phone, email }: Props): ReactElement 
       case 'accountInformation': {
         return <AccountInformation />
       }
-      case 'purchaser': {
+      case 'supportingDocuments': {
         return <SupportingDocuments />
       }
-      default: return <SupportingDocuments />
+      case 'purchaser': {
+        return <Purchaser />
+      }
+      default: return <div style={{ height: 23, width: 160, margin: '80px auto', alignSelf: 'center', backgroundColor: 'green', color: 'white', display: 'flex', borderRadius: 2 }}>Under development</div> // <SupportingDocuments />
     }
   }
 
