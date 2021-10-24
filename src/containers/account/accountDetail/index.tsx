@@ -24,20 +24,39 @@ export type AccountDetailType = {
   ein: string;
 }
 
+const accountTabs = [
+  { label: "accountInformation", idx: 0 },
+  { label: "creditInformation", idx: 0 },
+  { label: "supportingDocuments", idx: 0 },
+  { label: "purchaser", idx: 0 },
+  { label: "accountPrice", idx: 0 },
+  { label: "quotes", idx: 0 },
+]
 function AccountDetail({ accountName, ein, phone, email }: Props): ReactElement {
   const classes = useStyles();
-
+  const [tabName, setTabName] = useState('');
+  const [value, setValue] = useState(0)
+  const handleChange = (e: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue)
+    setTabName(accountTabs.find(c => c.idx === newValue)?.label!)
+  }
   function showTabPage(tabName: string): ReactElement {
     switch (tabName) {
       case 'accountInformation': {
         return <AccountInformation />
+      }
+      case 'purchaser': {
+        return <SupportingDocuments />
       }
       default: return <SupportingDocuments />
     }
   }
 
   return (
-    showTabPage("accountInformawtion")
+    <div>
+      <AccountTabs tabs={accountTabs} tab={tabName} value={value} handleChange={handleChange} />
+      {showTabPage(tabName)}
+    </div>
   )
 }
 

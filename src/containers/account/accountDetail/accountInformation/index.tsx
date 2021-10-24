@@ -83,7 +83,7 @@ function AccountInformation({ }: Props): ReactElement {
   const { handleChange, values } = CustomAccountForm({ onSubmit })
   return (
     <div>
-      <AccountTabs />
+      {/* <AccountTabs /> */}
       {data?.name ?
         <Paper className={classes.paper} style={{ position: 'relative' }}>
           <Button
