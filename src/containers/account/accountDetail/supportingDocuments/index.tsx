@@ -1,7 +1,7 @@
-import { Button, Card, Paper, TextField } from '@mui/material'
-import { Box } from '@mui/system';
+import { Button, Card, IconButton, Paper, TextField } from '@mui/material'
 import { ReactElement, useState } from 'react'
 import { useStyles } from './styles'
+import { excel, FileDropZone } from 'mui-dropzone';
 import { AiFillFileAdd } from 'react-icons/ai';
 import CustomModal from '../../../../components/modal';
 import CustomDropdown from '../../../../components/dropdown';
@@ -20,6 +20,7 @@ function SupportingDocuments({ }: Props): ReactElement {
   const classes = useStyles();
   const [open, setOpen] = useState<boolean>(false)
   const [selectFile, setSelectFile] = useState('AGS')
+  const [fileObjects, setFileObjects] = useState([])
   const handleClose = () => {
     setOpen(false)
   }
@@ -27,6 +28,14 @@ function SupportingDocuments({ }: Props): ReactElement {
   const handleChange = (event: any) => {
     setSelectFile(event.target.value)
   }
+  // const dialogTitle = () => {
+  //   return(
+  //     <span>Upload file</span>
+  //     <IconButton>
+  //       <CloseIcon
+  //     </IconButton>
+  //   )
+  // }
   return (
     <div>
       <Paper className={classes.root}>
@@ -54,6 +63,15 @@ function SupportingDocuments({ }: Props): ReactElement {
             <div style={{ display: 'flex', flexDirection: 'column' }}>
               <label>Comments*</label>
               <TextField className={classes.customWidth} />
+              {/* <DropzoneArea
+                onChange={handleChange}
+              /> */}
+              <FileDropZone
+                acceptedMimeTypes={excel.excelMimeTypes}
+                // onFilesAdded={this.onFilesAdded}
+                // onFilesRejected={this.onFilesRejected}
+                elevation={2}
+                dragOverElevation={10} />
             </div>
           </div>
         </CustomModal>
