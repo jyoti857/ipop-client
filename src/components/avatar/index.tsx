@@ -4,6 +4,7 @@ import React, { ReactElement } from 'react'
 export interface CustomAvatarType {
   alt: string;
   src: string;
+  checkStatus?: { email: string; status: boolean };
 }
 
 function CustomAvatar({ alt, src }: CustomAvatarType): ReactElement {

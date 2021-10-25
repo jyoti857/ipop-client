@@ -8,7 +8,7 @@ interface Props {
   value: string | number;
   name: string;
   type: string;
-  placeholder: string;
+  placeholder: any;
   style?: any;
   classNames?: any;
 }

@@ -37,7 +37,7 @@ export const useStyles = makeStyles({
     alignItems: 'center'
   },
   centerLine: {
-    marginTop: 23, 
+    marginTop: 13, 
     transform: 'translate(-34%,-50%)'
   }, 
   customWidth: {
