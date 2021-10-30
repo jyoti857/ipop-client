@@ -74,35 +74,6 @@ function Purchaser({ }: Props): ReactElement {
               <CustomInput value={search} name='search' type='text' placeholder='Search' style={{ width: '100%', position: 'relative' }} />
               <BiSearch style={{ position: 'absolute', top: 19, right: 10, fontSize: 25 }} />
             </div>
-            {
-              checked.map(purchaser => {
-                return (
-                  <div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                      <div style={{ display: 'flex', margin: 10 }}>
-                        <CustomAvatar alt={purchaser.alt} src={purchaser.src} />
-                        <div style={{ display: 'flex', flexDirection: 'column', marginLeft: 10 }}>
-                          <span>David Andersen</span>
-                          <span>{purchaser.checkStatus!.email}</span>
-                        </div>
-                      </div>
-                      <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
-                        {/* <FormLabel component="legend">Assign responsibility</FormLabel> */}
-                        <FormGroup>
-                          <FormControlLabel
-                            control={
-                              <Checkbox checked={purchaser.checkStatus?.status} onChange={handleCheckChange} name={purchaser.checkStatus!.email} />
-                            }
-                            label=''
-                          />
-                        </FormGroup>
-                      </FormControl>
-                    </div>
-                    <Divider />
-                  </div>
-                )
-              })
-            }
           </div>
         </CustomModal>
       </Paper>

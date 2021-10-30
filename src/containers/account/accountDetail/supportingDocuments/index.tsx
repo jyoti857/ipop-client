@@ -2,7 +2,7 @@ import { Button, Card, IconButton, Paper, TextField } from '@mui/material'
 import { ReactElement, useState } from 'react'
 import { useStyles } from './styles'
 import { excel, FileDropZone } from 'mui-dropzone';
-import { AiFillFileAdd } from 'react-icons/ai';
+import { AiFillFile } from 'react-icons/ai';
 import CustomModal from '../../../../components/modal';
 import CustomDropdown from '../../../../components/dropdown';
 
@@ -49,7 +49,7 @@ function SupportingDocuments({ }: Props): ReactElement {
         </Button>
         <div>
           <div className={classes.fileIcon}>
-            <AiFillFileAdd />
+            <AiFillFile />
           </div>
           <div className={classes.centerLine}>No documents added for this account!</div>
         </div>
