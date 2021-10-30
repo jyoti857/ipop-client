@@ -14,6 +14,7 @@ import AccountInformation from './accountInformation';
 import SupportingDocuments from './supportingDocuments';
 import Purchaser from './purchaser';
 import AccountPrice from './accountPrice';
+import Quotes from './quotes';
 interface Props {
   accountName: string;
   ein: string;
@@ -55,6 +56,9 @@ function AccountDetail({ accountName, ein, phone, email }: Props): ReactElement 
       }
       case 'accountPrice': {
         return <AccountPrice />
+      }
+      case 'quotes': {
+        return <Quotes />
       }
       default: return <div style={{ height: 23, width: 160, margin: '80px auto', alignSelf: 'center', backgroundColor: 'green', color: 'white', display: 'flex', borderRadius: 2 }}>Under development</div> // <SupportingDocuments />
     }

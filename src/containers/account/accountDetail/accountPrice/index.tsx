@@ -1,11 +1,10 @@
 import { Button, Paper } from '@mui/material';
-import React, { ReactElement, useState } from 'react'
-import { BiSearch } from 'react-icons/bi';
+import { ReactElement, useState } from 'react'
 import { FaFileInvoiceDollar } from 'react-icons/fa';
 import CustomInput from '../../../../components/input/CustomInput';
 import CustomModal from '../../../../components/modal';
 import { useStyles } from './styles';
-
+import AccountPriceTable from './accountPriceTable'
 interface Props {
 
 }
@@ -41,13 +40,24 @@ function AccountPrice({ }: Props): ReactElement {
           </div>
           <div className={classes.centerLine}>No price list found for this account!</div>
         </div>
-        <CustomModal handleClose={handleClose} open={open} >
+        <CustomModal handleClose={handleClose} open={open} modalName='Account Price'>
           <div>
-            <div style={{ position: 'absolute', fontWeight: 600, top: 20, left: 20 }}>Add Purchaser</div>
-            <div style={{ position: 'relative' }}>
-              <CustomInput value={search} name='search' type='text' placeholder='Search' style={{ width: '100%', position: 'relative' }} />
-              <BiSearch style={{ position: 'absolute', top: 19, right: 10, fontSize: 25 }} />
+            {/* <div style={{ position: 'absolute', fontWeight: 600, top: 20, left: 20 }}>Account Price</div> */}
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <div style={{ display: 'flex' }}>Price list type</div>
+              <div style={{ width: '49%' }}>
+                <CustomInput value={search} name='search' type='text' placeholder='Price list title' style={{ width: '100%' }} />
+              </div>
             </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <div style={{ width: '49%' }}>
+                <CustomInput value={search} name='search' type='text' placeholder='Start Date' style={{ width: '100%' }} />
+              </div>
+              <div style={{ width: '49%' }}>
+                <CustomInput value={search} name='search' type='text' placeholder='End Date' style={{ width: '100%' }} />
+              </div>
+            </div>
+            <AccountPriceTable />
           </div>
         </CustomModal>
       </Paper>

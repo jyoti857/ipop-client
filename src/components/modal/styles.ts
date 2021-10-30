@@ -7,11 +7,14 @@ export const useStyles = (theme: ThemeOptions) => ({
   top: '70%',
   left: '50%',
   transform: 'translate(-50%, -80%)',
-  width: 900,
-  // maxHeight: 220,
+  maxHeight: 320,  
+  width: 800,
+  overflow: 'scroll',
+  // height: 400,
   bgcolor: 'background.paper',
   // border: '2px solid #000',
   boxShadow: 24,
   borderRadius: 2, 
-  p: 8
+  p: 8,
+  // paddingLeft: 8
 });
