@@ -35,7 +35,9 @@ function CustomModal({ open, handleClose, children, modalName, footerButtonName,
             </IconButton>
           </div>
           {children}
-          <Button color='primary' variant='outlined' style={{ position: 'fixed', bottom: -40, right: 10 }}>{footerButtonName}</Button>
+          {
+            footerButtonName && <Button color='primary' variant='outlined' style={{ position: 'absolute', bottom: 10, right: 10 }}>{footerButtonName}</Button>
+          }
         </Box>
         {/* <div className={classes.footer}> </div> */}
       </Modal>

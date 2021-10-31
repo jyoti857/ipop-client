@@ -5,13 +5,15 @@ export interface CustomAvatarType {
   alt: string;
   src: string;
   checkStatus?: { email: string; status: boolean };
+  clicked?: boolean;
+  onClick?: () => void;
 }
 
-function CustomAvatar({ alt, src }: CustomAvatarType): ReactElement {
+function CustomAvatar({ alt, src, clicked, onClick }: CustomAvatarType): ReactElement {
   return (
     <div>
       {/* <Avatar alt="Remy Sharp" src="https://reqres.in/img/faces/5-image.jpg" /> */}
-      <Avatar alt={alt} src={src} />
+      < Avatar alt={alt} src={src} onClick={onClick} />
     </div>
   )
 }
