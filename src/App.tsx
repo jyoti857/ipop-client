@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import AccountList from './containers/account/AccountList';
 import AccountDetail from './containers/account/accountDetail';
 import Header from './containers/header';
+import Configuration from './containers/configuration';
 function App() {
   return (
     <ThemeProvider theme={theme}>
@@ -15,12 +16,13 @@ function App() {
         <Router>
           <Route exact path='/' render={() => <Login email='macina@1.com' password='123' />} />
           <Header>
-          <Switch>
-            <Route path='/account/:id' component={AccountList} />
-            <Route path='/app-account/:accountId' component={AccountDetail} />
-          </Switch>
+            <Switch>
+              <Route path='/account/:id' component={AccountList} />
+              <Route path='/app-account/:accountId' component={AccountDetail} />
+              <Route path='/app-account/:accountId/configuration' component={Configuration} />
+            </Switch>
           </Header>
-          </Router>
+        </Router>
         {/* <Login email='macina@1.com' password='123' />  */}
       </Provider>
     </ThemeProvider>

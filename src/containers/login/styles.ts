@@ -5,6 +5,7 @@ export const useStyles = makeStyles({
   root: {
     display: 'flex',
     flex: 1,
+    maxHeight: '100vh'
   },
   login: {
     color: theme.status?.danger,

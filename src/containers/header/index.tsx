@@ -1,13 +1,10 @@
-import { Divider, Icon, IconButton } from '@mui/material'
-import React, { ReactElement, useState } from 'react'
+import { Divider } from '@mui/material'
+import { ReactElement, useState } from 'react'
 import { useStyles } from './styles'
-// import BubbleChartOutlinedIcon from '@mui/icons-material/BubbleChartOutlined';
 import { FaHospitalUser, FaChartPie } from 'react-icons/fa';
-import ConfIcon from '../../assets/svg/conf.svg';
 import CustomAvatar from '../../components/avatar';
 import CustomCard from '../../components/card';
-import CustomModal from '../../components/modal';
-import CustomInput from '../../components/input/CustomInput';
+import { FaCogs } from 'react-icons/fa'
 interface Props {
   children: any
 }
@@ -26,6 +23,7 @@ function Header({ children }: Props): ReactElement {
         <div style={{ textAlign: 'center', margin: 10, marginRight: 20, width: 180, display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
           <FaChartPie className={classes.icons} />
           <FaHospitalUser className={classes.icons} />
+          <FaCogs className={classes.icons} />
           <CustomAvatar alt="Remy Sharp" src="https://reqres.in/img/faces/5-image.jpg" onClick={handleCardOpen} />
           {
             cardOpen ? <CustomCard setCardOpen={setCardOpen} /> : null
