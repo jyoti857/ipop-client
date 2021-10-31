@@ -40,7 +40,7 @@ function AccountPrice({ }: Props): ReactElement {
           </div>
           <div className={classes.centerLine}>No price list found for this account!</div>
         </div>
-        <CustomModal handleClose={handleClose} open={open} modalName='Account Price'>
+        <CustomModal handleClose={handleClose} open={open} modalName='Account Price' footerButtonName='Submit for approval'>
           <div>
             {/* <div style={{ position: 'absolute', fontWeight: 600, top: 20, left: 20 }}>Account Price</div> */}
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>

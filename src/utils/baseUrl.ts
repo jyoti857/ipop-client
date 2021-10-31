@@ -7,9 +7,11 @@ const api = axios.create({
 
 
 export const getAccountList = () => {
-  return api.get('/account').then((res: any)=> {
-    console.log("data 00--> ", res.data)
-    return res.data
+  return api.get('/account').then(async (res: any)=> {
+    console.log("data 00--> ", res.data);
+    if(await localStorage.getItem('token')){
+      return res.data
+    }
   });
 }
 

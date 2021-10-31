@@ -34,7 +34,9 @@ function CustomModal({ open, handleClose, children, modalName, footerButtonName,
               <CloseOutlined />
             </IconButton>
           </div>
-          {children}
+          <div style={{ overflow: 'scroll', maxHeight: 300, maxWidth: 800, padding: 10 }}>
+            {children}
+          </div>
           {
             footerButtonName && <Button color='primary' variant='outlined' style={{ position: 'absolute', bottom: 10, right: 10 }}>{footerButtonName}</Button>
           }

@@ -40,18 +40,18 @@ function createData(
 }
 
 const rows = [
-  createData('Frozen yoghurt', "iovera° System Handpiece and Docking Station", 6.0, 24, 4.0),
-  createData('Ice cream sandwich', "iovera° Smart Tip 309, 5-pack (3x8.5-mm needles per Smart Tip)", 9.0, 37, 4.3),
-  createData('Eclair', "iovera° Smart Tip 190, 5-pack (1x90-mm needle per Smart Tip)", 16.0, 24, 6.0),
-  createData('Cupcake', "iovera° Smart Tip 190 with Nerve Stim, 5-pack (1x90-mm needle per Smart Tip)", 3.7, 67, 4.3),
-  createData('Gingerbread', "iovera° Cartridges, 10-pack", 16.0, 49, 3.9),
+  createData('31-032-231', "iovera° System Handpiece and Docking Station", 6.0, 24, 4.0),
+  createData('23-235-033', "iovera° Smart Tip 309, 5-pack (3x8.5-mm needles per Smart Tip)", 9.0, 37, 4.3),
+  createData('23-223-133', "iovera° Smart Tip 190, 5-pack (1x90-mm needle per Smart Tip)", 16.0, 24, 6.0),
+  createData('23-123-233', "iovera° Smart Tip 190 with Nerve Stim, 5-pack (1x90-mm needle per Smart Tip)", 3.7, 67, 4.3),
+  createData('23-232-340', "iovera° Cartridges, 10-pack", 16.0, 49, 3.9),
 ];
 interface Props { }
 function AccountPriceTable({ }: Props): React.ReactElement {
   return (
     <div>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+        <Table sx={{ minWidth: 780 }} aria-label="customized table">
           <TableHead>
             <TableRow>
               <StyledTableCell>Catalog No.</StyledTableCell>

@@ -15,7 +15,6 @@ interface Props {
 function Header({ children }: Props): ReactElement {
   const [cardOpen, setCardOpen] = useState(false);
   const handleCardOpen = () => setCardOpen(!cardOpen);
-
   const classes = useStyles()
   return (
     <div>

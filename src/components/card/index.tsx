@@ -3,7 +3,7 @@ import React, { ReactElement, useEffect, useState } from 'react'
 import CustomAvatar from '../avatar'
 import CustomInput from '../input/CustomInput';
 import CustomModal from '../modal';
-
+import { useHistory } from 'react-router-dom'
 interface Props {
   setCardOpen: (a: boolean) => void;
 }
@@ -11,16 +11,24 @@ interface Props {
 function CustomCard({ setCardOpen }: Props): ReactElement {
   const [modalOpen, setModalOpen] = useState(false);
   const [email, setEmail] = useState('')
+  const history = useHistory();
+  const handleLogout = async () => {
+    await localStorage.setItem('userid', '');
+    await localStorage.setItem('token', '');
+    setCardOpen(false)
+    history.push('/')
+
+  }
   const handleModalOpen = () => {
     setModalOpen(true);
     // setTimeout(() => setCardOpen(false), 7000);
   }
-  useEffect(() => {
-    if (!modalOpen) {
-      console.log('modal open --->', modalOpen)
-      setTimeout(() => setCardOpen(false), 213000);
-    }
-  }, [modalOpen])
+  // useEffect(() => {
+  //   if (!modalOpen) {
+  //     console.log('modal open --->', modalOpen)
+  //     setTimeout(() => setCardOpen(false), 213000);
+  //   }
+  // }, [modalOpen])
   const handleModalClose = () => setModalOpen(false)
   return (
     <div>
@@ -44,7 +52,9 @@ function CustomCard({ setCardOpen }: Props): ReactElement {
         </CardActionArea>
         <Divider style={{ marginTop: 10 }} />
         <CardActionArea>
-          <div style={{ paddingTop: 6, paddingBottom: 6, fontSize: 18, fontWeight: 'bold' }}>Logout</div>
+          <div
+            onClick={handleLogout}
+            style={{ paddingTop: 6, paddingBottom: 6, fontSize: 18, fontWeight: 'bold' }}>Logout</div>
         </CardActionArea>
       </Card>
       <CustomModal handleClose={handleModalClose} open={modalOpen} modalName='Invite Purchaser' footerButtonName='Send link' styles={{ height: 20 }}>

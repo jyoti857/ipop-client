@@ -1,11 +1,12 @@
 import { ActionsType } from "../../types/login/types";
-import { SET_TOKEN_FROM_SAGA } from "./constants";
+import { SET_LOADING_ACTION, SET_TOKEN_FROM_SAGA } from "./constants";
 
 export const initialState = {
   email: '',
   password: '',
   accessToken: '',
-  userRole: {}
+  userRole: {},
+  loading: false,
 }
 
 export const loginReducers = (state = initialState, action: ActionsType) => {
@@ -23,6 +24,12 @@ export const loginReducers = (state = initialState, action: ActionsType) => {
         ...state,
         userRole: action.userRole,
         accessToken: action.accessToken
+      }
+    }
+    case SET_LOADING_ACTION: {
+      return {
+        ...state,
+        loading: action.payload
       }
     }
     default: return state;

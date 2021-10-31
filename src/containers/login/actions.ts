@@ -1,5 +1,5 @@
 import { LoginType } from "../../types/login"
-import { LOGIN_SAGA_DISPATCH, SET_TOKEN_FROM_SAGA } from "./constants"
+import { LOGIN_SAGA_DISPATCH, SET_LOADING_ACTION, SET_TOKEN_FROM_SAGA } from "./constants"
 
 
 
@@ -18,5 +18,12 @@ export const setTokenAction = (accessToken: string, userRole: any) => {
     type: SET_TOKEN_FROM_SAGA,
     accessToken,
     userRole
+  }
+}
+
+export const setLoadingAction = (payload: boolean) => {
+  return {
+    type: SET_LOADING_ACTION,
+    payload,
   }
 }

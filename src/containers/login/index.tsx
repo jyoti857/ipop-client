@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useFormik } from 'formik'
 import { useDispatch, useSelector, shallowEqual } from 'react-redux'
 import { loginDispatch } from './actions';
@@ -17,8 +17,11 @@ const Login: React.FC<Props> = ({ email, password }) => {
   const history = useHistory();
   const userRoleSelector = useSelector((state: any) => state.authReducers.userRole);
   const emailSelector = useSelector((state: any) => state.authReducers.email, shallowEqual);
+  const loadingSelector = useSelector((state: any) => state.authReducers.loading, shallowEqual);
   const [emailUs, setEmailUs] = React.useState<Props>();
   const [userRole, setUserRole] = React.useState<any>();
+  const [loading, setLoading] = useState(loadingSelector);
+  const [userId, setUserId] = useState<string | null>('');
   const { handleChange, handleBlur, handleSubmit, values, } = useFormik<Props>({
     initialValues: {
       email,
@@ -29,9 +32,17 @@ const Login: React.FC<Props> = ({ email, password }) => {
   const loginSubmit = async () => {
     const { email, password } = values;
     dispatch(loginDispatch({ email, password }))
-    const _id = await localStorage.getItem('userid');
-    history.push(`/account/${_id}`)
   }
+
+  useEffect(() => {
+    const sd = async () => {
+      const _id = await localStorage.getItem('userid');
+      _id && history.push(`/account/${_id}`)
+      setUserId(_id)
+      setLoading(false)
+    }
+    sd();
+  })
   // React.useEffect(() => {
   //   console.log("userrole selec", userRole?._id, emailSelector)
   //   const login_ = async () => {
@@ -43,6 +54,7 @@ const Login: React.FC<Props> = ({ email, password }) => {
   //   setEmailUs(emailSelector)
   //   setUserRole(userRoleSelector)
   // }, [emailSelector, userRoleSelector])
+
   console.log("Sdls", emailSelector)
   console.log("handle this ", values.email)
   return (

@@ -1,6 +1,6 @@
 import { takeLatest, put, call} from 'redux-saga/effects';
 import { customFetch, uri } from '../../utils/fetchUrl';
-import { setTokenAction } from './actions';
+import { setLoadingAction, setTokenAction } from './actions';
 import { LOGIN_SAGA_DISPATCH } from './constants';
 
 
@@ -27,6 +27,7 @@ function* loginApi({email, password}: any){
     yield put(setTokenAction(access_token, userRole))
   }else {
     console.log("loading ----")
+    yield put(setLoadingAction(true))
   }
 }
 
