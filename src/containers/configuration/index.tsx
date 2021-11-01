@@ -1,4 +1,5 @@
 import React, { ReactElement } from 'react'
+import Users from './Users'
 
 interface Props {
 
@@ -7,7 +8,7 @@ interface Props {
 function Configuration({ }: Props): ReactElement {
   return (
     <div>
-      Configuration
+      <Users />
     </div>
   )
 }

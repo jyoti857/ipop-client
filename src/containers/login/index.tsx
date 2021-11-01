@@ -5,6 +5,7 @@ import { loginDispatch } from './actions';
 import { useStyles } from './styles'
 import { useHistory } from 'react-router-dom'
 import CustomInput from '../../components/input/CustomInput';
+import Pages from '../header/pages';
 
 interface Props {
   email: string;
@@ -37,7 +38,7 @@ const Login: React.FC<Props> = ({ email, password }) => {
   useEffect(() => {
     const sd = async () => {
       const _id = await localStorage.getItem('userid');
-      _id && history.push(`/account/${_id}`)
+      _id && history.push(`/account/app-dashboard/${_id}`)
       setUserId(_id)
       setLoading(false)
     }

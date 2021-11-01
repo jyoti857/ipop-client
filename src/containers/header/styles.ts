@@ -21,8 +21,11 @@ export const useStyles = makeStyles({
   icons: {
     fontSize: 20, 
     outline: 'none',
-    backgroundColor: '#F1C3F1',
+    // backgroundColor: '#F1C3F1',
     padding: 8,
-    borderRadius: 4, 
-  }
+    borderRadius: 4,
+    cursor: 'pointer',
+    "&:hover,&.Mui-focusVisible": { backgroundColor: "#F1C3F1" },
+    "&:focus": { backgroundColor: "yellow" }
+  },
 });
