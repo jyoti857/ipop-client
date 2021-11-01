@@ -26,3 +26,9 @@ export const updateAccountById = (id: string, body: any) => {
     return res.data;
   })
 }
+
+export const getAllProducts = () => {
+  return api.get('/product').then((res: any) => {
+    return res.data;
+  })
+}

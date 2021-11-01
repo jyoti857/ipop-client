@@ -7,8 +7,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { TableFooter, TablePagination } from '@mui/material';
+import { Button, TableFooter, TablePagination } from '@mui/material';
 import TablePaginationsActions from './tablePaginationsActions';
+import CustomInput from '../input/CustomInput';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -50,7 +51,8 @@ const rows = [
 
 export default function CustomizedTables() {
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(2);
+  const [search, setSearch] = useState('');
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
@@ -69,6 +71,22 @@ export default function CustomizedTables() {
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
+          <TableRow>
+            <div style={{ margin: 6, display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'transparent', width: '178%' }}>
+              <div>Products</div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around', backgroundColor: 'transparent' }}>
+                <CustomInput name='Search' type='text' value='search' placeholder='Search' />
+                <Button
+                  variant='contained'
+                  color='primary'
+                >Add +</Button>
+                <Button
+                  variant='outlined'
+                  color='primary'
+                >Sync</Button>
+              </div>
+            </div>
+          </TableRow>
           <TableRow>
             <StyledTableCell>Dessert (100g serving)</StyledTableCell>
             <StyledTableCell align="right">Calories</StyledTableCell>

@@ -1,11 +1,11 @@
 import React, { ReactElement } from 'react'
-import CustomTable from '../../components/table'
+import CustomizedTables from '../../components/table'
 
 
 function Users(): ReactElement {
   return (
     <div>
-      <CustomTable />
+      <CustomizedTables />
     </div>
   )
 }
