@@ -51,7 +51,6 @@ function AccountInformation({ }: Props): ReactElement {
   const [updateFlag, setUpdateFlag] = useState(false);
 
   const [count, setCount] = useState(0)
-
   const { data: updateFields } = useQuery('updateAccountInformation',
     () => updateAccountById(params.accountId,
       {
@@ -64,16 +63,37 @@ function AccountInformation({ }: Props): ReactElement {
       }),
     { enabled: Boolean(updateFlag) }
   )
+  console.log("data fetching ---> ", updateFields, params.accountId)
 
   useEffect(() => {
-    setName_(data?.name)
-    setphone_(data?.phone_)
-    setCity_(data?.city)
-    setEmail_(data?.email)
-    setAddressLine1_(data?.addressLine1)
-    console.log("setupdate flag sd")
-    setUpdateFlag(false)
+    if (!updateFlag) {
+      setName_(data?.name)
+      setphone_(data?.phone_)
+      setCity_(data?.city)
+      setEmail_(data?.email)
+      setAddressLine1_(data?.addressLine1)
+      console.log("setupdate flag sd")
+      setUpdateFlag(false)
+    } else {
+      setName_(updateFields?.name)
+      setphone_(updateFields?.phone_)
+      setCity_(updateFields?.city)
+      setEmail_(updateFields?.email)
+      setEin_(updateFields?.ein)
+      setAddressLine1_(updateFields?.addressLine1)
+      console.log("setupdate flag sd")
+      // setUpdateFlag(false)
+    }
   }, [data, updateFlag])
+  // useEffect(() => {
+  //   setName_(updateFields?.name)
+  //   setphone_(data?.phone_)
+  //   setCity_(data?.city)
+  //   setEmail_(data?.email)
+  //   setAddressLine1_(data?.addressLine1)
+  //   console.log("setupdate flag sd")
+  //   setUpdateFlag(false)
+  // }, [ updateFlag])
 
 
   const onSubmit = () => {

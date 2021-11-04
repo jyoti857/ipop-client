@@ -1,10 +1,12 @@
 import { Button, Paper, Table, TableBody, TableCell, tableCellClasses, TableContainer, TableHead, TableRow } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { ReactElement } from 'react'
+import { ReactElement, useState } from 'react'
+import CustomModal from '../../../components/modal'
 import { useQuery } from 'react-query';
 import CustomInput from '../../../components/input/CustomInput';
 import { getAllProducts } from '../../../utils/baseUrl';
-
+import CustomProductForm from './customProductFormik';
+import { useStyles } from './styles'
 function createData(
   name: string,
   catoalog: number,
@@ -32,9 +34,43 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 function Products(): ReactElement {
+  const [open, setOpen] = useState(false)
+  const handleModalOpen = () => setOpen(true)
+  const handleModalClose = () => setOpen(false)
   const { data }: any = useQuery('getProducts', getAllProducts);
   console.log("fetch products ---> ", data)
+  const handleProductSubmit = () => {
+    console.log(catalog, name, price, "catoalog, name, price")
+  }
+  const { handleChange, handleSubmit, values: { catalog, name, price } } = CustomProductForm({ onSubmit: handleProductSubmit })
+  const classes = useStyles()
   return (
+    <>
+      {
+        open && <CustomModal open={open} handleClose={handleModalClose} modalName='New Product' >
+          <form onSubmit={handleSubmit} style={{ position: 'relative', height: 200 }} className={classes.root}>
+            <div>
+              <div style={{ display: 'flex' }}>
+                <div>
+                  <label>Name</label>
+                  <CustomInput name='name' placeholder='' type='text' value={name} handleChange={handleChange} />
+                </div>
+                <div>
+                  <label>Catalog</label>
+                  <CustomInput name='catalog' placeholder='' type='text' value={catalog} handleChange={handleChange} />
+                </div>
+              </div>
+              <div style={{ display: "flex", flexDirection: 'column', alignItems: 'flex-start' }}>
+                <label>Price</label>
+                <CustomInput name='price' placeholder='' type='number' value={price} handleChange={handleChange} style={{ width: '94%' }} />
+              </div>
+            </div>
+            <div style={{ position: 'absolute', bottom: 0, right: 10 }}>
+              <Button type='submit' variant='contained'>Create</Button>
+            </div>
+          </form>
+        </CustomModal>
+      }
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 600 }} aria-label="customized table">
         <TableHead>
@@ -46,6 +82,7 @@ function Products(): ReactElement {
                 <Button
                   variant='contained'
                   color='primary'
+                    onClick={handleModalOpen}
                 >Add +</Button>
                 <Button
                   variant='outlined'
@@ -78,6 +115,7 @@ function Products(): ReactElement {
         </TableBody>
       </Table>
     </TableContainer>
+    </>
   )
 }
 
