@@ -4,13 +4,14 @@ import { ReactElement, useState } from 'react'
 import CustomModal from '../../../components/modal'
 import { useMutation, useQuery } from 'react-query';
 import CustomInput from '../../../components/input/CustomInput';
-import { createProduct, getAllProducts } from '../../../utils/baseUrl';
+import { createProduct, getAllProducts, updateProductById } from '../../../utils/baseUrl';
 import CustomProductForm from './customProductFormik';
 import { FiEdit } from "react-icons/fi";
 import { BiX } from "react-icons/bi";
 import { BiCheck } from "react-icons/bi";
 import { useStyles } from './styles'
 import { theme } from '../../../theme/customTheme';
+import { ModifiedProductType } from './productType';
 function createData(
   name: string,
   catoalog: number,
@@ -42,6 +43,22 @@ function Products(): ReactElement {
   const [editProduct, setEditProduct] = useState(false)
   const [editRowId, setEditRowId] = useState<number>(-2)
   const [create, setCreate] = useState(true);
+
+  const [modifiedProduct, setModifiedProduct] = useState<any>(
+    {
+      name: '',
+      catalog: "",
+      price: 0
+    }
+  )
+  const handleModifyProduct = (e: any) => {
+    e.preventDefault();
+    const modifiedProductCopy = { ...modifiedProduct }
+    const name: any = e.target.getAttribute('name');
+    const value = e.target.value;
+    modifiedProductCopy[name] = value;
+    setModifiedProduct(modifiedProductCopy)
+  }
   const handleModalOpen = () => {
     setOpen(true)
     setCreate(false)
@@ -50,6 +67,7 @@ function Products(): ReactElement {
   const { data, isLoading } = useQuery('getProducts', getAllProducts, { enabled: Boolean(create) });
   console.log("fetch products ---> ", data)
   const mutation = useMutation(createProduct)
+  // const updateMutation = useMutation(updateProductById, {})
   const handleEditRow = (id: number) => {
     setEditRowId(id)
     setEditProduct(true)
@@ -61,7 +79,12 @@ function Products(): ReactElement {
     setOpen(false)
     setCreate(true)
   }
-  const handleEditProduct = () => setEditProduct(!editProduct)
+  const HandleEditProduct = (id: string) => {
+    setEditProduct(!editProduct)
+    // need to check and start with the update in react query 
+    // updateMutation.mutate(id, modifiedProduct)
+    // console.log("updated data ----> ", data)
+  }
   const { handleChange, handleSubmit, values: { catalog, name, price } } = CustomProductForm({ onSubmit: handleProductSubmit })
   const classes = useStyles()
   return (
@@ -127,14 +150,14 @@ function Products(): ReactElement {
                 {data?.map((row: any, idx: number) => {
                   return (
                     editProduct && editRowId === idx ? <div style={{ display: 'flex', justifyContent: 'space-between', margin: 2, width: '127%' }}>
-                      <CustomInput name='name' placeholder='' type='text' value={row.name} handleChange={handleChange} />
+                      <CustomInput name='name' placeholder='' type='text' value={modifiedProduct.name} handleChange={handleModifyProduct} />
                       <CustomInput name='catalog' placeholder='' type='text' value={row.catalog} handleChange={handleChange} />
                       <CustomInput name='price' placeholder='' type='number' value={price} handleChange={handleChange} />
-                      <IconButton onClick={handleEditProduct}>
-                        <BiX />
-                      </IconButton>
-                      <IconButton onClick={handleEditProduct}>
+                      <IconButton onClick={() => handleEditRow(idx)}>
                         <BiCheck />
+                      </IconButton>
+                      <IconButton onClick={() => HandleEditProduct(data._id)}>
+                        <BiX />
                       </IconButton>
                     </div> :
                       <>

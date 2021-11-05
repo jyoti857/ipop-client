@@ -38,3 +38,9 @@ export const createProduct = (body: any) => {
     return res.data;
   })
 }
+
+export const updateProductById = (id: string, body: any) => {
+  return api.put(`/product/${id}`, {...body}).then((res: any) => {
+    return res.data;
+  })
+}
