@@ -40,6 +40,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 function Products(): ReactElement {
   const [open, setOpen] = useState(false)
   const [editProduct, setEditProduct] = useState(false)
+  const [editRowId, setEditRowId] = useState<number>(-2)
   const [create, setCreate] = useState(true);
   const handleModalOpen = () => {
     setOpen(true)
@@ -49,6 +50,10 @@ function Products(): ReactElement {
   const { data, isLoading } = useQuery('getProducts', getAllProducts, { enabled: Boolean(create) });
   console.log("fetch products ---> ", data)
   const mutation = useMutation(createProduct)
+  const handleEditRow = (id: number) => {
+    setEditRowId(id)
+    setEditProduct(true)
+  }
   const handleProductSubmit = (e: any) => {
     e.preventDefault();
     console.log(catalog, name, price, "catoalog, name, price")
@@ -119,11 +124,11 @@ function Products(): ReactElement {
           {
             isLoading ? <div>Loading*****</div> :
               <TableBody>
-                {data?.map((row: any) => {
+                {data?.map((row: any, idx: number) => {
                   return (
-                    editProduct ? <div>
-                      <CustomInput name='name' placeholder='' type='text' value={name} handleChange={handleChange} />
-                      <CustomInput name='catalog' placeholder='' type='text' value={catalog} handleChange={handleChange} />
+                    editProduct && editRowId === idx ? <div style={{ display: 'flex', justifyContent: 'space-between', margin: 2, width: '127%' }}>
+                      <CustomInput name='name' placeholder='' type='text' value={row.name} handleChange={handleChange} />
+                      <CustomInput name='catalog' placeholder='' type='text' value={row.catalog} handleChange={handleChange} />
                       <CustomInput name='price' placeholder='' type='number' value={price} handleChange={handleChange} />
                       <IconButton onClick={handleEditProduct}>
                         <BiX />
@@ -140,7 +145,7 @@ function Products(): ReactElement {
                           <StyledTableCell align="left">{row.catalog}</StyledTableCell>
                           <StyledTableCell align="left">{row.price}</StyledTableCell>
                           <StyledTableCell align="left">
-                            <IconButton onClick={handleEditProduct}>
+                            <IconButton onClick={() => handleEditRow(idx)}>
                               <FiEdit />
                             </IconButton>
                           </StyledTableCell>
