@@ -1,7 +1,7 @@
 import { useFormik } from 'formik'
 
 
-type UseProductProps = {
+export type UseProductProps = {
   name: string;
   catalog: string;
   price: number;

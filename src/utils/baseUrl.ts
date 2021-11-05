@@ -32,3 +32,9 @@ export const getAllProducts = () => {
     return res.data;
   })
 }
+
+export const createProduct = (body: any) => {
+  return api.post('/product/', {...body}).then((res: any) => {
+    return res.data;
+  })
+}
