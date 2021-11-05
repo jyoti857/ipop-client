@@ -25,7 +25,7 @@ function CustomInput({ placeholder, name, type, handleChange, value, style, clas
       value={value}
       className={clsx(classes.inputTextField, classNames)}
       placeholder={placeholder}
-      style={{ ...style, margin: 10 }}
+      style={{ ...style }}
     />
     // </div>
   )

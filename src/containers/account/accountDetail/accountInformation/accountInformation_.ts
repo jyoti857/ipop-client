@@ -11,5 +11,6 @@ export interface AccountInformationType_ {
   addressLine3?: string;
   state: string;
   country: string;
+  city: string;
 }
 

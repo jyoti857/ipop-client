@@ -10,6 +10,7 @@ import { useStyles } from './styles'
 import { getAccountById, updateAccountById } from '../../../../utils/baseUrl';
 import CustomAccountForm from '../../../../utils/useCustomAccountFormik';
 import AccountTabs from '../accountTabs';
+import { AccountInformationType_ } from './accountInformation_';
 interface Props {
   // accountName: string;
   // ein: string;
@@ -30,14 +31,7 @@ function AccountInformation({ }: Props): ReactElement {
   const { data } = useQuery(['accountInformation', params.accountId], () => getAccountById(params.accountId),
     { enabled: Boolean(params.accountId) }
   )
-  const [name_, setName_] = useState(data?.name ? data.name : '')
-  const [attention_, setAttention_] = useState(data?.attention ? data.attention : '')
-  const [email_, setEmail_] = useState(data?.email ? data.email : '')
-  const [ein_, setEin_] = useState(data?.ein ? data.ein : '')
-  const [phone_, setphone_] = useState(data?.phone ? data.phone : '')
-  const [city_, setCity_] = useState(data?.city ? data.city : '')
   const [clinicPhysicianLicenseNumber_, setClinicPhysicianLicenseNumber_] = useState('')
-  const [addressLine1_, setAddressLine1_] = useState(data?.addressLine1 ? data.addressLine1 : '')
   const [addressLine2_, setAddressLine2_] = useState(data?.addressLine2 ? data.addressLine2 : '')
   const [addressLine3_, setAddressLine3_] = useState(data?.addressLine3 ? data.addressLine3 : '')
   const [hcpName_, setHcpName_] = useState(data?.hcpName ? data.hcpName : '')
@@ -50,15 +44,29 @@ function AccountInformation({ }: Props): ReactElement {
   const [dun_, setDun_] = useState("")
   const [updateFlag, setUpdateFlag] = useState(false);
 
+  const [acc, setAcc] = useState<AccountInformationType_>(() => ({
+    addressLine1: data?.addressLine1 ? data.addressLine1 : '',
+    attention: data?.attention,
+    country: data?.country,
+    ein: data?.ein ? data.ein : "",
+    email: data?.email ? data.email : '',
+    name: data?.name ? data.name : '',
+    phone: data?.phone ? data.phone : '',
+    state: data?.state ? data.state : '',
+    addressLine2: data?.addressLine2 ? data.addressLine2 : '',
+    addressLine3: data?.addressLine3 ? data.addressLine3 : '',
+    city: data?.city,
+  }))
+
   const [count, setCount] = useState(0)
   const { data: updateFields } = useQuery('updateAccountInformation',
     () => updateAccountById(params.accountId,
       {
-        name: name_,
-        phone: phone_,
-        city: city_,
-        addressLine1: addressLine1_,
-        email: email_,
+        name: acc.name,
+        phone: acc.phone,
+        city: acc.city,
+        addressLine1: acc.addressLine1,
+        email: acc.email,
         addressLine2: addressLine2_,
       }),
     { enabled: Boolean(updateFlag) }
@@ -66,45 +74,44 @@ function AccountInformation({ }: Props): ReactElement {
   console.log("data fetching ---> ", updateFields, params.accountId)
 
   useEffect(() => {
-    if (!updateFlag) {
-      setName_(data?.name)
-      setphone_(data?.phone_)
-      setCity_(data?.city)
-      setEmail_(data?.email)
-      setAddressLine1_(data?.addressLine1)
-      console.log("setupdate flag sd")
-      setUpdateFlag(false)
-    } else {
-      setName_(updateFields?.name)
-      setphone_(updateFields?.phone_)
-      setCity_(updateFields?.city)
-      setEmail_(updateFields?.email)
-      setEin_(updateFields?.ein)
-      setAddressLine1_(updateFields?.addressLine1)
-      console.log("setupdate flag sd")
-      // setUpdateFlag(false)
-    }
-  }, [data, updateFlag])
-  // useEffect(() => {
-  //   setName_(updateFields?.name)
-  //   setphone_(data?.phone_)
-  //   setCity_(data?.city)
-  //   setEmail_(data?.email)
-  //   setAddressLine1_(data?.addressLine1)
-  //   console.log("setupdate flag sd")
-  //   setUpdateFlag(false)
-  // }, [ updateFlag])
-
+    setAcc({
+      ...acc,
+      name: data?.name,
+      attention: data?.attention,
+      ein: data?.ein,
+      phone: data?.phone,
+      email: data?.email,
+      addressLine1: data?.addressLine1,
+      state: data?.state,
+      country: data?.country
+    })
+    setUpdateFlag(false)
+  }, [data])
+  useEffect(() => {
+    setAcc({
+      ...acc,
+      name: updateFields?.name,
+      attention: updateFields?.attention,
+      ein: updateFields?.ein,
+      phone: updateFields?.phone,
+      email: updateFields?.email,
+      addressLine1: updateFields?.addressLine1,
+      state: updateFields?.state,
+      country: updateFields?.country
+    })
+    setUpdateFlag(false)
+  }, [updateFields])
 
   const onSubmit = () => {
     console.log("setupdate flag --->", updateFlag)
+
     setUpdateFlag(true)
   }
   const { handleChange, values } = CustomAccountForm({ onSubmit })
   return (
     <div>
       {/* <AccountTabs /> */}
-      {data?.name ?
+      {data ?
         <Paper className={classes.paper} style={{ position: 'relative' }}>
           <Button
             style={{ position: 'absolute', top: 10, right: 10, marginBottom: 12 }}
@@ -117,23 +124,25 @@ function AccountInformation({ }: Props): ReactElement {
             <div className={classes.inputWrap}>
               <label className={classes.label}>Account Name</label>
               <CustomInput
-                value={name_}
-                handleChange={(e: React.ChangeEvent<any>) => setName_(e.target.value)}
+                value={acc.name}
+                handleChange={(e: React.ChangeEvent<any>) => setAcc({ ...acc, name: e.target.value })}
                 name='accountName'
                 type='text'
                 placeholder=''
                 classNames={classes.fields}
+                style={{ margin: 10 }}
               />
             </div>
             <div className={classes.inputWrap}>
               <label className={classes.label}>Attention</label>
               <CustomInput
-                value={attention_}
+                value={acc.attention}
                 name='attention'
                 type='text'
                 placeholder=''
                 classNames={classes.fields}
-                handleChange={(e: React.ChangeEvent<any>) => setAttention_(e.target.value)}
+                handleChange={(e: React.ChangeEvent<any>) => setAcc({ ...acc, attention: e.target.value })}
+                style={{ margin: 10 }}
               />
             </div>
           </div>
@@ -147,17 +156,19 @@ function AccountInformation({ }: Props): ReactElement {
                 placeholder=''
                 classNames={classes.fields}
                 handleChange={(e: React.ChangeEvent<any>) => setClinicPhysicianLicenseNumber_(e.target.value)}
+                style={{ margin: 10 }}
               />
             </div>
             <div className={classes.inputWrap}>
               <label className={classes.label}>EIN #</label>
               <CustomInput
-                value={ein_}
+                value={acc.ein}
                 name='ein'
                 type='text'
                 placeholder=''
                 classNames={classes.fields}
-                handleChange={(e: React.ChangeEvent<any>) => setEin_(e.target.value)}
+                handleChange={(e: React.ChangeEvent<any>) => setAcc({ ...acc, ein: e.target.value })}
+                style={{ margin: 10 }}
               />
             </div>
           </div>
@@ -165,23 +176,25 @@ function AccountInformation({ }: Props): ReactElement {
             <div className={classes.inputWrap}>
               <label className={classes.label}>Phone</label>
               <CustomInput
-                value={phone_}
+                value={acc.phone}
                 name='phone'
                 type='text'
                 placeholder=''
                 classNames={classes.fields}
-                handleChange={(e: React.ChangeEvent<any>) => setphone_(e.target.value)}
+                handleChange={(e: React.ChangeEvent<any>) => setAcc({ ...acc, phone: e.target.value })}
+                style={{ margin: 10 }}
               />
             </div>
             <div className={classes.inputWrap}>
               <label className={classes.label}>Email</label>
               <CustomInput
-                value={email_}
+                value={acc.email}
                 name='email'
                 type='text'
                 placeholder=''
                 classNames={classes.fields}
-                handleChange={(e: React.ChangeEvent<any>) => setEmail_(e.target.value)}
+                handleChange={(e: React.ChangeEvent<any>) => setAcc({ ...acc, email: e.target.value })}
+                style={{ margin: 10 }}
               />
             </div>
           </div>
@@ -195,6 +208,7 @@ function AccountInformation({ }: Props): ReactElement {
                 placeholder=''
                 classNames={classes.fields}
                 handleChange={(e: React.ChangeEvent<any>) => setHcpName_(e.target.value)}
+                style={{ margin: 10 }}
               />
             </div>
             <div className={classes.inputWrap}>
@@ -206,6 +220,7 @@ function AccountInformation({ }: Props): ReactElement {
                 placeholder=''
                 classNames={classes.fields}
                 handleChange={(e: React.ChangeEvent<any>) => setHcpNpi_(e.target.value)}
+                style={{ margin: 10 }}
               />
             </div>
           </div>
@@ -214,12 +229,13 @@ function AccountInformation({ }: Props): ReactElement {
             <div className={classes.inputWrap}>
               <label className={classes.label}>Ship To Street 1 *</label>
               <CustomInput
-                value={addressLine1_}
+                value={acc.addressLine1}
                 name='addressline1'
                 type='text'
                 placeholder=''
                 classNames={classes.fields}
-                handleChange={(e: React.ChangeEvent<any>) => setAddressLine1_(e.target.value)}
+                handleChange={(e: React.ChangeEvent<any>) => setAcc({ ...acc, addressLine1: e.target.value })}
+                style={{ margin: 10 }}
               />
             </div>
             <div className={classes.inputWrap}>
@@ -231,6 +247,7 @@ function AccountInformation({ }: Props): ReactElement {
                 placeholder=''
                 classNames={classes.fields}
                 handleChange={(e: React.ChangeEvent<any>) => setAddressLine2_(e.target.value)}
+                style={{ margin: 10 }}
               />
             </div>
           </div>
@@ -244,17 +261,19 @@ function AccountInformation({ }: Props): ReactElement {
                 placeholder=''
                 classNames={classes.fields}
                 handleChange={(e: React.ChangeEvent<any>) => setAddressLine3_(e.target.value)}
+                style={{ margin: 10 }}
               />
             </div>
             <div className={classes.inputWrap}>
               <label className={classes.label}>Ship To City *</label>
               <CustomInput
-                value={city_}
+                value={acc.city}
                 name='city'
                 type='text'
                 placeholder=''
                 classNames={classes.fields}
-                handleChange={(e: React.ChangeEvent<any>) => setCity_(e.target.value)}
+                handleChange={(e: React.ChangeEvent<any>) => setAcc({ ...acc, city: e.target.value })}
+                style={{ margin: 10 }}
               />
             </div>
           </div>
@@ -267,6 +286,7 @@ function AccountInformation({ }: Props): ReactElement {
                 type='text'
                 placeholder=''
                 classNames={classes.fields}
+                style={{ margin: 10 }}
               />
             </div>
             <div className={classes.inputWrap}>
@@ -277,6 +297,7 @@ function AccountInformation({ }: Props): ReactElement {
                 type='text'
                 placeholder=''
                 classNames={classes.fields}
+                style={{ margin: 10 }}
               />
             </div>
           </div>
@@ -289,6 +310,7 @@ function AccountInformation({ }: Props): ReactElement {
                 type='text'
                 placeholder=''
                 classNames={classes.fields}
+                style={{ margin: 10 }}
               />
             </div>
             <div className={classes.inputWrap}>
@@ -299,6 +321,7 @@ function AccountInformation({ }: Props): ReactElement {
                 type='text'
                 placeholder=''
                 classNames={classes.fields}
+                style={{ margin: 10 }}
               />
             </div>
           </div>
@@ -311,6 +334,7 @@ function AccountInformation({ }: Props): ReactElement {
                 type='text'
                 placeholder=' '
                 classNames={classes.fields}
+                style={{ margin: 10 }}
               />
             </div>
             <div className={classes.inputWrap}>
@@ -321,6 +345,7 @@ function AccountInformation({ }: Props): ReactElement {
                 type='text'
                 placeholder=''
                 classNames={classes.fields}
+                style={{ margin: 10 }}
               />
             </div>
           </div>
