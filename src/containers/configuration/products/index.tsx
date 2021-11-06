@@ -1,6 +1,6 @@
 import { Button, IconButton, Paper, Table, TableBody, TableCell, tableCellClasses, TableContainer, TableHead, TableRow } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import CustomModal from '../../../components/modal'
 import { useMutation, useQuery } from 'react-query';
 import CustomInput from '../../../components/input/CustomInput';
@@ -11,7 +11,6 @@ import { BiX } from "react-icons/bi";
 import { BiCheck } from "react-icons/bi";
 import { useStyles } from './styles'
 import { theme } from '../../../theme/customTheme';
-import { ModifiedProductType } from './productType';
 function createData(
   name: string,
   catoalog: number,
@@ -43,35 +42,7 @@ function Products(): ReactElement {
   const [editProduct, setEditProduct] = useState(false)
   const [editRowId, setEditRowId] = useState<number>(-2)
   const [create, setCreate] = useState(true);
-
-  const [modifiedProduct, setModifiedProduct] = useState<any>(
-    {
-      name: '',
-      catalog: "",
-      price: 0
-    }
-  )
-  const handleModifyProduct = (e: any) => {
-    e.preventDefault();
-    const modifiedProductCopy = { ...modifiedProduct }
-    const name: any = e.target.getAttribute('name');
-    const value = e.target.value;
-    modifiedProductCopy[name] = value;
-    setModifiedProduct(modifiedProductCopy)
-  }
-  const handleModalOpen = () => {
-    setOpen(true)
-    setCreate(false)
-  }
-  const handleModalClose = () => setOpen(false)
-  const { data, isLoading } = useQuery('getProducts', getAllProducts, { enabled: Boolean(create) });
-  console.log("fetch products ---> ", data)
-  const mutation = useMutation(createProduct)
-  // const updateMutation = useMutation(updateProductById, {})
-  const handleEditRow = (id: number) => {
-    setEditRowId(id)
-    setEditProduct(true)
-  }
+  const [selectedRowId, setSelectedRowId] = useState<string>('')
   const handleProductSubmit = (e: any) => {
     e.preventDefault();
     console.log(catalog, name, price, "catoalog, name, price")
@@ -79,13 +50,47 @@ function Products(): ReactElement {
     setOpen(false)
     setCreate(true)
   }
-  const HandleEditProduct = (id: string) => {
-    setEditProduct(!editProduct)
-    // need to check and start with the update in react query 
-    // updateMutation.mutate(id, modifiedProduct)
-    // console.log("updated data ----> ", data)
-  }
   const { handleChange, handleSubmit, values: { catalog, name, price } } = CustomProductForm({ onSubmit: handleProductSubmit })
+  const { data, isLoading } = useQuery('getProducts', getAllProducts, { enabled: Boolean(create) });
+  const [modifiedProduct, setModifiedProduct] = useState<any[]>(data)
+  useEffect(() => {
+    setModifiedProduct(data)
+  }, [data])
+  // useEffect(() => {
+  //   setModifiedProduct(data)
+  // }, [editProduct])
+  const handleModifyProduct = (e: any, id: string) => {
+    e.preventDefault();
+    console.log("modified product **8  ---> ", modifiedProduct, data)
+    const modifiedProductCopy = [...modifiedProduct]
+    const productIndex = modifiedProductCopy.findIndex((mpc: any) => mpc._id === id)
+    const selectedProduct = { ...modifiedProductCopy[productIndex] }
+    const name = e.target.getAttribute('name');
+    const value = e.target.value;
+    selectedProduct[name] = value;
+    console.log("******************* ---> ", selectedProduct, name, value, selectedProduct)
+    modifiedProductCopy.splice(productIndex, 1, selectedProduct)
+    setModifiedProduct(modifiedProductCopy);
+    setSelectedRowId('')
+    // setModifiedProduct([...modifiedProductCopy, selectedProduct])
+  }
+  const handleModalOpen = () => {
+    setOpen(true)
+    setCreate(false)
+  }
+  const handleModalClose = () => setOpen(false)
+  const { data: updatedProductData } = useQuery('updateProductQuery', () => updateProductById(selectedRowId, modifiedProduct.find(m => m._id === selectedRowId)), { enabled: Boolean(selectedRowId) });
+  const mutation = useMutation(createProduct)
+  const handleEditRow = (id: number) => {
+    setEditRowId(id)
+    setEditProduct(!editProduct)
+  }
+
+  const handleEditProduct = (id: string) => {
+    setEditProduct(!editProduct)
+    setSelectedRowId(id)
+  }
+  console.log("update product query ---> ", updatedProductData, selectedRowId);
   const classes = useStyles()
   return (
     <>
@@ -147,16 +152,16 @@ function Products(): ReactElement {
           {
             isLoading ? <div>Loading*****</div> :
               <TableBody>
-                {data?.map((row: any, idx: number) => {
+                {modifiedProduct?.map((row: any, idx: number) => {
                   return (
                     editProduct && editRowId === idx ? <div style={{ display: 'flex', justifyContent: 'space-between', margin: 2, width: '127%' }}>
-                      <CustomInput name='name' placeholder='' type='text' value={modifiedProduct.name} handleChange={handleModifyProduct} />
-                      <CustomInput name='catalog' placeholder='' type='text' value={row.catalog} handleChange={handleChange} />
-                      <CustomInput name='price' placeholder='' type='number' value={price} handleChange={handleChange} />
-                      <IconButton onClick={() => handleEditRow(idx)}>
+                      <CustomInput name='name' placeholder='' type='text' value={row.name} handleChange={(e: any) => handleModifyProduct(e, row._id)} />
+                      <CustomInput name='catalog' placeholder='' type='text' value={row.catalog} handleChange={(e: any) => handleModifyProduct(e, row._id)} />
+                      <CustomInput name='price' placeholder='' type='number' value={row.price} handleChange={(e: any) => handleModifyProduct(e, row._id)} />
+                      <IconButton onClick={() => handleEditProduct(row._id)}>
                         <BiCheck />
                       </IconButton>
-                      <IconButton onClick={() => HandleEditProduct(data._id)}>
+                      <IconButton onClick={() => handleEditRow(idx)}>
                         <BiX />
                       </IconButton>
                     </div> :
