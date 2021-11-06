@@ -36,6 +36,7 @@ export const theme: ThemeOptions = createTheme({
   typography: {
     button: {
       fontSize: '.8rem',
+      textTransform: 'none'
     },
   },
   palette: {
