@@ -7,6 +7,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { useQuery } from 'react-query';
+import { getAllProducts } from '../../../../utils/baseUrl';
+import CustomInput from '../../../../components/input/CustomInput';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -29,25 +32,22 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(
-  name: string,
-  calories: string,
-  fat: number,
-  carbs: number,
-  protein: number,
-) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData('31-032-231', "iovera° System Handpiece and Docking Station", 6.0, 24, 4.0),
-  createData('23-235-033', "iovera° Smart Tip 309, 5-pack (3x8.5-mm needles per Smart Tip)", 9.0, 37, 4.3),
-  createData('23-223-133', "iovera° Smart Tip 190, 5-pack (1x90-mm needle per Smart Tip)", 16.0, 24, 6.0),
-  createData('23-123-233', "iovera° Smart Tip 190 with Nerve Stim, 5-pack (1x90-mm needle per Smart Tip)", 3.7, 67, 4.3),
-  createData('23-232-340', "iovera° Cartridges, 10-pack", 16.0, 49, 3.9),
-];
 interface Props { }
 function AccountPriceTable({ }: Props): React.ReactElement {
+  const { data, isLoading } = useQuery('getProducts', getAllProducts, { enabled: Boolean(true) });
+  const prices = data?.map((d: any) => d.price)
+  const [proposedPrice, setProposedPrice] = React.useState(data)
+  const handleChange = (e: any, id: string) => {
+    e.preventDefault();
+    const dataCopy = [...data]
+    const dIndex = dataCopy.findIndex(dataCopy => dataCopy._id === id)
+    const s = { ...dataCopy[dIndex] }
+    const name = e.target.getAttribute('name')
+    const value = e.target.value;
+    s[name] = value
+    dataCopy.splice(dIndex, 1, s)
+    setProposedPrice(dataCopy)
+  }
   return (
     <div>
       <TableContainer component={Paper}>
@@ -62,14 +62,22 @@ function AccountPriceTable({ }: Props): React.ReactElement {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <StyledTableRow key={row.name}>
+            {proposedPrice?.map((row: any) => (
+              <StyledTableRow key={row.catalog}>
                 <StyledTableCell component="th" scope="row">
                   {row.name}
                 </StyledTableCell>
-                <StyledTableCell align="left">{row.calories}</StyledTableCell>
-                <StyledTableCell align="left">{row.fat}</StyledTableCell>
-                <StyledTableCell align="left">{row.carbs}</StyledTableCell>
+                <StyledTableCell align="left">{row.name}</StyledTableCell>
+                <StyledTableCell align="left">{row.price}</StyledTableCell>
+                <StyledTableCell align="left">
+                  <CustomInput
+                    value={row.price}
+                    placeholder=''
+                    type='number'
+                    name='price'
+                    handleChange={(e: any) => handleChange(e, row._id)}
+                  />
+                </StyledTableCell>
                 <StyledTableCell align="center">{row.protein}</StyledTableCell>
               </StyledTableRow>
             ))}

@@ -28,16 +28,16 @@ export type AccountDetailType = {
 }
 
 const accountTabs = [
-  { label: "accountInformation", idx: 0 },
-  { label: "creditInformation", idx: 1 },
-  { label: "supportingDocuments", idx: 2 },
-  { label: "purchaser", idx: 3 },
-  { label: "accountPrice", idx: 4 },
-  { label: "quotes", idx: 5 },
+  { label: "AccountInformation", idx: 0 },
+  { label: "CreditInformation", idx: 1 },
+  { label: "SupportingDocuments", idx: 2 },
+  { label: "Purchaser", idx: 3 },
+  { label: "AccountPrice", idx: 4 },
+  { label: "Quotes", idx: 5 },
 ]
 function AccountDetail({ accountName, ein, phone, email }: Props): ReactElement {
   const classes = useStyles();
-  const [tabName, setTabName] = useState('accountInformation');
+  const [tabName, setTabName] = useState('AccountInformation');
   const [value, setValue] = useState(0)
   const handleChange = (e: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
@@ -45,19 +45,19 @@ function AccountDetail({ accountName, ein, phone, email }: Props): ReactElement 
   }
   function showTabPage(tabName: string): ReactElement {
     switch (tabName) {
-      case 'accountInformation': {
+      case 'AccountInformation': {
         return <AccountInformation />
       }
-      case 'supportingDocuments': {
+      case 'SupportingDocuments': {
         return <SupportingDocuments />
       }
-      case 'purchaser': {
+      case 'Purchaser': {
         return <Purchaser />
       }
-      case 'accountPrice': {
+      case 'AccountPrice': {
         return <AccountPrice />
       }
-      case 'quotes': {
+      case 'Quotes': {
         return <Quotes />
       }
       default: return <div style={{ height: 23, width: 160, margin: '80px auto', alignSelf: 'center', backgroundColor: 'green', color: 'white', display: 'flex', borderRadius: 2 }}>Under development</div> // <SupportingDocuments />
