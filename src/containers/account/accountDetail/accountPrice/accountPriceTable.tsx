@@ -10,6 +10,7 @@ import Paper from '@mui/material/Paper';
 import { useQuery } from 'react-query';
 import { getAllProducts } from '../../../../utils/baseUrl';
 import CustomInput from '../../../../components/input/CustomInput';
+import { useState } from 'react';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -36,7 +37,22 @@ interface Props { }
 function AccountPriceTable({ }: Props): React.ReactElement {
   const { data, isLoading } = useQuery('getProducts', getAllProducts, { enabled: Boolean(true) });
   const prices = data?.map((d: any) => d.price)
-  const [proposedPrice, setProposedPrice] = React.useState(data)
+  const [proposedPrice, setProposedPrice] = useState(data)
+  const [proposedPriceFromData, setProposedPriceFromData] = useState(data?.map((d: any) => d.price))
+  // console.log("proposed price from data ---> ", proposedPriceFromData)
+  const handleProposedData = (e: any, id: number) => {
+    const name = e.target.getAttribute('name')
+    // const value = e.target.value;
+    const sd = [...proposedPriceFromData]
+    if (e.target.value > data?.map((d: any) => d.price)[id]) {
+      console.log("from data ***", proposedPriceFromData[id])
+      setProposedPriceFromData(proposedPriceFromData)
+    } else {
+      sd[id] = e.target.value;
+      setProposedPriceFromData(sd)
+    }
+  }
+  // this handlec change is going to be ignored for a while
   const handleChange = (e: any, id: string) => {
     e.preventDefault();
     const dataCopy = [...data]
@@ -62,7 +78,7 @@ function AccountPriceTable({ }: Props): React.ReactElement {
             </TableRow>
           </TableHead>
           <TableBody>
-            {proposedPrice?.map((row: any) => (
+            {proposedPrice?.map((row: any, idx: number) => (
               <StyledTableRow key={row.catalog}>
                 <StyledTableCell component="th" scope="row">
                   {row.name}
@@ -71,11 +87,11 @@ function AccountPriceTable({ }: Props): React.ReactElement {
                 <StyledTableCell align="left">{row.price}</StyledTableCell>
                 <StyledTableCell align="left">
                   <CustomInput
-                    value={row.price}
+                    value={proposedPriceFromData[idx]}
                     placeholder=''
                     type='number'
                     name='price'
-                    handleChange={(e: any) => handleChange(e, row._id)}
+                    handleChange={(e: any) => handleProposedData(e, idx)}
                   />
                 </StyledTableCell>
                 <StyledTableCell align="center">{row.protein}</StyledTableCell>
