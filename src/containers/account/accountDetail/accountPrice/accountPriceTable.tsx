@@ -35,14 +35,12 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 interface Props { }
 function AccountPriceTable({ }: Props): React.ReactElement {
-  const { data, isLoading } = useQuery('getProducts', getAllProducts, { enabled: Boolean(true) });
-  const prices = data?.map((d: any) => d.price)
-  const [proposedPrice, setProposedPrice] = useState(data)
+  const { data } = useQuery('getProducts', getAllProducts, { enabled: Boolean(true) });
+  const [proposedPrice] = useState(data)
   const [proposedPriceFromData, setProposedPriceFromData] = useState(data?.map((d: any) => d.price))
-  // console.log("proposed price from data ---> ", proposedPriceFromData)
+  const [discountPrice, setDiscountPrice] = useState(data?.map((d: any, i: number) => (data[i].price - proposedPriceFromData[i]) * 0.01))
+  const [discountPriceUpdateFlag, setDiscountPriceUpdateFlag] = useState(false)
   const handleProposedData = (e: any, id: number) => {
-    const name = e.target.getAttribute('name')
-    // const value = e.target.value;
     const sd = [...proposedPriceFromData]
     if (e.target.value > data?.map((d: any) => d.price)[id]) {
       console.log("from data ***", proposedPriceFromData[id])
@@ -51,18 +49,14 @@ function AccountPriceTable({ }: Props): React.ReactElement {
       sd[id] = e.target.value;
       setProposedPriceFromData(sd)
     }
+    setDiscountPriceUpdateFlag(!discountPriceUpdateFlag)
+    console.log("from data ***, proposed", proposedPriceFromData[id])
+    // setDiscountPrice(dis)
   }
-  // this handlec change is going to be ignored for a while
-  const handleChange = (e: any, id: string) => {
-    e.preventDefault();
-    const dataCopy = [...data]
-    const dIndex = dataCopy.findIndex(dataCopy => dataCopy._id === id)
-    const s = { ...dataCopy[dIndex] }
-    const name = e.target.getAttribute('name')
-    const value = e.target.value;
-    s[name] = value
-    dataCopy.splice(dIndex, 1, s)
-    setProposedPrice(dataCopy)
+  React.useEffect(() => { calculateDiscountPrice() }, [discountPriceUpdateFlag])
+  const calculateDiscountPrice = () => {
+    const dis = data?.map((d: any, i: number) => (((d.price - proposedPriceFromData[i]) / d.price) * 100).toFixed(2))
+    setDiscountPrice(dis)
   }
   return (
     <div>
@@ -94,7 +88,7 @@ function AccountPriceTable({ }: Props): React.ReactElement {
                     handleChange={(e: any) => handleProposedData(e, idx)}
                   />
                 </StyledTableCell>
-                <StyledTableCell align="center">{row.protein}</StyledTableCell>
+                <StyledTableCell align="center">{discountPrice[idx]}</StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>
