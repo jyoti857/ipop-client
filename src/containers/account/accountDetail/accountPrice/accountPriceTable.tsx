@@ -11,6 +11,7 @@ import { useQuery } from 'react-query';
 import { getAllProducts } from '../../../../utils/baseUrl';
 import CustomInput from '../../../../components/input/CustomInput';
 import { useState } from 'react';
+import { AccountPriceHook } from './accountPriceHook';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -35,29 +36,30 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 interface Props { }
 function AccountPriceTable({ }: Props): React.ReactElement {
-  const { data } = useQuery('getProducts', getAllProducts, { enabled: Boolean(true) });
-  const [proposedPrice] = useState(data)
-  const [proposedPriceFromData, setProposedPriceFromData] = useState(data?.map((d: any) => d.price))
-  const [discountPrice, setDiscountPrice] = useState(data?.map((d: any, i: number) => (data[i].price - proposedPriceFromData[i]) * 0.01))
-  const [discountPriceUpdateFlag, setDiscountPriceUpdateFlag] = useState(false)
-  const handleProposedData = (e: any, id: number) => {
-    const sd = [...proposedPriceFromData]
-    if (e.target.value > data?.map((d: any) => d.price)[id]) {
-      console.log("from data ***", proposedPriceFromData[id])
-      setProposedPriceFromData(proposedPriceFromData)
-    } else {
-      sd[id] = e.target.value;
-      setProposedPriceFromData(sd)
-    }
-    setDiscountPriceUpdateFlag(!discountPriceUpdateFlag)
-    console.log("from data ***, proposed", proposedPriceFromData[id])
-    // setDiscountPrice(dis)
-  }
-  React.useEffect(() => { calculateDiscountPrice() }, [discountPriceUpdateFlag])
-  const calculateDiscountPrice = () => {
-    const dis = data?.map((d: any, i: number) => (((d.price - proposedPriceFromData[i]) / d.price) * 100).toFixed(2))
-    setDiscountPrice(dis)
-  }
+  // const { data } = useQuery('getProducts', getAllProducts, { enabled: Boolean(true) });
+  // const [proposedPrice] = useState(data)
+  // const [proposedPriceFromData, setProposedPriceFromData] = useState(data && data.length > 0 ? data.map((d: any) => d.price) : [])
+  // const [discountPrice, setDiscountPrice] = useState(data?.map((d: any, i: number) => data.length > 0 && proposedPriceFromData.length > 0 ? (data[i].price - proposedPriceFromData[i]) * 0.01 : []))
+  // const [discountPriceUpdateFlag, setDiscountPriceUpdateFlag] = useState(false)
+  // const handleProposedData = (e: any, id: number) => {
+  //   const sd = [...proposedPriceFromData]
+  //   if (e.target.value > data?.map((d: any) => d.price)[id]) {
+  //     console.log("from data ***", proposedPriceFromData[id])
+  //     setProposedPriceFromData(proposedPriceFromData)
+  //   } else {
+  //     sd[id] = e.target.value;
+  //     setProposedPriceFromData(sd)
+  //   }
+  //   setDiscountPriceUpdateFlag(!discountPriceUpdateFlag)
+  //   console.log("from data ***, proposed", proposedPriceFromData[id])
+  //   // setDiscountPrice(dis)
+  // }
+  // React.useEffect(() => { calculateDiscountPrice() }, [discountPriceUpdateFlag])
+  // const calculateDiscountPrice = () => {
+  //   const dis = data?.map((d: any, i: number) => (((d.price - proposedPriceFromData[i]) / d.price) * 100).toFixed(2))
+  //   setDiscountPrice(dis)
+  // }
+  const { discountPrice, handleProposedData, proposedPrice, proposedPriceFromData } = AccountPriceHook()
   return (
     <div>
       <TableContainer component={Paper}>
@@ -88,7 +90,7 @@ function AccountPriceTable({ }: Props): React.ReactElement {
                     handleChange={(e: any) => handleProposedData(e, idx)}
                   />
                 </StyledTableCell>
-                <StyledTableCell align="center">{discountPrice[idx]}</StyledTableCell>
+                <StyledTableCell align="center">{discountPrice && discountPrice[idx]}</StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>

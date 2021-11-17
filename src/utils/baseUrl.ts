@@ -29,6 +29,7 @@ export const updateAccountById = (id: string, body: any) => {
 
 export const getAllProducts = () => {
   return api.get('/product').then((res: any) => {
+    console.log("utils data sopw --->", res.data)
     return res.data;
   })
 }
