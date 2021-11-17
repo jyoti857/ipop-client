@@ -35,31 +35,18 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 interface Props { }
-function AccountPriceTable({ }: Props): React.ReactElement {
-  // const { data } = useQuery('getProducts', getAllProducts, { enabled: Boolean(true) });
-  // const [proposedPrice] = useState(data)
-  // const [proposedPriceFromData, setProposedPriceFromData] = useState(data && data.length > 0 ? data.map((d: any) => d.price) : [])
-  // const [discountPrice, setDiscountPrice] = useState(data?.map((d: any, i: number) => data.length > 0 && proposedPriceFromData.length > 0 ? (data[i].price - proposedPriceFromData[i]) * 0.01 : []))
-  // const [discountPriceUpdateFlag, setDiscountPriceUpdateFlag] = useState(false)
-  // const handleProposedData = (e: any, id: number) => {
-  //   const sd = [...proposedPriceFromData]
-  //   if (e.target.value > data?.map((d: any) => d.price)[id]) {
-  //     console.log("from data ***", proposedPriceFromData[id])
-  //     setProposedPriceFromData(proposedPriceFromData)
-  //   } else {
-  //     sd[id] = e.target.value;
-  //     setProposedPriceFromData(sd)
-  //   }
-  //   setDiscountPriceUpdateFlag(!discountPriceUpdateFlag)
-  //   console.log("from data ***, proposed", proposedPriceFromData[id])
-  //   // setDiscountPrice(dis)
-  // }
-  // React.useEffect(() => { calculateDiscountPrice() }, [discountPriceUpdateFlag])
-  // const calculateDiscountPrice = () => {
-  //   const dis = data?.map((d: any, i: number) => (((d.price - proposedPriceFromData[i]) / d.price) * 100).toFixed(2))
-  //   setDiscountPrice(dis)
-  // }
-  const { discountPrice, handleProposedData, proposedPrice, proposedPriceFromData } = AccountPriceHook()
+function AccountPriceTable({ }: Props): any {
+  const { isLoading, discountPrice, handleProposedData, proposedPrice, proposedPriceFromData } = AccountPriceHook()
+  const [flag, setFlag] = useState(false);
+  const [proposedPrice_, setProposedPrice_] = useState(proposedPrice);
+
+  React.useEffect(() => {
+    if (proposedPrice.length > 0) {
+      console.log("flag")
+      setProposedPrice_(proposedPrice)
+      setFlag(true)
+    }
+  }, [flag])
   return (
     <div>
       <TableContainer component={Paper}>
@@ -74,7 +61,7 @@ function AccountPriceTable({ }: Props): React.ReactElement {
             </TableRow>
           </TableHead>
           <TableBody>
-            {proposedPrice?.map((row: any, idx: number) => (
+            {proposedPrice_ && proposedPrice_.length > 0 && proposedPrice_.map((row: any, idx: number) => (
               <StyledTableRow key={row.catalog}>
                 <StyledTableCell component="th" scope="row">
                   {row.name}
