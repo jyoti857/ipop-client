@@ -18,7 +18,7 @@ function CustomModal({ open, handleClose, children, modalName, footerButtonName,
   const classes = useStyles(theme);
   return (
     <div
-      style={{ ...styles, position: 'relative', }}
+      style={{ ...styles, position: 'relative' }}
     >
       <Modal
         open={open}
@@ -26,7 +26,7 @@ function CustomModal({ open, handleClose, children, modalName, footerButtonName,
       >
         <Box sx={classes}>
           <div style={{ position: 'fixed', display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', top: 0, left: 0 }}>
-            <div style={{ height: 20, fontWeight: 600, top: 20, marginLeft: 20 }}>{modalName}</div>
+            <div style={{ maxHeight: 20, fontWeight: 600, top: 20, marginLeft: 20 }}>{modalName}</div>
             <IconButton
               onClick={() => handleClose(false)}
             // style={{ position: 'absolute', top: 6, right: 10 }}
@@ -34,7 +34,7 @@ function CustomModal({ open, handleClose, children, modalName, footerButtonName,
               <CloseOutlined />
             </IconButton>
           </div>
-          <div style={{ overflow: 'scroll', maxHeight: 300, maxWidth: 800, padding: 10 }}>
+          <div style={{ ...styles, overflow: 'scroll', minHeight: 100, maxHeight: 300, maxWidth: 800, padding: 10 }}>
             {children}
           </div>
           {
