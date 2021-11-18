@@ -11,10 +11,11 @@ interface Props {
   children: ReactElement;
   modalName?: string;
   styles?: any;
-  footerButtonName?: string
+  footerButtonName?: string;
+  onSubmit?: any;
 }
 
-function CustomModal({ open, handleClose, children, modalName, footerButtonName, styles }: Props): ReactElement {
+function CustomModal({ open, handleClose, children, modalName, footerButtonName, styles, onSubmit }: Props): ReactElement {
   const classes = useStyles(theme);
   return (
     <div
@@ -38,7 +39,12 @@ function CustomModal({ open, handleClose, children, modalName, footerButtonName,
             {children}
           </div>
           {
-            footerButtonName && <Button color='primary' variant='outlined' style={{ position: 'absolute', bottom: 10, right: 10 }}>{footerButtonName}</Button>
+            footerButtonName && <Button
+              onClick={onSubmit}
+              color='primary'
+              type='submit'
+              variant='outlined'
+              style={{ position: 'absolute', bottom: 10, right: 10 }}>{footerButtonName}</Button>
           }
         </Box>
         {/* <div className={classes.footer}> </div> */}

@@ -45,3 +45,9 @@ export const updateProductById = (id: string, body: any) => {
     return res.data;
   })
 }
+
+export const createAccountPrice = ( {id, ...body}: any) => {
+  return api.post(`/account-price/${id}`, {...body}).then((res: any) => {
+    return res.data;
+  })
+}

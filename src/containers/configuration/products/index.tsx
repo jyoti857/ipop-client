@@ -56,23 +56,17 @@ function Products(): ReactElement {
   useEffect(() => {
     setModifiedProduct(data)
   }, [data])
-  // useEffect(() => {
-  //   setModifiedProduct(data)
-  // }, [editProduct])
   const handleModifyProduct = (e: any, id: string) => {
     e.preventDefault();
-    console.log("modified product **8  ---> ", modifiedProduct, data)
     const modifiedProductCopy = [...modifiedProduct]
     const productIndex = modifiedProductCopy.findIndex((mpc: any) => mpc._id === id)
     const selectedProduct = { ...modifiedProductCopy[productIndex] }
     const name = e.target.getAttribute('name');
     const value = e.target.value;
     selectedProduct[name] = value;
-    console.log("******************* ---> ", selectedProduct, name, value, selectedProduct)
     modifiedProductCopy.splice(productIndex, 1, selectedProduct)
     setModifiedProduct(modifiedProductCopy);
     setSelectedRowId('')
-    // setModifiedProduct([...modifiedProductCopy, selectedProduct])
   }
   const handleModalOpen = () => {
     setOpen(true)
