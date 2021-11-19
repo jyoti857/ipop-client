@@ -36,10 +36,11 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 interface Props {
   proposedPrice: any;
-  handleProposedData: any;
+  handleProposedData?: any;
   proposedPriceFromData: any;
+  proposedPriceType?: boolean
 }
-function AccountPriceTable({ proposedPrice, handleProposedData, proposedPriceFromData }: Props): any {
+function AccountPriceTable({ proposedPrice, handleProposedData, proposedPriceFromData, proposedPriceType = false }: Props): any {
   const { isLoading, discountPrice } = AccountPriceHook()
   const [flag, setFlag] = useState(false);
   const [proposedPrice_, setProposedPrice_] = useState(proposedPrice);
@@ -73,13 +74,13 @@ function AccountPriceTable({ proposedPrice, handleProposedData, proposedPriceFro
                 <StyledTableCell align="left">{row.name}</StyledTableCell>
                 <StyledTableCell align="left">{row.price}</StyledTableCell>
                 <StyledTableCell align="left">
-                  <CustomInput
+                  {proposedPriceType ? proposedPriceFromData[idx] : <CustomInput
                     value={proposedPriceFromData[idx]}
                     placeholder=''
                     type='number'
                     name='price'
                     handleChange={(e: any) => handleProposedData(e, idx)}
-                  />
+                  />}
                 </StyledTableCell>
                 <StyledTableCell align="center">{discountPrice && discountPrice[idx]}</StyledTableCell>
               </StyledTableRow>

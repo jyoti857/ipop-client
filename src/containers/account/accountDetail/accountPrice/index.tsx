@@ -10,6 +10,7 @@ import { useMutation, useQuery } from 'react-query'
 import { createAccountPrice } from '../../../../utils/baseUrl';
 import { useParams } from 'react-router-dom'
 import { AccountPriceHook } from './accountPriceHook';
+import CustomizedAccordions from '../../../../components/accordion';
 interface Props {
 
 }
@@ -28,11 +29,7 @@ function AccountPrice({ }: Props): ReactElement {
   const handleAccountPriceSubmit = (event: any) => {
     console.log("account-price-quote ", typeof event, priceTitle, startDate, endDate, proposedPrice)
     mutation.mutateAsync({ id: accountId, title: priceTitle, startDate, endDate, proposedPrice: accountPrices })
-    if (priceTitle) {
-
-      handleClose()
-
-    }
+    priceTitle && handleClose()
   }
   useEffect(() => {
     setProposedPrice(pp)
@@ -85,6 +82,7 @@ function AccountPrice({ }: Props): ReactElement {
           </div>
           <div className={classes.centerLine}>No price list found for this account!</div>
         </div>
+        <CustomizedAccordions proposedPrice={proposedPrice} proposedPriceFromData={proposedPriceFromData} />
       </Paper>
       <CustomModal handleClose={handleClose} open={open} modalName='Account Price' footerButtonName='Submit for approval' styles={{ minWidth: 1000 }} onSubmit={handleAccountPriceSubmit}>
         <div>

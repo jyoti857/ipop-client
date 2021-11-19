@@ -51,3 +51,10 @@ export const createAccountPrice = ( {id, ...body}: any) => {
     return res.data;
   })
 }
+
+export const getAllAccountPricesByAccountId = (id: string) => {
+  return api.get('/account-price/${id}').then((res: any) => {
+    console.log("utils account prices by account id --->", res.data)
+    return res.data;
+  })
+}
