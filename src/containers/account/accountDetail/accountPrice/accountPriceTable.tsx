@@ -36,9 +36,11 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 interface Props {
   proposedPrice: any;
+  handleProposedData: any;
+  proposedPriceFromData: any;
 }
-function AccountPriceTable({ proposedPrice }: Props): any {
-  const { isLoading, discountPrice, handleProposedData, proposedPriceFromData } = AccountPriceHook()
+function AccountPriceTable({ proposedPrice, handleProposedData, proposedPriceFromData }: Props): any {
+  const { isLoading, discountPrice } = AccountPriceHook()
   const [flag, setFlag] = useState(false);
   const [proposedPrice_, setProposedPrice_] = useState(proposedPrice);
   console.log("account price table 0000---> ", proposedPriceFromData)

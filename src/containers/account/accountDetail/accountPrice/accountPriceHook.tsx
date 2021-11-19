@@ -33,6 +33,6 @@ export const AccountPriceHook = () => {
     setProposedPrice(data)
   }, [isLoading])
   return {
-    isLoading, discountPrice, handleProposedData, proposedPrice, proposedPriceFromData
+    data, isLoading, discountPrice, handleProposedData, proposedPrice, proposedPriceFromData
   }
 }

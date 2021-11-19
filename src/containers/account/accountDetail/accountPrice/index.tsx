@@ -18,9 +18,9 @@ function AccountPrice({ }: Props): ReactElement {
   const classes = useStyles();
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState('')
-  const { proposedPrice: pp, proposedPriceFromData: ppfd, handleProposedData } = AccountPriceHook()
-  const [proposedPrice, setProposedPrice] = useState(ppfd)
-  const [proposedPriceFromData, setProposedPriceFromData] = useState('')
+  const { data, proposedPrice: pp, proposedPriceFromData: ppfd } = AccountPriceHook()
+  const [proposedPrice, setProposedPrice] = useState(pp)
+  const [proposedPriceFromData, setProposedPriceFromData] = useState<any[]>(ppfd)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
   const { accountId } = useParams<{ accountId: string }>();
@@ -32,12 +32,25 @@ function AccountPrice({ }: Props): ReactElement {
   useEffect(() => {
     setProposedPrice(pp)
     setProposedPriceFromData(ppfd)
-  }, [pp, ppfd, handleProposedData])
+  }, [ppfd])
   console.log("bandira ---> ", proposedPrice, proposedPriceFromData)
   // const accountPrices = proposedPrice.map((p: any) => ({
   //   ...p,
   //   // proposedPrice: 
   // }))
+  const handleProposedData = (e: any, id: number) => {
+    const sd: any[] = [...proposedPriceFromData]
+    if (e.target.value > data?.map((d: any) => d.price)[id]) {
+      console.log("from data ***", proposedPriceFromData[id])
+      setProposedPriceFromData(proposedPriceFromData)
+    } else {
+      sd[id] = e.target.value;
+      setProposedPriceFromData(sd)
+    }
+    // setDiscountPriceUpdateFlag(!discountPriceUpdateFlag)
+    console.log("from data ***, proposed", proposedPriceFromData)
+    // setDiscountPrice(dis)
+  }
   const { handleBlur, handleChange, values: { endDate, startDate, priceTitle } } = CustomAccountPriceQuoteFormik({ onsubmit: handleAccountPriceSubmit })
   return (
     <div>
@@ -83,7 +96,7 @@ function AccountPrice({ }: Props): ReactElement {
               <CustomInput value={endDate} handleChange={handleChange} name='endDate' type='text' placeholder='End Date' style={{ width: '100%' }} />
             </div>
           </div>
-          {proposedPrice ? <AccountPriceTable proposedPrice={proposedPrice} /> : 'loading'}
+          {proposedPrice && proposedPriceFromData?.length > 0 ? <AccountPriceTable proposedPrice={proposedPrice} proposedPriceFromData={proposedPriceFromData} handleProposedData={handleProposedData} /> : 'loading'}
         </div>
       </CustomModal>
     </div>
