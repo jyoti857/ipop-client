@@ -35,12 +35,13 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 interface Props {
+  proposedPrice: any;
 }
-function AccountPriceTable({ }: Props): any {
-  const { isLoading, discountPrice, handleProposedData, proposedPrice, proposedPriceFromData } = AccountPriceHook()
+function AccountPriceTable({ proposedPrice }: Props): any {
+  const { isLoading, discountPrice, handleProposedData, proposedPriceFromData } = AccountPriceHook()
   const [flag, setFlag] = useState(false);
   const [proposedPrice_, setProposedPrice_] = useState(proposedPrice);
-
+  console.log("account price table 0000---> ", proposedPriceFromData)
   React.useEffect(() => {
     if (proposedPrice.length > 0) {
       console.log("flag")

@@ -1,5 +1,5 @@
 import { Button, Paper } from '@mui/material';
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { FaFileInvoiceDollar } from 'react-icons/fa';
 import CustomInput from '../../../../components/input/CustomInput';
 import CustomModal from '../../../../components/modal';
@@ -9,6 +9,7 @@ import CustomAccountPriceQuoteFormik from '../accountPriceQuoteFormik';
 import { useMutation, useQuery } from 'react-query'
 import { createAccountPrice } from '../../../../utils/baseUrl';
 import { useParams } from 'react-router-dom'
+import { AccountPriceHook } from './accountPriceHook';
 interface Props {
 
 }
@@ -17,15 +18,26 @@ function AccountPrice({ }: Props): ReactElement {
   const classes = useStyles();
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState('')
+  const { proposedPrice: pp, proposedPriceFromData: ppfd, handleProposedData } = AccountPriceHook()
+  const [proposedPrice, setProposedPrice] = useState(ppfd)
+  const [proposedPriceFromData, setProposedPriceFromData] = useState('')
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
   const { accountId } = useParams<{ accountId: string }>();
   const mutation = useMutation(createAccountPrice)
   const handleAccountPriceSubmit = (event: any) => {
-    console.log("account-price-quote ", typeof event, priceTitle, startDate, endDate)
-    mutation.mutateAsync({ id: accountId, priceTitle, startDate, endDate })
+    console.log("account-price-quote ", typeof event, priceTitle, startDate, endDate, proposedPrice)
+    mutation.mutateAsync({ id: accountId, title: priceTitle, startDate, endDate, proposedPrice })
   }
-
+  useEffect(() => {
+    setProposedPrice(pp)
+    setProposedPriceFromData(ppfd)
+  }, [pp, ppfd, handleProposedData])
+  console.log("bandira ---> ", proposedPrice, proposedPriceFromData)
+  // const accountPrices = proposedPrice.map((p: any) => ({
+  //   ...p,
+  //   // proposedPrice: 
+  // }))
   const { handleBlur, handleChange, values: { endDate, startDate, priceTitle } } = CustomAccountPriceQuoteFormik({ onsubmit: handleAccountPriceSubmit })
   return (
     <div>
@@ -71,7 +83,7 @@ function AccountPrice({ }: Props): ReactElement {
               <CustomInput value={endDate} handleChange={handleChange} name='endDate' type='text' placeholder='End Date' style={{ width: '100%' }} />
             </div>
           </div>
-          <AccountPriceTable />
+          {proposedPrice ? <AccountPriceTable proposedPrice={proposedPrice} /> : 'loading'}
         </div>
       </CustomModal>
     </div>

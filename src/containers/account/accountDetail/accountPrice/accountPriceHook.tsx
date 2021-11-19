@@ -20,7 +20,7 @@ export const AccountPriceHook = () => {
       setProposedPriceFromData(sd)
     }
     setDiscountPriceUpdateFlag(!discountPriceUpdateFlag)
-    console.log("from data ***, proposed", proposedPriceFromData[id])
+    console.log("from data ***, proposed", proposedPriceFromData)
     // setDiscountPrice(dis)
   }
   React.useEffect(() => { calculateDiscountPrice() }, [discountPriceUpdateFlag])

@@ -57,7 +57,7 @@ function Quotes({ }: Props): ReactElement {
               <CustomInput value={search} name='search' type='text' placeholder='End Date' style={{ width: '100%' }} />
             </div>
           </div>
-          <AccountPriceTable />
+          {/* <AccountPriceTable /> */}
         </div>
       </CustomModal>
     </div>
