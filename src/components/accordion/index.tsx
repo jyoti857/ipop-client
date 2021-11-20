@@ -52,9 +52,10 @@ interface CustomizedAccordionsProps {
   handleProposedData?: any;
   proposedPriceFromData: any;
   allAccountPricesCreated: any[];
+  discountPrice: any[];
 }
 export default function CustomizedAccordions(
-  { proposedPrice, proposedPriceFromData, allAccountPricesCreated }: CustomizedAccordionsProps) {
+  { discountPrice, proposedPrice, proposedPriceFromData, allAccountPricesCreated }: CustomizedAccordionsProps) {
   const [expanded, setExpanded] = React.useState<string | false>(false);
 
   const handleChange =
@@ -67,6 +68,7 @@ export default function CustomizedAccordions(
       {
         allAccountPricesCreated?.map((aacpc: any, idx: number) => {
           const prices = aacpc.productWithPrice.map((a: any) => a.proposedPrice)
+          const discountPrices = aacpc.productWithPrice.map((a: any) => a.discountPrice)
           return (
             <div style={{ minHeight: `panel${idx + 1}` === expanded ? 500 : '', marginBottom: 12 }}>
               <Accordion expanded={expanded === `panel${idx + 1}`} onChange={handleChange(`panel${idx + 1}`)}>
@@ -74,7 +76,7 @@ export default function CustomizedAccordions(
                   <Typography> {aacpc.title} created Date: <span style={{ color: 'blue', fontSize: 12 }}>{new Date().toISOString().split("T")[0]}</span></Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <AccountPriceTable proposedPriceType={true} proposedPrice={proposedPrice} proposedPriceFromData={prices} />
+                  <AccountPriceTable proposedPriceType={true} discountPrice={discountPrices} proposedPrice={proposedPrice} proposedPriceFromData={prices} />
                 </AccordionDetails>
                 <Button>Approve</Button>
                 <Button>Reject</Button>
@@ -84,6 +86,5 @@ export default function CustomizedAccordions(
         })
       }
     </div>
-
   );
 }

@@ -45,7 +45,7 @@ function AccountPriceTable({ discountPrice, proposedPrice, handleProposedData, p
   const { isLoading } = AccountPriceHook()
   const [flag, setFlag] = useState(false);
   const [proposedPrice_, setProposedPrice_] = useState(proposedPrice);
-  console.log("account price table 0000---> ", proposedPriceFromData)
+  console.log("account price table 0000---> ", discountPrice, proposedPriceFromData)
   React.useEffect(() => {
     if (proposedPrice.length > 0) {
       console.log("flag")

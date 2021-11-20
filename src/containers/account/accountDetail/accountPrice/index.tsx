@@ -40,7 +40,8 @@ function AccountPrice({ }: Props): ReactElement {
   }, [ppfd])
   const accountPrices = proposedPrice.map((p: any, idx: number) => ({
     ...p,
-    proposedPrice: proposedPriceFromData[idx]
+    proposedPrice: proposedPriceFromData[idx],
+    discountPrice: discountPrice[idx]
   }))
   console.log("bandira ---> ", accountPrices, proposedPrice, proposedPriceFromData)
   console.log("mand  ---> ", allAccountPricesCreated)
@@ -62,7 +63,7 @@ function AccountPrice({ }: Props): ReactElement {
     const dis = data?.map((d: any, i: number) => (((d.price - proposedPriceFromData[i]) / d.price) * 100).toFixed(2))
     setDiscountPrice(dis)
   }
-  console.log("from data ***, proposed", proposedPriceFromData)
+  console.log("from data ***, proposed", discountPrice, proposedPriceFromData)
   const { handleBlur, handleChange, values: { endDate, startDate, priceTitle } } = CustomAccountPriceQuoteFormik({ onsubmit: handleAccountPriceSubmit })
   return (
     <div>
@@ -84,7 +85,7 @@ function AccountPrice({ }: Props): ReactElement {
           <CustomInput value='search' name='search' type='text' placeholder='search' style={{ width: '20%', position: 'absolute', top: 8, right: 150 }} />
         </div>
         {
-          !allAccountPricesCreated ? <div>
+          allAccountPricesCreated.length === 0 ? <div>
           <div
             className={classes.fileIcon}
           >
@@ -93,7 +94,7 @@ function AccountPrice({ }: Props): ReactElement {
           <div className={classes.centerLine}>No price list found for this account!</div>
           </div> :
             <div style={{ marginTop: 12, left: -160, top: 40, position: 'relative', paddingBottom: 60 }}>
-              <CustomizedAccordions proposedPrice={proposedPrice} allAccountPricesCreated={allAccountPricesCreated} proposedPriceFromData={proposedPriceFromData} />
+              <CustomizedAccordions discountPrice={discountPrice} proposedPrice={proposedPrice} allAccountPricesCreated={allAccountPricesCreated} proposedPriceFromData={proposedPriceFromData} />
             </div>
         }
       </Paper>
