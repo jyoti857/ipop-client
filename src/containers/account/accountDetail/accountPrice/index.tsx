@@ -7,7 +7,7 @@ import { useStyles } from './styles';
 import AccountPriceTable from './accountPriceTable'
 import CustomAccountPriceQuoteFormik from '../accountPriceQuoteFormik';
 import { useMutation, useQuery } from 'react-query'
-import { createAccountPrice } from '../../../../utils/baseUrl';
+import { createAccountPrice, getAllAccountPricesByAccountId } from '../../../../utils/baseUrl';
 import { useParams } from 'react-router-dom'
 import { AccountPriceHook } from './accountPriceHook';
 import CustomizedAccordions from '../../../../components/accordion';
@@ -25,6 +25,7 @@ function AccountPrice({ }: Props): ReactElement {
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
   const { accountId } = useParams<{ accountId: string }>();
+  const { data: allAccountPricesCreated } = useQuery('getAllAccountPrices', () => getAllAccountPricesByAccountId(accountId))
   const mutation = useMutation(createAccountPrice)
   const handleAccountPriceSubmit = (event: any) => {
     console.log("account-price-quote ", typeof event, priceTitle, startDate, endDate, proposedPrice)
@@ -40,7 +41,7 @@ function AccountPrice({ }: Props): ReactElement {
     ...p,
     proposedPrice: proposedPriceFromData[idx]
   }))
-  console.log("mand  ---> ", accountPrices)
+  console.log("mand  ---> ", allAccountPricesCreated)
   const handleProposedData = (e: any, id: number) => {
     const sd: any[] = [...proposedPriceFromData]
     if (e.target.value > data?.map((d: any) => d.price)[id]) {
@@ -54,6 +55,7 @@ function AccountPrice({ }: Props): ReactElement {
     console.log("from data ***, proposed", proposedPriceFromData)
     // setDiscountPrice(dis)
   }
+  console.log("from data ***, proposed", proposedPriceFromData)
   const { handleBlur, handleChange, values: { endDate, startDate, priceTitle } } = CustomAccountPriceQuoteFormik({ onsubmit: handleAccountPriceSubmit })
   return (
     <div>
@@ -74,15 +76,17 @@ function AccountPrice({ }: Props): ReactElement {
           >Sync</Button>
           <CustomInput value='search' name='search' type='text' placeholder='search' style={{ width: '20%', position: 'absolute', top: 8, right: 150 }} />
         </div>
-        <div>
+        {
+          !allAccountPricesCreated ? <div>
           <div
             className={classes.fileIcon}
           >
             <FaFileInvoiceDollar />
           </div>
           <div className={classes.centerLine}>No price list found for this account!</div>
-        </div>
-        <CustomizedAccordions proposedPrice={proposedPrice} proposedPriceFromData={proposedPriceFromData} />
+          </div> :
+            <CustomizedAccordions proposedPrice={proposedPrice} allAccountPricesCreated={allAccountPricesCreated} proposedPriceFromData={proposedPriceFromData} />
+        }
       </Paper>
       <CustomModal handleClose={handleClose} open={open} modalName='Account Price' footerButtonName='Submit for approval' styles={{ minWidth: 1000 }} onSubmit={handleAccountPriceSubmit}>
         <div>

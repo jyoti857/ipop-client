@@ -9,6 +9,7 @@ import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import AccountTable from '../../containers/account/AccountTable';
 import AccountPriceTable from '../../containers/account/accountDetail/accountPrice/accountPriceTable';
+import { Button } from '@mui/material';
 
 const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={7} square {...props} />
@@ -50,26 +51,39 @@ interface CustomizedAccordionsProps {
   proposedPrice: any;
   handleProposedData?: any;
   proposedPriceFromData: any;
+  allAccountPricesCreated: any[];
 }
 export default function CustomizedAccordions(
-  { proposedPrice, proposedPriceFromData }: CustomizedAccordionsProps) {
-  const [expanded, setExpanded] = React.useState<string | false>('panel1');
+  { proposedPrice, proposedPriceFromData, allAccountPricesCreated }: CustomizedAccordionsProps) {
+  const [expanded, setExpanded] = React.useState<string | false>(false);
 
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
     };
-
+  console.log("acttt ", proposedPrice, allAccountPricesCreated[0])
   return (
-    <div style={{ display: 'flex', alignItems: 'center', maxHeight: 122 }}>
-      <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
-        <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-          <Typography>Collapsible Group Item #1</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <AccountPriceTable proposedPrice={proposedPrice} proposedPriceFromData={proposedPriceFromData} />
-        </AccordionDetails>
-      </Accordion>
+    <div style={{ display: 'block' }}>
+      {
+        allAccountPricesCreated?.map((aacpc: any, idx: number) => {
+          const prices = aacpc.proposedPrice.map((a: any) => a.price)
+          return (
+            <div style={{ minHeight: `panel${idx + 1}` === expanded ? 500 : '' }}>
+              <Accordion expanded={expanded === `panel${idx + 1}`} onChange={handleChange(`panel${idx + 1}`)}>
+                <AccordionSummary aria-controls="panel1d-content" id={`panel${idx + 1}d-header`}>
+                  <Typography>Collapsible Group Item #{idx + 1}</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <AccountPriceTable proposedPriceType={true} proposedPrice={proposedPrice} proposedPriceFromData={prices} />
+                </AccordionDetails>
+                <Button>Approve</Button>
+                <Button>Reject</Button>
+              </Accordion>
+            </div>
+          )
+        })
+      }
     </div>
+
   );
 }
