@@ -85,7 +85,9 @@ function AccountPrice({ }: Props): ReactElement {
           </div>
           <div className={classes.centerLine}>No price list found for this account!</div>
           </div> :
+            <div style={{ marginTop: 12, left: -160, top: 40, position: 'relative' }}>
             <CustomizedAccordions proposedPrice={proposedPrice} allAccountPricesCreated={allAccountPricesCreated} proposedPriceFromData={proposedPriceFromData} />
+            </div>
         }
       </Paper>
       <CustomModal handleClose={handleClose} open={open} modalName='Account Price' footerButtonName='Submit for approval' styles={{ minWidth: 1000 }} onSubmit={handleAccountPriceSubmit}>
