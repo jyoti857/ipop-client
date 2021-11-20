@@ -21,6 +21,8 @@ function AccountPrice({ }: Props): ReactElement {
   const [search, setSearch] = useState('')
   const { data, proposedPrice: pp, proposedPriceFromData: ppfd } = AccountPriceHook()
   const [proposedPrice, setProposedPrice] = useState(pp)
+  const [discountPrice, setDiscountPrice] = useState([])
+  const [discountPriceUpdateFlag, setDiscountPriceUpdateFlag] = useState(false)
   const [proposedPriceFromData, setProposedPriceFromData] = useState<any[]>(ppfd)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
@@ -51,9 +53,14 @@ function AccountPrice({ }: Props): ReactElement {
       sd[id] = e.target.value;
       setProposedPriceFromData(sd)
     }
-    // setDiscountPriceUpdateFlag(!discountPriceUpdateFlag)
+    setDiscountPriceUpdateFlag(!discountPriceUpdateFlag)
     console.log("from data ***, proposed", proposedPriceFromData)
     // setDiscountPrice(dis)
+  }
+  useEffect(() => { calculateDiscountPrice() }, [discountPriceUpdateFlag])
+  const calculateDiscountPrice = () => {
+    const dis = data?.map((d: any, i: number) => (((d.price - proposedPriceFromData[i]) / d.price) * 100).toFixed(2))
+    setDiscountPrice(dis)
   }
   console.log("from data ***, proposed", proposedPriceFromData)
   const { handleBlur, handleChange, values: { endDate, startDate, priceTitle } } = CustomAccountPriceQuoteFormik({ onsubmit: handleAccountPriceSubmit })
@@ -106,7 +113,7 @@ function AccountPrice({ }: Props): ReactElement {
               <CustomInput value={endDate} handleChange={handleChange} name='endDate' type='text' placeholder='End Date' style={{ width: '100%' }} />
             </div>
           </div>
-          {proposedPrice && proposedPriceFromData?.length > 0 ? <AccountPriceTable proposedPrice={proposedPrice} proposedPriceFromData={proposedPriceFromData} handleProposedData={handleProposedData} /> : 'loading'}
+          {proposedPrice && proposedPriceFromData?.length > 0 ? <AccountPriceTable discountPrice={discountPrice} proposedPrice={proposedPrice} proposedPriceFromData={proposedPriceFromData} handleProposedData={handleProposedData} /> : 'loading'}
         </div>
       </CustomModal>
     </div>

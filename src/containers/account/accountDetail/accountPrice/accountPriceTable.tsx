@@ -38,10 +38,11 @@ interface Props {
   proposedPrice: any;
   handleProposedData?: any;
   proposedPriceFromData: any;
-  proposedPriceType?: boolean
+  proposedPriceType?: boolean;
+  discountPrice?: any;
 }
-function AccountPriceTable({ proposedPrice, handleProposedData, proposedPriceFromData, proposedPriceType = false }: Props): any {
-  const { isLoading, discountPrice } = AccountPriceHook()
+function AccountPriceTable({ discountPrice, proposedPrice, handleProposedData, proposedPriceFromData, proposedPriceType = false }: Props): any {
+  const { isLoading } = AccountPriceHook()
   const [flag, setFlag] = useState(false);
   const [proposedPrice_, setProposedPrice_] = useState(proposedPrice);
   console.log("account price table 0000---> ", proposedPriceFromData)
