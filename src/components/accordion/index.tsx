@@ -66,7 +66,7 @@ export default function CustomizedAccordions(
     <div style={{ display: 'block' }}>
       {
         allAccountPricesCreated?.map((aacpc: any, idx: number) => {
-          const prices = aacpc.proposedPrice.map((a: any) => a.price)
+          const prices = aacpc.productWithPrice.map((a: any) => a.proposedPrice)
           return (
             <div style={{ minHeight: `panel${idx + 1}` === expanded ? 500 : '', marginBottom: 12 }}>
               <Accordion expanded={expanded === `panel${idx + 1}`} onChange={handleChange(`panel${idx + 1}`)}>

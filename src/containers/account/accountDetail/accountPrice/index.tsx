@@ -29,18 +29,18 @@ function AccountPrice({ }: Props): ReactElement {
   const mutation = useMutation(createAccountPrice)
   const handleAccountPriceSubmit = (event: any) => {
     console.log("account-price-quote ", typeof event, priceTitle, startDate, endDate, proposedPrice)
-    mutation.mutateAsync({ id: accountId, title: priceTitle, startDate, endDate, proposedPrice: accountPrices })
+    mutation.mutateAsync({ id: accountId, title: priceTitle, startDate, endDate, productWithPrice: accountPrices })
     priceTitle && handleClose()
   }
   useEffect(() => {
     setProposedPrice(pp)
     setProposedPriceFromData(ppfd)
   }, [ppfd])
-  console.log("bandira ---> ", proposedPrice, proposedPriceFromData)
   const accountPrices = proposedPrice.map((p: any, idx: number) => ({
     ...p,
     proposedPrice: proposedPriceFromData[idx]
   }))
+  console.log("bandira ---> ", accountPrices, proposedPrice, proposedPriceFromData)
   console.log("mand  ---> ", allAccountPricesCreated)
   const handleProposedData = (e: any, id: number) => {
     const sd: any[] = [...proposedPriceFromData]
