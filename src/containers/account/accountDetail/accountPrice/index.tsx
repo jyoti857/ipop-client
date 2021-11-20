@@ -9,8 +9,11 @@ import CustomAccountPriceQuoteFormik from '../accountPriceQuoteFormik';
 import { useMutation, useQuery } from 'react-query'
 import { createAccountPrice, getAllAccountPricesByAccountId } from '../../../../utils/baseUrl';
 import { useParams } from 'react-router-dom'
+import CustomizedRadios from '../../../../components/radio-button';
 import { AccountPriceHook } from './accountPriceHook';
 import CustomizedAccordions from '../../../../components/accordion';
+import { Label } from '@mui/icons-material';
+import CustomDropdown from '../../../../components/dropdown';
 interface Props {
 
 }
@@ -20,14 +23,14 @@ function AccountPrice({ }: Props): ReactElement {
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState('')
   const { data, proposedPrice: pp, proposedPriceFromData: ppfd } = AccountPriceHook()
-  const [proposedPrice, setProposedPrice] = useState(pp)
+  const [proposedPrice, setProposedPrice] = useState(pp ? pp : [])
   const [discountPrice, setDiscountPrice] = useState([])
   const [discountPriceUpdateFlag, setDiscountPriceUpdateFlag] = useState(false)
   const [proposedPriceFromData, setProposedPriceFromData] = useState<any[]>(ppfd)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
   const { accountId } = useParams<{ accountId: string }>();
-  const { data: allAccountPricesCreated } = useQuery('getAllAccountPrices', () => getAllAccountPricesByAccountId(accountId))
+  const { data: allAccountPricesCreated, isLoading } = useQuery('getAllAccountPrices', () => getAllAccountPricesByAccountId(accountId))
   const mutation = useMutation(createAccountPrice)
   const handleAccountPriceSubmit = (event: any) => {
     console.log("account-price-quote ", typeof event, priceTitle, startDate, endDate, proposedPrice)
@@ -65,6 +68,13 @@ function AccountPrice({ }: Props): ReactElement {
   }
   console.log("from data ***, proposed", discountPrice, proposedPriceFromData)
   const { handleBlur, handleChange, values: { endDate, startDate, priceTitle } } = CustomAccountPriceQuoteFormik({ onsubmit: handleAccountPriceSubmit })
+
+  // radion button setup
+  const [radioValue, setRadioValue] = useState("Matrix Pricing")
+  const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRadioValue((event.target as HTMLInputElement).value);
+  };
+
   return (
     <div>
       <Paper className={classes.root}>
@@ -85,7 +95,7 @@ function AccountPrice({ }: Props): ReactElement {
           <CustomInput value='search' name='search' type='text' placeholder='search' style={{ width: '20%', position: 'absolute', top: 8, right: 150 }} />
         </div>
         {
-          allAccountPricesCreated.length === 0 ? <div>
+          isLoading ? <div>
           <div
             className={classes.fileIcon}
           >
@@ -101,9 +111,21 @@ function AccountPrice({ }: Props): ReactElement {
       <CustomModal handleClose={handleClose} open={open} modalName='Account Price' footerButtonName='Submit for approval' styles={{ minWidth: 1000 }} onSubmit={handleAccountPriceSubmit}>
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', margin: 12 }}>
-            <div style={{ display: 'flex' }}>Price list type</div>
+            <div style={{ display: 'flex' }}>
+              {/* Price list type */}
+              <CustomizedRadios radioValue={radioValue} handleChange={handleRadioChange} title="Price List" options={[{ label: "Matrix Pricing", value: "Matrix Pricing" }, { label: "Pre approved pricing (IDN contracts, 1124)", value: "Pre approved pricing (IDN contracts, 1124)" }]} />
+            </div>
             <div style={{ width: '49%' }}>
               <CustomInput value={priceTitle} handleChange={handleChange} name='priceTitle' type='text' placeholder='Price list title' style={{ width: '100%' }} />
+
+              {
+                radioValue === 'Matrix Pricing' ? '' :
+                  <CustomDropdown
+                    data={[{ desc: "occasion 1", value: "occasion_1_value" }, { desc: "occasion 2", value: "occasion_2_value" }]}
+                    name='discount-group'
+                    value='occasion_1_value'
+                  />
+              }
             </div>
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', margin: 12 }}>

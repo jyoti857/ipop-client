@@ -73,7 +73,8 @@ export default function CustomizedAccordions(
             <div style={{ minHeight: `panel${idx + 1}` === expanded ? 500 : '', marginBottom: 12 }}>
               <Accordion expanded={expanded === `panel${idx + 1}`} onChange={handleChange(`panel${idx + 1}`)}>
                 <AccordionSummary aria-controls="panel1d-content" id={`panel${idx + 1}d-header`}>
-                  <Typography> {aacpc.title} created Date: <span style={{ color: 'blue', fontSize: 12 }}>{new Date().toISOString().split("T")[0]}</span></Typography>
+                  <Typography >
+                    {aacpc.title} created Date: <span style={{ color: 'blue', fontSize: 12 }}>{new Date().toISOString().split("T")[0]}</span><span style={{ backgroundColor: 'blue', color: 'white', borderRadius: 12, padding: 4, fontSize: 12, marginLeft: 12 }}>{aacpc.status}</span></Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                   <AccountPriceTable proposedPriceType={true} discountPrice={discountPrices} proposedPrice={proposedPrice} proposedPriceFromData={prices} />

@@ -8,7 +8,7 @@ export const useStyles = makeStyles({
     marginTop: 9,
   },
   formControl: {
-    width: 212,
+    width: '100%',
     lineHeight: 12,
   }
 });

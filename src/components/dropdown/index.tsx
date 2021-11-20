@@ -11,7 +11,7 @@ type DropdownType = {
 interface Props {
   data: DropdownType[];
   value: string;
-  handleChange: any;
+  handleChange?: any;
   name: string;
   classNames?: any;
 }
