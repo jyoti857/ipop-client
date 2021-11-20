@@ -18,7 +18,7 @@ const Accordion = styled((props: AccordionProps) => (
   '&:not(:last-child)': {
     borderBottom: 0,
   },
-  height: '50px',
+  height: '48px',
   '&:before': {
     display: 'none',
   },
@@ -68,10 +68,10 @@ export default function CustomizedAccordions(
         allAccountPricesCreated?.map((aacpc: any, idx: number) => {
           const prices = aacpc.proposedPrice.map((a: any) => a.price)
           return (
-            <div style={{ minHeight: `panel${idx + 1}` === expanded ? 500 : '' }}>
+            <div style={{ minHeight: `panel${idx + 1}` === expanded ? 500 : '', marginBottom: 12 }}>
               <Accordion expanded={expanded === `panel${idx + 1}`} onChange={handleChange(`panel${idx + 1}`)}>
                 <AccordionSummary aria-controls="panel1d-content" id={`panel${idx + 1}d-header`}>
-                  <Typography>Collapsible Group Item #{idx + 1}</Typography>
+                  <Typography> {aacpc.title} created Date: <span style={{ color: 'blue', fontSize: 12 }}>{new Date().toISOString().split("T")[0]}</span></Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                   <AccountPriceTable proposedPriceType={true} proposedPrice={proposedPrice} proposedPriceFromData={prices} />
