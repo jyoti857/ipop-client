@@ -1,4 +1,5 @@
 import React, { ReactElement } from 'react'
+import DiscountGroups from './discount-groups'
 import Products from './products'
 import Users from './Users'
 
@@ -11,7 +12,8 @@ const tabs = (cTabName: string): ReactElement | undefined => {
   switch (cTabName) {
     case "Users": return <Users />
     case "Products": return <Products />
-    default: <Users />
+    case "Discount Groups": return <DiscountGroups />
+    default: <DiscountGroups />
   }
 }
 function SwitchTabs({ cTabName, className }: Props): ReactElement {
