@@ -7,7 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Button, TableFooter, TablePagination } from '@mui/material';
+import { Button, Divider, TableFooter, TablePagination } from '@mui/material';
 import TablePaginationsActions from '../../../components/table/tablePaginationsActions';
 import CustomInput from '../../../components/input/CustomInput';
 
@@ -74,7 +74,7 @@ function DiscountGroupTable({ }: Props): ReactElement {
     setPage(0)
   }
   return (
-    <div style={{ width: '100%', }}>
+    <div style={{ width: '100%', position: 'relative' }}>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead >
@@ -123,6 +123,9 @@ function DiscountGroupTable({ }: Props): ReactElement {
             ))}
           </TableBody>
           <TableFooter>
+            <Divider style={{ marginTop: 50, padding: 10 }} />
+            <div
+              style={{ minWidth: 230, position: 'absolute', right: 10, bottom: 10 }}>
             <TableRow>
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
@@ -141,6 +144,7 @@ function DiscountGroupTable({ }: Props): ReactElement {
                 ActionsComponent={TablePaginationsActions}
               />
             </TableRow>
+            </div>
           </TableFooter>
         </Table>
       </TableContainer>
