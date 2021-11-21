@@ -10,6 +10,7 @@ import Paper from '@mui/material/Paper';
 import { Button, Divider, TableFooter, TablePagination } from '@mui/material';
 import TablePaginationsActions from '../../../components/table/tablePaginationsActions';
 import CustomInput from '../../../components/input/CustomInput';
+import DiscountGroupsAccordion from '../../../components/accordion/discount-group-accordions';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -74,7 +75,7 @@ function DiscountGroupTable({ }: Props): ReactElement {
     setPage(0)
   }
   return (
-    <div style={{ width: '100%', position: 'relative' }}>
+    <div style={{ maxWidth: '100%', position: 'relative', flexWrap: 'nowrap', display: 'flex' }}>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead >
@@ -109,23 +110,12 @@ function DiscountGroupTable({ }: Props): ReactElement {
           </TableHead>
           <TableBody>
             {rows.map((row) => (
-              <StyledTableRow key={row.name}>
-                <StyledTableCell component="th" scope="row">
-                  {row.name}
-                </StyledTableCell>
-                <StyledTableCell align="right">{row.code}</StyledTableCell>
-                <StyledTableCell align="right">{row.createdBy}</StyledTableCell>
-                <StyledTableCell align="right">{row.startDate}</StyledTableCell>
-                <StyledTableCell align="right">{row.endDate}</StyledTableCell>
-                <StyledTableCell align="right">{row.status}</StyledTableCell>
-                <StyledTableCell align="right">{row.actions}</StyledTableCell>
-              </StyledTableRow>
+              <DiscountGroupsAccordion row={row} />
             ))}
           </TableBody>
           <TableFooter>
-            <Divider style={{ marginTop: 50, padding: 10 }} />
             <div
-              style={{ minWidth: 230, position: 'absolute', right: 10, bottom: 10 }}>
+              style={{ minWidth: 230, marginTop: 60, position: 'absolute', right: 10, bottom: 10 }}>
             <TableRow>
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
