@@ -53,10 +53,10 @@ const tableHeaders = [
 ]
 
 interface Props {
-
+  setHandleModalOpen: () => void
 }
 
-function DiscountGroupTable({ }: Props): ReactElement {
+function DiscountGroupTable({ setHandleModalOpen }: Props): ReactElement {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(2);
   const [search, setSearch] = useState('');
@@ -80,14 +80,15 @@ function DiscountGroupTable({ }: Props): ReactElement {
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead >
             <TableRow style={{ width: '200%' }}>
-              <div style={{ margin: 6, display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'transparent', minWidth: '219%' }}>
-                <div style={{ fontWeight: 'bold' }}>Products</div>
+              <div style={{ margin: 6, display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'transparent', minWidth: '203%' }}>
+                <div style={{ fontWeight: 'bold' }}>Discount Groups</div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '30%' }}>
                   <CustomInput name='Search' type='text' value='search' placeholder='Search' />
                   <div style={{ display: 'flex', gap: 3 }}>
                     <Button
                       variant='contained'
                       color='primary'
+                      onClick={setHandleModalOpen}
                     >Add +</Button>
                     <Button
                       variant='outlined'

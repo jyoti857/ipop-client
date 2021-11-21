@@ -19,7 +19,7 @@ function CustomModal({ open, handleClose, children, modalName, footerButtonName,
   const classes = useStyles(theme);
   return (
     <div
-      style={{ ...styles, position: 'relative' }}
+      style={{ position: 'relative' }}
     >
       <Modal
         open={open}

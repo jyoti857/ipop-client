@@ -25,7 +25,10 @@ function CustomInput({ placeholder, name, type, handleChange, value, style, clas
       value={value}
       className={clsx(classes.inputTextField, classNames)}
       placeholder={placeholder}
-      style={{ ...style }}
+      style={{
+        ...style,
+        //  border: 'none', padding: 6, msAlignSelf: 'center', boxShadow: 'rgba(0, 0, 0, 0.4) 0px 30px 90px' 
+      }}
     />
     // </div>
   )

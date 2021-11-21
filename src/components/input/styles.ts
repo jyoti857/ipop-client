@@ -9,10 +9,12 @@ export const useStyles = makeStyles({
   inputTextField: {
     // borderColor: theme.color?.color1,
     marginTop: 12, 
+    paddingLeft: 122, 
     borderRadius: 6,
-    color: theme?.color?.color1,
+    // color: theme?.color?.color1,
     lineHeight: 1,
-    fontSize: 10,
+    fontSize: 14,
+    outline: 'none',
     // fontSize: theme.size?.fontSize.secondary,
     '&:focus': {
       ouline: "transparent", // not working, will check 

@@ -18,6 +18,8 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     backgroundColor: '#DACCE1',//theme.palette.common.black,
     color: theme.palette.primary,
     fontSize: 10,
+    innerHeight: 3,
+    height: 2,
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 10,
@@ -28,6 +30,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': {
     backgroundColor: theme.palette.action.hover,
   },
+  height: 5,
   // hide last border
   '&:last-child td, &:last-child th': {
     border: 0,
@@ -56,9 +59,9 @@ function AccountPriceTable({ discountPrice, proposedPrice, handleProposedData, p
   return (
     <div>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 780 }} aria-label="customized table">
+        <Table sx={{ minWidth: 780 }} size="small" aria-label="a dense table">
           <TableHead>
-            <TableRow>
+            <TableRow style={{ height: 21 }}>
               <StyledTableCell>Catalog No.</StyledTableCell>
               <StyledTableCell align="left">Product</StyledTableCell>
               <StyledTableCell align="left">Actual Price</StyledTableCell>
