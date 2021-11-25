@@ -58,3 +58,10 @@ export const getAllAccountPricesByAccountId = (id: string) => {
     return res.data;
   })
 }
+
+export const getAllDiscountPrices = () => {
+  return api.get('/discount-price').then((res: any) => {
+    console.log('utils discount prices ', res.data)
+    return res.data;
+  })
+}

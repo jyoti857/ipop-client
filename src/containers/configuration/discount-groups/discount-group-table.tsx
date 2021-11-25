@@ -11,6 +11,8 @@ import { Button, Divider, TableFooter, TablePagination } from '@mui/material';
 import TablePaginationsActions from '../../../components/table/tablePaginationsActions';
 import CustomInput from '../../../components/input/CustomInput';
 import DiscountGroupsAccordion from '../../../components/accordion/discount-group-accordions';
+import { useQuery } from 'react-query';
+import { getAllDiscountPrices } from '../../../utils/baseUrl';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -60,6 +62,8 @@ function DiscountGroupTable({ setHandleModalOpen }: Props): ReactElement {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(2);
   const [search, setSearch] = useState('');
+
+  const { data, isLoading } = useQuery('getDiscountPrices', getAllDiscountPrices)
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
@@ -75,14 +79,14 @@ function DiscountGroupTable({ setHandleModalOpen }: Props): ReactElement {
     setPage(0)
   }
   return (
-    <div style={{ maxWidth: '100%', position: 'relative', flexWrap: 'nowrap', display: 'flex' }}>
+    <Paper elevation={9} style={{ maxWidth: '150%', position: 'relative', flexWrap: 'nowrap', display: 'flex' }}>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead >
             <TableRow style={{ width: '200%' }}>
               <div style={{ margin: 6, display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'transparent', minWidth: '203%' }}>
                 <div style={{ fontWeight: 'bold' }}>Discount Groups</div>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '30%' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '32%' }}>
                   <CustomInput name='Search' type='text' value='search' placeholder='Search' />
                   <div style={{ display: 'flex', gap: 3 }}>
                     <Button
@@ -109,14 +113,15 @@ function DiscountGroupTable({ setHandleModalOpen }: Props): ReactElement {
               }
             </TableRow>
           </TableHead>
-          <TableBody>
-            {rows.map((row) => (
+          {isLoading ? <div>Loading,,,</div> : <TableBody>
+            {data.map((row: any) => (
               <DiscountGroupsAccordion row={row} />
             ))}
-          </TableBody>
-          <TableFooter>
+          </TableBody>}
+          <TableFooter style={{ position: 'relative', right: 0 }}>
             <div
-              style={{ minWidth: 230, marginTop: 60, position: 'absolute', right: 10, bottom: 10 }}>
+            // style={{ marginTop: 60, position: 'absolute', right: 10, bottom: 10 }}
+            >
             <TableRow>
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
@@ -139,7 +144,7 @@ function DiscountGroupTable({ setHandleModalOpen }: Props): ReactElement {
           </TableFooter>
         </Table>
       </TableContainer>
-    </div >
+    </Paper >
   )
 }
 
