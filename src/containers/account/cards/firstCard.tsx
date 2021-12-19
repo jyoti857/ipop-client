@@ -13,7 +13,7 @@ const dropdownData = [
   { value: 'AGS', desc: "Ambulatory Surgery System" },
   { value: 'clinic', desc: 'Clinic' },
   { value: 'DOD', desc: "Department of Defence" },
-  { value: 'HOPD', desc: 'HOPD' },
+  { value: 'HOPD', desc: 'Hospital Department' },
 ]
 
 function FirstCard({ handleChange, values, classes, setCardState }: Props): ReactElement {

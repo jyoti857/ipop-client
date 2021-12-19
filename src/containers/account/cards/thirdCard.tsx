@@ -22,7 +22,7 @@ function ThirdCard({ accountName, ein, email, phone, street1address, street2addr
   city, state, zip, subtype, classes, setCardState }: Props): ReactElement {
   return (
     <div>
-      <Paper style={{ width: 400, margin: 'auto', padding: 20, marginTop: 12, fontSize: 12 }}>
+      <Paper style={{ width: 400, maxHeight: 500, margin: 'auto', padding: 20, marginTop: 12, fontSize: 12 }}>
         <div>
           <div style={{ fontWeight: 600, color: theme.color?.primary }}>{accountName}</div>
           <div style={{ fontWeight: 400, color: theme.color?.grey }}>EIN#: {ein}</div>

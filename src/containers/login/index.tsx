@@ -38,7 +38,7 @@ const Login: React.FC<Props> = ({ email, password }) => {
   useEffect(() => {
     const sd = async () => {
       const _id = await localStorage.getItem('userid');
-      _id && history.push(`/account/app-dashboard/${_id}`)
+      _id && history.push(`/app-account/${_id}`)
       setUserId(_id)
       setLoading(false)
     }
@@ -62,12 +62,12 @@ const Login: React.FC<Props> = ({ email, password }) => {
     <div className={classes.root}>
       <div style={{ flex: 0.1 }}>
         <div style={{ width: 700, display: 'flex', justifyContent: 'center' }}>
-        <img src='https://pacira-operations-portal-ui-staging.azurewebsites.net/static/media/pacira-logo.2f28cc6e.png'
+          <img src='https://pacira-op-ui-staging.azurewebsites.net/static/media/pacira-logo.2f28cc6e.png'
           alt='pacira logo'
           className={classes.logo}
           />
         </div>
-        <img src='https://pacira-operations-portal-ui-staging.azurewebsites.net/static/media/pacirabg.40fae6f2.png'
+        <img src='https://pacira-op-ui-staging.azurewebsites.net/static/media/pacirabg.40fae6f2.png'
           alt='pacira login page'
           className={classes.image}
         />

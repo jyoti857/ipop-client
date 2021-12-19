@@ -9,8 +9,8 @@ interface Props {
 function AccountModal({ handleClose }: Props) {
   return (
     <div>
-      <div style={{ top: 10, left: 10, position: 'absolute' }}>Create New Account</div>
-      <Divider style={{ marginTop: -20 }} />
+      {/* <div style={{ top: 10, left: 10, position: 'absolute' }}>Create New Account</div> */}
+      {/* <Divider style={{ marginTop: -20 }} /> */}
       <UseAccountFormik handleClose={handleClose} />
     </div>
   )

@@ -15,8 +15,8 @@ const tabs = [
   { label: "Communication", idx: 4 },
 ]
 function Configuration({ }: Props): ReactElement {
-  const [tabName, setTabName] = useState('Users');
-  const [value, setValue] = useState(0)
+  const [tabName, setTabName] = useState('Products');
+  const [value, setValue] = useState(1)
   const classes = useStyles()
   const handleChange = (e: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)

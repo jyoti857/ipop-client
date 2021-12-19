@@ -1,11 +1,14 @@
 import { Divider } from '@mui/material'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { useStyles } from './styles'
 import { FaHospitalUser, FaChartPie } from 'react-icons/fa';
 import CustomAvatar from '../../components/avatar';
 import CustomCard from '../../components/card';
 import { FaCogs } from 'react-icons/fa'
 import Pages from './pages';
+import { Dashboard } from '@mui/icons-material';
+import AccountList from '../account/AccountList';
+import Configuration from '../configuration';
 interface Props {
   children?: React.ReactElement
 }
@@ -13,15 +16,33 @@ interface Props {
 function Header({ children }: Props): ReactElement {
   const [cardOpen, setCardOpen] = useState(false);
   const handleCardOpen = () => setCardOpen(!cardOpen);
-  const [pageName, setPageName] = useState('Configuration')
+  const [pageName, setPageName] = useState('Account')
+  const [loggedUser, setLoggedUser] = useState('')
+  const switchPages = (pageName: string) => {
+    switch (pageName) {
+      case "Dashboard": {
+        return <Dashboard />
+      }
+      case "Account": {
+        return <AccountList />
+      }
+      case "Configuration": {
+        return <Configuration />
+      }
+      default: <Dashboard />
+    }
+  }
   const handlePageName = (page: string) => {
     setPageName(page)
   }
+  useEffect(() => {
+    setLoggedUser(localStorage.getItem('username')!)
+  }, [localStorage.getItem('username')])
   const classes = useStyles()
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <img src='https://pacira-operations-portal-ui-staging.azurewebsites.net/static/media/pacira-logo.2f28cc6e.png'
+        <img src='https://pacira-op-ui-staging.azurewebsites.net/static/media/pacira-logo.2f28cc6e.png'
           alt='pacira logo'
           className={classes.logo}
         />
@@ -31,13 +52,14 @@ function Header({ children }: Props): ReactElement {
           <FaCogs className={classes.icons} onClick={() => handlePageName('Configuration')} />
           <CustomAvatar alt="Remy Sharp" src="https://reqres.in/img/faces/5-image.jpg" onClick={handleCardOpen} />
           {
-            cardOpen ? <CustomCard setCardOpen={setCardOpen} /> : null
+            cardOpen ? <CustomCard loggedUser={loggedUser} setCardOpen={setCardOpen} /> : null
           }
         </div>
       </div>
       <Divider style={{ borderWidth: 1, backgroundColor: '#C54BC4' }} />
-      <Pages pageName={pageName} />
-      {/* {children} */}
+      {/* <Pages pageName={pageName} /> */}
+      {/* {switchPages(pageName)} */}
+      {children}
     </div>
   )
 }

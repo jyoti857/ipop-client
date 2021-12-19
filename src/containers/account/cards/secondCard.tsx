@@ -12,7 +12,7 @@ function SecondCard({ handleChange, values, classes, setCardState }: Props): Rea
   return (
     <div>
       <div style={{ position: 'relative', width: '100%' }}>
-        <div style={{ position: 'relative', display: 'flex', justifyContent: 'space-between' }}>
+        <div style={{ position: 'relative', display: 'flex', justifyContent: 'space-between', margin: 10 }}>
           <CustomInput
             name='street1address'
             handleChange={handleChange}
@@ -30,24 +30,24 @@ function SecondCard({ handleChange, values, classes, setCardState }: Props): Rea
             style={{ width: '47%' }}
           />
         </div>
-        <div>
+        <div style={{ margin: 10 }}>
           <CustomInput
             name='street3address'
             handleChange={handleChange}
             placeholder='Street 3 - Address'
             type='text'
             value={values.street3address}
-            style={{ width: '98%' }}
+            style={{ width: '100%' }}
           />
         </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', margin: 10 }}>
           <CustomInput
             name='city'
             handleChange={handleChange}
             placeholder='City'
             type='text'
             value={values.city}
-            style={{ width: '30%' }}
+            style={{ width: '29%' }}
           />
           <CustomInput
             name='state'
@@ -55,7 +55,7 @@ function SecondCard({ handleChange, values, classes, setCardState }: Props): Rea
             placeholder='State'
             type='text'
             value={values.state}
-            style={{ width: '30%' }}
+            style={{ width: '29%' }}
           />
           <CustomInput
             name='zip'
@@ -63,10 +63,10 @@ function SecondCard({ handleChange, values, classes, setCardState }: Props): Rea
             placeholder='Zipcode'
             type='text'
             value={values.zip}
-            style={{ width: '30%' }}
+            style={{ width: '26%' }}
           />
         </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', margin: 10 }}>
           <CustomInput
             name='email'
             handleChange={handleChange}

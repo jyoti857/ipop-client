@@ -6,9 +6,10 @@ import CustomModal from '../modal';
 import { useHistory } from 'react-router-dom'
 interface Props {
   setCardOpen: (a: boolean) => void;
+  loggedUser: string;
 }
 
-function CustomCard({ setCardOpen }: Props): ReactElement {
+function CustomCard({ setCardOpen, loggedUser }: Props): ReactElement {
   const [modalOpen, setModalOpen] = useState(false);
   const [email, setEmail] = useState('')
   const history = useHistory();
@@ -16,7 +17,7 @@ function CustomCard({ setCardOpen }: Props): ReactElement {
     await localStorage.setItem('userid', '');
     await localStorage.setItem('token', '');
     setCardOpen(false)
-    history.push('/')
+    // history.push('/app-login')
 
   }
   const handleModalOpen = () => {
@@ -36,8 +37,8 @@ function CustomCard({ setCardOpen }: Props): ReactElement {
         <div style={{ display: 'flex', justifyContent: 'flex-start', padding: 8 }}>
           <CustomAvatar alt="Remy Sharp" src="https://reqres.in/img/faces/5-image.jpg" />
           <div style={{ marginLeft: 6, textAlign: 'left' }}>
-            Dev Dealdesk <br />
-            devdealdesk@123.com
+            {loggedUser.split('@')[0]} <br />
+            {loggedUser}
           </div>
         </div>
         <Divider style={{ marginTop: 10, marginBottom: 10 }} />

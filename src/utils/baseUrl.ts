@@ -65,3 +65,10 @@ export const getAllDiscountPrices = () => {
     return res.data;
   })
 }
+
+export const createDiscountPrice = ({name, startDate, endDate, desc}: any) => {
+  return api.post('/discount-price', {name, startDate, endDate, desc}).then((res: any) => {
+    console.log("utils create discount price ---> ", res.data)
+    return res.data || ''
+  })
+}

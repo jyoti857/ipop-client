@@ -44,6 +44,7 @@ function AccountList({ }: Props): ReactElement {
   const { data, isLoading, isError } = useQuery('accountList', getAccountList)
   const dispatch = useDispatch();
   const [open, setOpen] = useState<boolean>(false)
+  const [userId, setUserId] = useState<string>()
   const handleOpen = (open: boolean) => setOpen(open)
   const handleClose = (close: boolean) => setOpen(close)
   console.log("account result ---> ", result.accounts)
@@ -59,6 +60,11 @@ function AccountList({ }: Props): ReactElement {
   })
   useEffect(() => {
     // dispatch(getAccountsAction())
+    const s = async () => {
+      const _id = await localStorage.getItem('userid')!;
+      setUserId(_id)
+    }
+    s();
   }, [])
   useEffect(() => { }, [result])
 
@@ -71,7 +77,6 @@ function AccountList({ }: Props): ReactElement {
           <div className={classes.accountCount}>{accounts.length}</div>
         </div>
         <div>
-          {/* <a href='https://wa.me/+91998643219w'>whatsapp me </a> */}
           <button
             className={classes.newAccountButton}
             onClick={() => handleOpen(true)}
@@ -79,7 +84,11 @@ function AccountList({ }: Props): ReactElement {
         </div>
       </div>
       {
-        open ? <CustomModal open={open} handleClose={handleClose}>
+        open ? <CustomModal
+          open={open}
+          modalName="Create New Account"
+          handleClose={handleClose}
+          styles={{ width: 700, marginTop: 40, minHeight: 1000 }}>
           <AccountModal handleClose={handleClose} />
         </CustomModal> : null
       }
@@ -106,12 +115,11 @@ function AccountList({ }: Props): ReactElement {
                       {columns.map((column: any) => {
                         // const value = row[column.id] == 'name' ? <Link to='/login'>{row[column.id]}</Link> : row[column.id]
                         const value = row[column.id];
-                        console.log('value ---> ', column.id)
                         return (
                           <TableCell key={column.id} align={column.align}>
                             {column.format && typeof value === 'number'
                               ? column.format(value)
-                              : column.id === 'name' ? <Link to={`/app-account/${row._id}`} style={{ textDecoration: 'none', color: '#0E1EBC' }}>{value}</Link> : value}
+                              : column.id === 'name' ? <Link to={`/app-account/${userId}/individual-account/${row._id}`} style={{ textDecoration: 'none', color: '#0E1EBC' }}>{value}</Link> : value}
                           </TableCell>
                         );
                       })}

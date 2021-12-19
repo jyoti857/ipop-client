@@ -10,7 +10,7 @@ const CustomAccountForm = ({onSubmit}: CustomAccountFormType) => {
     initialValues: {
       accountName: 'STANFORD UNIVERSITY MEDICAL CE',
       ein: '2324234',
-      subtype: 'HDOP',
+      subtype: 'AGS',
       phone: '3213123',
       city: 'THEMVEL12',
       email: 'asd@lds.com',
