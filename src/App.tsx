@@ -16,14 +16,15 @@ if (window.location.pathname === '/') {
   window.location.pathname = '/app-login'
 }
 function App() {
+  // if (window.location.pathname === '/app-login') {
+  //   return null;
+  // }
   return (
     <ThemeProvider theme={theme}>
       <Provider store={store}>
+        {
         <Router>
-          <Route exact path='/app-login' render={() => <Login email='macina@1.com' password='123' />} />
-          {
-            window.location.pathname !== '/app-login' &&
-
+            {window.location.pathname === '/app-login' ? <Route exact path='/app-login' render={() => <Login email='john@1.com' password='123' />} /> : <Header />}
             <Switch>
                 {/* <Route path='/account/:id' component={AccountList} /> */}
                 {/* <Header> */}
@@ -31,9 +32,9 @@ function App() {
                 <Route path='/app-account/:userId/individual-account/:accountId' component={AccountDetail} />
                 <Route path='/portal-configuration' component={Configuration} />
                 {/* </Header> */}
-          </Switch>
-          }
+            </Switch>
         </Router>
+        }
         {/* <Login email='macina@1.com' password='123' />  */}
       </Provider>
     </ThemeProvider>
