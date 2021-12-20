@@ -9,6 +9,7 @@ import Pages from './pages';
 import { Dashboard } from '@mui/icons-material';
 import AccountList from '../account/AccountList';
 import Configuration from '../configuration';
+import { useHistory } from 'react-router-dom';
 interface Props {
   children?: React.ReactElement
 }
@@ -18,19 +19,9 @@ function Header({ children }: Props): ReactElement {
   const handleCardOpen = () => setCardOpen(!cardOpen);
   const [pageName, setPageName] = useState('Account')
   const [loggedUser, setLoggedUser] = useState('')
-  const switchPages = (pageName: string) => {
-    switch (pageName) {
-      case "Dashboard": {
-        return <Dashboard />
-      }
-      case "Account": {
-        return <AccountList />
-      }
-      case "Configuration": {
-        return <Configuration />
-      }
-      default: <Dashboard />
-    }
+  const history = useHistory();
+  const handleConfiguration = () => {
+    history.push('/portal-configuration')
   }
   const handlePageName = (page: string) => {
     setPageName(page)
@@ -49,7 +40,10 @@ function Header({ children }: Props): ReactElement {
         <div style={{ textAlign: 'center', margin: 10, marginRight: 20, width: 180, display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
           <FaChartPie className={classes.icons} onClick={() => handlePageName('Dashboard')} />
           <FaHospitalUser className={classes.icons} onClick={() => handlePageName('Account')} />
-          <FaCogs className={classes.icons} onClick={() => handlePageName('Configuration')} />
+          <FaCogs className={classes.icons}
+            // onClick={() => handlePageName('Configuration')} 
+            onClick={handleConfiguration}
+          />
           <CustomAvatar alt="Remy Sharp" src="https://reqres.in/img/faces/5-image.jpg" onClick={handleCardOpen} />
           {
             cardOpen ? <CustomCard loggedUser={loggedUser} setCardOpen={setCardOpen} /> : null
@@ -59,7 +53,7 @@ function Header({ children }: Props): ReactElement {
       <Divider style={{ borderWidth: 1, backgroundColor: '#C54BC4' }} />
       {/* <Pages pageName={pageName} /> */}
       {/* {switchPages(pageName)} */}
-      {children}
+      {/* {children} */}
     </div>
   )
 }

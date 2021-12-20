@@ -1,5 +1,5 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material';
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useEffect, useRef, useState } from 'react'
 import CustomModal from '../../components/modal';
 import AccountModal from './AccountModal';
 import { useDispatch, useSelector } from 'react-redux'
@@ -47,6 +47,7 @@ function AccountList({ }: Props): ReactElement {
   const [userId, setUserId] = useState<string>()
   const handleOpen = (open: boolean) => setOpen(open)
   const handleClose = (close: boolean) => setOpen(close)
+
   console.log("account result ---> ", result.accounts)
   console.log("data query ---> ", data, isLoading, isError)
   // const accounts: any = result.accounts.length > 0 && result.accounts.map(({ name, status, city, state, addressLine1, zip, country, _id }: any) => {
@@ -58,6 +59,11 @@ function AccountList({ }: Props): ReactElement {
       createData(name, status, addressLine1, city, state, country, zip, _id)
     )
   })
+  // useEffect(() => {
+    // if (isLoading) {
+      //   window.location.reload()
+      // }
+      // }, [])
   useEffect(() => {
     // dispatch(getAccountsAction())
     const s = async () => {

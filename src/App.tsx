@@ -11,6 +11,7 @@ import Header from './containers/header';
 import Configuration from './containers/configuration';
 import Dashboard from './containers/dashboard';
 import Pages from './containers/header/pages';
+import { useEffect, useState } from 'react';
 // import { Dashboard } from '@mui/icons-material';
 if (window.location.pathname === '/') {
   window.location.pathname = '/app-login'
@@ -19,6 +20,10 @@ function App() {
   // if (window.location.pathname === '/app-login') {
   //   return null;
   // }
+  // const [path_, setPath_] = useState(window.location.pathname);
+  // useEffect(() => {
+  //   setPath_(window.location.pathname)
+  // }, [path_])
   return (
     <ThemeProvider theme={theme}>
       <Provider store={store}>

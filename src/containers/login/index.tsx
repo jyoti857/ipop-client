@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useFormik } from 'formik'
 import { useDispatch, useSelector, shallowEqual } from 'react-redux'
 import { loginDispatch } from './actions';
@@ -6,6 +6,7 @@ import { useStyles } from './styles'
 import { useHistory } from 'react-router-dom'
 import CustomInput from '../../components/input/CustomInput';
 import Pages from '../header/pages';
+import { sleep } from '../../utils/sleep';
 
 interface Props {
   email: string;
@@ -23,6 +24,8 @@ const Login: React.FC<Props> = ({ email, password }) => {
   const [userRole, setUserRole] = React.useState<any>();
   const [loading, setLoading] = useState(loadingSelector);
   const [userId, setUserId] = useState<string | null>('');
+  const reloadRef = useRef<number>(4)
+
   const { handleChange, handleBlur, handleSubmit, values, } = useFormik<Props>({
     initialValues: {
       email,
@@ -35,15 +38,21 @@ const Login: React.FC<Props> = ({ email, password }) => {
     dispatch(loginDispatch({ email, password }))
   }
 
+
   useEffect(() => {
     const sd = async () => {
       const _id = await localStorage.getItem('userid');
       _id && history.push(`/app-account/${_id}`)
       setUserId(_id)
       setLoading(false)
+      // history.go(0)
+      // window.location.reload()
     }
     sd();
   })
+
+
+
   // React.useEffect(() => {
   //   console.log("userrole selec", userRole?._id, emailSelector)
   //   const login_ = async () => {
@@ -67,7 +76,7 @@ const Login: React.FC<Props> = ({ email, password }) => {
           className={classes.logo}
           />
         </div>
-        <img src='https://pacira-op-ui-staging.azurewebsites.net/static/media/pacirabg.40fae6f2.png'
+        <img src='https://pacira-op-ui-staging.azurewebsites.net/static/media/pacirabg.11665d57.jpg'
           alt='pacira login page'
           className={classes.image}
         />
@@ -81,6 +90,7 @@ const Login: React.FC<Props> = ({ email, password }) => {
             handleChange={handleChange}
             value={values.email}
             placeholder='email'
+            style={{ margin: 20 }}
           />
           {/* <input
             name='password'

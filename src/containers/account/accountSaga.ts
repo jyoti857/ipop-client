@@ -14,7 +14,8 @@ function* createAccountSagaApi({payload}: any){
     method: "POST",
     body,
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      "Authorization": localStorage.getItem('token')!
     }
   }
   const response: CreateAccountResponseType = yield call(customFetch, uri+'/account', options);

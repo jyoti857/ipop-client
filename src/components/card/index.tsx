@@ -17,8 +17,9 @@ function CustomCard({ setCardOpen, loggedUser }: Props): ReactElement {
     await localStorage.setItem('userid', '');
     await localStorage.setItem('token', '');
     setCardOpen(false)
-    // history.push('/app-login')
-
+    history.push('/app-login')
+    // history.go(0)
+    window.location.reload()
   }
   const handleModalOpen = () => {
     setModalOpen(true);

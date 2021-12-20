@@ -1,9 +1,12 @@
 import axios from 'axios';
 
-
+const s  = () => localStorage.getItem('token')!
 const api = axios.create({
-  baseURL: 'http://localhost:3000/'
+  baseURL: 'http://localhost:3000/',
+  headers: {'Authorization': s()}
 });
+// axios.defaults.headers.common = {'Authorization': s()}
+export default axios;
 
 
 export const getAccountList = () => {
@@ -20,9 +23,11 @@ export const getAccountById = (id: string) =>{
     return res.data;
   })
 }
-
 export const updateAccountById = (id: string, body: any) => {
-  return api.put(`/account/${id}`, {...body}).then((res: any) => {
+  return api.put(`/account/${id}`, {
+    ...body, 
+    // headers: config.headers
+  }).then((res: any) => {
     return res.data;
   })
 }
