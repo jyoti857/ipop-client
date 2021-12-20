@@ -22,6 +22,7 @@ export interface UseAccountProps {
   phone: string;
   handleClose?: any;
   filetype?: string;
+  attention: string;
 }
 
 
@@ -30,8 +31,8 @@ const UseAccountFormik = ({ handleClose }: Partial<UseAccountProps>) => {
   const classes = useStyles();
   const [cardState, setCardState] = useState('first')
   const onSubmit = () => {
-    const { accountName, ein, subtype, phone, city, email, state, street1address, street2address, street3address, zip } = values;
-    dispatch(createNewAccountAction({ accountName, ein, subtype, phone, city, email, state, street1address, street2address, street3address, zip }))
+    const { accountName, ein, subtype, phone, city, email, state, street1address, street2address, street3address, zip, attention } = values;
+    dispatch(createNewAccountAction({ accountName, ein, subtype, phone, city, email, state, street1address, street2address, street3address, zip, attention }))
     console.log("email and password from use custom formik ---> ", accountName, ein, subtype);
     handleClose(false)
     dispatch(getAccountsAction())

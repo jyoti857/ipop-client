@@ -19,7 +19,8 @@ const CustomAccountForm = ({onSubmit}: CustomAccountFormType) => {
       street2address: '32234',
       street3address: '324234',
       zip: '93020',
-      filetype: '2'
+      filetype: '2',
+      attention: "233"
     },
     onSubmit
   })

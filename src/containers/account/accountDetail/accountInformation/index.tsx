@@ -19,7 +19,7 @@ interface Props {
 }
 export type AccountInformationType = {
   name: string;
-  attention: number;
+  attention: string;
   ein: string;
 }
 function AccountInformation({ }: Props): ReactElement {
@@ -42,6 +42,7 @@ function AccountInformation({ }: Props): ReactElement {
   const [apEmail_, setApEmail_] = useState("")
   const [taxId_, setTaxId_] = useState("")
   const [dun_, setDun_] = useState("")
+  const [attention_, setAttention_] = useState("")
   const [updateFlag, setUpdateFlag] = useState(false);
 
   const [acc, setAcc] = useState<AccountInformationType_>(() => ({
@@ -68,6 +69,10 @@ function AccountInformation({ }: Props): ReactElement {
         addressLine1: acc.addressLine1,
         email: acc.email,
         addressLine2: addressLine2_,
+        attention: acc.attention,
+        state: acc.state,
+        addressLine3: acc.addressLine3,
+        ein: acc.ein
       }),
     { enabled: Boolean(updateFlag) }
   )

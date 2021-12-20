@@ -2,7 +2,7 @@
 
 export interface AccountInformationType_ {
   name: string;
-  attention: number;
+  attention: string;
   ein: string;
   phone: string;
   email: string;
