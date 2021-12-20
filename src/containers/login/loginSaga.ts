@@ -22,7 +22,7 @@ function* loginApi({email, password}: any){
   const {data: {access_token, user: {userRole, username}}} = response;
   console.log("sdkad",  access_token, userRole, username)
   if(response.data){
-    localStorage.setItem('token', access_token)
+    localStorage.setItem('token', `Bearer ${access_token}`)
     localStorage.setItem('userid', userRole._id)
     // added now 
     localStorage.setItem('username', username)

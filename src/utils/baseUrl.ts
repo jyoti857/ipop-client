@@ -3,7 +3,9 @@ import axios from 'axios';
 const s  = () => localStorage.getItem('token')!
 const api = axios.create({
   baseURL: 'http://localhost:3000/',
-  headers: {'Authorization': s()}
+  headers: {
+    'Authorization': s()
+  }
 });
 // axios.defaults.headers.common = {'Authorization': s()}
 export default axios;

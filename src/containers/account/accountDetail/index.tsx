@@ -38,6 +38,9 @@ const accountTabs = [
 function AccountDetail({ accountName, ein, phone, email }: Props): ReactElement {
   const classes = useStyles();
   const [tabName, setTabName] = useState('AccountInformation');
+  const params = useParams<{ accountId: string }>();
+  const [accData, setAccData] = useState(localStorage.getItem(params.accountId));
+  console.log("acc data **---> ", accData, params.accountId)
   const [value, setValue] = useState(0)
   const handleChange = (e: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
@@ -66,6 +69,7 @@ function AccountDetail({ accountName, ein, phone, email }: Props): ReactElement 
 
   return (
     <div>
+      {/* < */}
       <AccountTabs tabs={accountTabs} tab={tabName} value={value} handleChange={handleChange} />
       {showTabPage(tabName)}
     </div>

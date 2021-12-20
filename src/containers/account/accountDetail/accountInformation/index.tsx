@@ -86,6 +86,8 @@ function AccountInformation({ }: Props): ReactElement {
       country: data?.country
     })
     setUpdateFlag(false)
+    // setting the account data globally 
+    localStorage.setItem(params.accountId, data)
   }, [data])
   useEffect(() => {
     setAcc({
