@@ -39,8 +39,8 @@ function AccountDetail({ accountName, ein, phone, email }: Props): ReactElement 
   const classes = useStyles();
   const [tabName, setTabName] = useState('AccountInformation');
   const params = useParams<{ accountId: string }>();
-  const [accData, setAccData] = useState(localStorage.getItem(params.accountId));
-  console.log("acc data **---> ", accData, params.accountId)
+  const [accData, setAccData] = useState(JSON.parse(localStorage.getItem(params.accountId)!));
+  console.log("acc data **---> ", accData, params.accountId, accountName, ein, phone)
   const [value, setValue] = useState(0)
   const handleChange = (e: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
@@ -68,8 +68,22 @@ function AccountDetail({ accountName, ein, phone, email }: Props): ReactElement 
   }
 
   return (
-    <div>
-      {/* < */}
+    <div style={{ marginTop: 23 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: 1200 }}>
+        <div>
+
+          <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
+            <div style={{ marginLeft: 12, marginRight: 12, fontSize: 20, fontWeight: 'bolder' }}>{accData.name}</div>
+            <div style={{ backgroundColor: 'limegreen', padding: 4, textAlign: 'center', borderRadius: 8, }}>{accData.status}</div>
+          </div>
+        </div>
+        <div>
+          <Button
+            variant='contained'
+            color='primary'
+          >Submit for approval</Button>
+        </div>
+      </div>
       <AccountTabs tabs={accountTabs} tab={tabName} value={value} handleChange={handleChange} />
       {showTabPage(tabName)}
     </div>

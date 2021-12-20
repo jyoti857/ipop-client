@@ -87,7 +87,7 @@ function AccountInformation({ }: Props): ReactElement {
     })
     setUpdateFlag(false)
     // setting the account data globally 
-    localStorage.setItem(params.accountId, data)
+    localStorage.setItem(params.accountId, JSON.stringify(data))
   }, [data])
   useEffect(() => {
     setAcc({
