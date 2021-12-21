@@ -1,5 +1,5 @@
 import { Button, Divider, Paper } from '@mui/material'
-import React, { ReactElement, useState } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import CustomInput from '../../../../components/input/CustomInput';
 import { updateOneAccountAction } from '../../actions';
@@ -8,25 +8,26 @@ import { AccountInformationType_ } from './accountInformation_';
 import { useStyles } from './styles'
 interface Props {
   data: any;
+  isLoading: boolean
 }
 
-function AccountInfoComponent({ data }: Props): ReactElement {
+function AccountInfoComponent({ data, isLoading }: Props): ReactElement {
   const classes = useStyles();
-  const [clinicPhysicianLicenseNumber_, setClinicPhysicianLicenseNumber_] = useState('')
-  const [addressLine2_, setAddressLine2_] = useState(data?.addressLine2 ? data.addressLine2 : '')
-  const [addressLine3_, setAddressLine3_] = useState(data?.addressLine3 ? data.addressLine3 : '')
-  const [hcpName_, setHcpName_] = useState(data?.hcpName ? data.hcpName : '')
-  const [hcpNpi_, setHcpNpi_] = useState(data?.hcpNpi ? data.hcpNpi : '')
-  const [state_, setState_] = useState("")
-  const [zipcode_, setZipcode_] = useState("")
-  const [apPhone_, setApPhone_] = useState("")
-  const [apEmail_, setApEmail_] = useState("")
-  const [taxId_, setTaxId_] = useState("")
-  const [dun_, setDun_] = useState("")
-  const [attention_, setAttention_] = useState("")
+  const [clinicPhysicianLicenseNumber, setClinicPhysicianLicenseNumber] = useState('')
+  const [addressLine2, setAddressLine2] = useState(data?.addressLine2)
+  const [addressLine3, setAddressLine3] = useState(data?.addressLine3)
+  const [hcpName, setHcpName] = useState(data?.hcpName)
+  const [hcpNpi, setHcpNpi] = useState(data?.hcpNp)
+  const [state, setState] = useState("")
+  const [zipcode, setZipcode] = useState("")
+  const [apPhone, setApPhone] = useState("")
+  const [apEmail, setApEmail] = useState("")
+  const [taxId, setTaxId] = useState("")
+  const [dun, setDun] = useState("")
+  const [attention, setAttention] = useState("")
 
 
-
+  console.log("data1 *& --> ", data)
   const [updateFlag, setUpdateFlag] = useState(false);
 
   const dispatch = useDispatch()
@@ -36,24 +37,45 @@ function AccountInfoComponent({ data }: Props): ReactElement {
     dispatch(updateOneAccountAction({ ...acc, accountId: data._id }))
   }
   const [acc, setAcc] = useState<AccountInformationType_>(() => ({
-    addressLine1: data?.addressLine1 ? data.addressLine1 : '',
+    addressLine1: data?.addressLine1,
     attention: data?.attention,
     country: data?.country,
-    ein: data?.ein ? data.ein : "",
-    email: data?.email ? data.email : '',
-    name: data?.name ? data.name : '',
-    phone: data?.phone ? data.phone : '',
-    state: data?.state ? data.state : '',
-    addressLine2: data?.addressLine2 ? data.addressLine2 : '',
-    addressLine3: data?.addressLine3 ? data.addressLine3 : '',
+    ein: data?.ein,
+    email: data?.email,
+    name: data?.name,
+    phone: data?.phone,
+    state: data?.state,
+    addressLine2: data?.addressLine2,
+    addressLine3: data?.addressLine3,
     city: data?.city,
     paymentType: data?.paymentTerms || PaymentTermsEnum.NET45,
     accountStatus: data?.accountStatus
   }))
+  useEffect(() => {
+    const s = () => ({
+      addressLine1: data?.addressLine1,
+      attention: data?.attention,
+      country: data?.country,
+      ein: data?.ein,
+      email: data?.email,
+      name: data?.name,
+      phone: data?.phone,
+      state: data?.state,
+      addressLine2: data?.addressLine2,
+      addressLine3: data?.addressLine3,
+      city: data?.city,
+      paymentType: data?.paymentTerms || PaymentTermsEnum.NET45,
+      accountStatus: data?.accountStatus
+    })
 
-  return (
-    <div>
-      {data ?
+    setAcc(s())
+  }, [isLoading])
+  console.log("acc *& --> ", acc)
+  {
+    return (
+      isLoading ? (<>Loading</>) : 
+        <div>
+          {!isLoading ?
         <Paper className={classes.paper} style={{ position: 'relative' }}>
           <Button
             style={{ position: 'absolute', top: 10, right: 10, marginBottom: 12 }}
@@ -92,12 +114,12 @@ function AccountInfoComponent({ data }: Props): ReactElement {
             <div className={classes.inputWrap}>
               <label className={classes.label}>Clinic/ Physician License Number</label>
               <CustomInput
-                value={clinicPhysicianLicenseNumber_}
+                    value={clinicPhysicianLicenseNumber}
                 name='Clinic/ Physician License Number'
                 type='text'
                 placeholder=''
                 classNames={classes.fields}
-                handleChange={(e: React.ChangeEvent<any>) => setClinicPhysicianLicenseNumber_(e.target.value)}
+                    handleChange={(e: React.ChangeEvent<any>) => setClinicPhysicianLicenseNumber(e.target.value)}
                 style={{ margin: 10 }}
               />
             </div>
@@ -144,24 +166,24 @@ function AccountInfoComponent({ data }: Props): ReactElement {
             <div className={classes.inputWrap}>
               <label className={classes.label}>Affiliated HCP Name</label>
               <CustomInput
-                value={hcpName_}
+                    value={hcpName}
                 name='hcpname'
                 type='text'
                 placeholder=''
                 classNames={classes.fields}
-                handleChange={(e: React.ChangeEvent<any>) => setHcpName_(e.target.value)}
+                    handleChange={(e: React.ChangeEvent<any>) => setHcpName(e.target.value)}
                 style={{ margin: 10 }}
               />
             </div>
             <div className={classes.inputWrap}>
               <label className={classes.label}>Affiliated HCP NPI #</label>
               <CustomInput
-                value={hcpNpi_}
+                    value={hcpNpi}
                 name='hcpnpi'
                 type='text'
                 placeholder=''
                 classNames={classes.fields}
-                handleChange={(e: React.ChangeEvent<any>) => setHcpNpi_(e.target.value)}
+                    handleChange={(e: React.ChangeEvent<any>) => setHcpNpi(e.target.value)}
                 style={{ margin: 10 }}
               />
             </div>
@@ -169,7 +191,7 @@ function AccountInfoComponent({ data }: Props): ReactElement {
           <Divider style={{ marginTop: 23, marginBottom: 12 }} />
           <div className={classes.rowWrap}>
             <div className={classes.inputWrap}>
-              <label className={classes.label}>Ship To Street 1 *</label>
+                  <label className={classes.label}>Ship To Street 1*</label>
               <CustomInput
                 value={acc.addressLine1}
                 name='addressline1'
@@ -183,12 +205,12 @@ function AccountInfoComponent({ data }: Props): ReactElement {
             <div className={classes.inputWrap}>
               <label className={classes.label}>Ship To Street 2</label>
               <CustomInput
-                value={addressLine2_}
+                    value={addressLine2}
                 name='addressline2'
                 type='text'
                 placeholder=''
                 classNames={classes.fields}
-                handleChange={(e: React.ChangeEvent<any>) => setAddressLine2_(e.target.value)}
+                    handleChange={(e: React.ChangeEvent<any>) => setAddressLine2(e.target.value)}
                 style={{ margin: 10 }}
               />
             </div>
@@ -197,12 +219,12 @@ function AccountInfoComponent({ data }: Props): ReactElement {
             <div className={classes.inputWrap}>
               <label className={classes.label}>Ship To Street 3</label>
               <CustomInput
-                value={addressLine3_}
+                    value={addressLine3}
                 name='addressline3'
                 type='text'
                 placeholder=''
                 classNames={classes.fields}
-                handleChange={(e: React.ChangeEvent<any>) => setAddressLine3_(e.target.value)}
+                    handleChange={(e: React.ChangeEvent<any>) => setAddressLine3(e.target.value)}
                 style={{ margin: 10 }}
               />
             </div>
@@ -223,7 +245,7 @@ function AccountInfoComponent({ data }: Props): ReactElement {
             <div className={classes.inputWrap}>
               <label className={classes.label}>Ship To State *</label>
               <CustomInput
-                value={state_}
+                    value={state}
                 name='state'
                 type='text'
                 placeholder=''
@@ -234,7 +256,7 @@ function AccountInfoComponent({ data }: Props): ReactElement {
             <div className={classes.inputWrap}>
               <label className={classes.label}>Ship To Zip Code *</label>
               <CustomInput
-                value={zipcode_}
+                    value={zipcode}
                 name='zipcode'
                 type='text'
                 placeholder=''
@@ -247,7 +269,7 @@ function AccountInfoComponent({ data }: Props): ReactElement {
             <div className={classes.inputWrap}>
               <label className={classes.label}>Ship To AP Contact Phone *</label>
               <CustomInput
-                value={apPhone_}
+                    value={apPhone}
                 name='apPhone'
                 type='text'
                 placeholder=''
@@ -258,7 +280,7 @@ function AccountInfoComponent({ data }: Props): ReactElement {
             <div className={classes.inputWrap}>
               <label className={classes.label}>Ship To AP Contact Email *</label>
               <CustomInput
-                value={apEmail_}
+                    value={apEmail}
                 name='apemail'
                 type='text'
                 placeholder=''
@@ -271,7 +293,7 @@ function AccountInfoComponent({ data }: Props): ReactElement {
             <div className={classes.inputWrap}>
               <label className={classes.label}>EIN/Tax ID of Financially Responsible Entity *</label>
               <CustomInput
-                value={taxId_}
+                    value={taxId}
                 name='taxid'
                 type='text'
                 placeholder=' '
@@ -282,7 +304,7 @@ function AccountInfoComponent({ data }: Props): ReactElement {
             <div className={classes.inputWrap}>
               <label className={classes.label}>DUN #</label>
               <CustomInput
-                value={dun_}
+                    value={dun}
                 name='dun'
                 type='text'
                 placeholder=''
@@ -296,6 +318,7 @@ function AccountInfoComponent({ data }: Props): ReactElement {
       }
     </div>
   )
+  }
 }
 
 export default AccountInfoComponent

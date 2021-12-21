@@ -29,15 +29,15 @@ function AccountInformation({ }: Props): ReactElement {
   const history = useHistory()
   const params = useParams<{ accountId: string }>();
   const [accountInformation, setaccountInformation] = useState<AccountInformationType>()
-  const { data } = useQuery(['accountInformation', params.accountId], () => getAccountById(params.accountId),
+  const { data, isLoading } = useQuery(['accountInformation', params.accountId], () => getAccountById(params.accountId),
     { enabled: Boolean(params.accountId) }
   )
 
-  console.log("data *& --> ", data)
+
   // const { handleChange, values } = CustomAccountForm({ onSubmit })
   return (
     <div>
-      <AccountInfoComponent data={data} />
+      <AccountInfoComponent data={data} isLoading={isLoading} />
     </div>
   )
 }
