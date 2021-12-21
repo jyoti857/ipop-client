@@ -29,14 +29,15 @@ function App() {
       <Provider store={store}>
         {
         <Router>
-            {window.location.pathname === '/app-login' ? <Route exact path='/app-login' render={() => <Login email='john@1.com' password='123' />} /> : <Header />}
+            {window.location.pathname === '/app-login' && <Route exact path='/app-login' render={() => <Login email='john@1.com' password='123' />} />}
+            <Route path='/' component={Header} />
             <Switch>
-                {/* <Route path='/account/:id' component={AccountList} /> */}
-                {/* <Header> */}
-                <Route exact path='/app-account/:userId' component={AccountList} />
-                <Route path='/app-account/:userId/individual-account/:accountId' component={AccountDetail} />
-                <Route path='/portal-configuration' component={Configuration} />
-                {/* </Header> */}
+              {/* <Route path='/account/:id' component={AccountList} /> */}
+              {/* <Header> */}
+              <Route exact path='/app-account/:userId' component={AccountList} />
+              <Route exact path='/app-account/:userId/individual-account/:accountId' component={AccountDetail} />
+              {/* <Route exact path='/portal-configuration' component={Configuration} /> */}
+              {/* </Header> */}
             </Switch>
         </Router>
         }

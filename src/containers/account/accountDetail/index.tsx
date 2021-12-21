@@ -35,12 +35,12 @@ const accountTabs = [
   { label: "AccountPrice", idx: 4 },
   { label: "Quotes", idx: 5 },
 ]
-function AccountDetail({ accountName, ein, phone, email }: Props): ReactElement {
+function AccountDetail(): ReactElement {
   const classes = useStyles();
   const [tabName, setTabName] = useState('AccountInformation');
   const params = useParams<{ accountId: string }>();
   const [accData, setAccData] = useState(JSON.parse(localStorage.getItem(params.accountId)!));
-  console.log("acc data **---> ", accData, params.accountId, accountName, ein, phone)
+  console.log("acc data **---> ", accData, params.accountId)
   const [value, setValue] = useState(0)
   const handleChange = (e: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)

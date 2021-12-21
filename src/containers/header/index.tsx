@@ -10,6 +10,8 @@ import { Dashboard } from '@mui/icons-material';
 import AccountList from '../account/AccountList';
 import Configuration from '../configuration';
 import { useHistory } from 'react-router-dom';
+// import logo from 'assets/img/pacira-logo.png'
+import logo from '../../assets/img/pacira-logo.png'
 interface Props {
   children?: React.ReactElement
 }
@@ -23,6 +25,9 @@ function Header({ children }: Props): ReactElement {
   const handleConfiguration = () => {
     history.push('/portal-configuration')
   }
+  // const handleConfiguration = () => {
+  //   history.push('/portal-configuration')
+  // }
   const handlePageName = (page: string) => {
     setPageName(page)
   }
@@ -33,7 +38,8 @@ function Header({ children }: Props): ReactElement {
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <img src='https://pacira-op-ui-staging.azurewebsites.net/static/media/pacira-logo.2f28cc6e.png'
+        <img src={logo}
+        // src='https://pacira-op-ui-staging.azurewebsites.net/static/media/pacira-logo.2f28cc6e.png'
           alt='pacira logo'
           className={classes.logo}
         />
@@ -41,8 +47,8 @@ function Header({ children }: Props): ReactElement {
           <FaChartPie className={classes.icons} onClick={() => handlePageName('Dashboard')} />
           <FaHospitalUser className={classes.icons} onClick={() => handlePageName('Account')} />
           <FaCogs className={classes.icons}
-            // onClick={() => handlePageName('Configuration')} 
-            onClick={handleConfiguration}
+            onClick={() => handlePageName('Configuration')}
+            // onClick={handleConfiguration}
           />
           <CustomAvatar alt="Remy Sharp" src="https://reqres.in/img/faces/5-image.jpg" onClick={handleCardOpen} />
           {
