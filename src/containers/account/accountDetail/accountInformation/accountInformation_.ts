@@ -1,3 +1,4 @@
+import { PaymentTermsEnum } from "../../UseAccountFormik";
 
 
 export interface AccountInformationType_ {
@@ -12,5 +13,7 @@ export interface AccountInformationType_ {
   state: string;
   country: string;
   city: string;
+  paymentType: PaymentTermsEnum;
+  accountStatus: string;
 }
 

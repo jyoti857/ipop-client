@@ -7,7 +7,8 @@ import { useHistory } from 'react-router-dom'
 import CustomInput from '../../components/input/CustomInput';
 import Pages from '../header/pages';
 import { sleep } from '../../utils/sleep';
-
+import pacira_image from '../../assets/img/pacira_full.jpg'
+import pacira_logo from '../../assets/img/pacira-logo.png'
 interface Props {
   email: string;
   password: string;
@@ -71,12 +72,14 @@ const Login: React.FC<Props> = ({ email, password }) => {
     <div className={classes.root}>
       <div style={{ flex: 0.1 }}>
         <div style={{ width: 700, display: 'flex', justifyContent: 'center' }}>
-          <img src='https://pacira-op-ui-staging.azurewebsites.net/static/media/pacira-logo.2f28cc6e.png'
+          <img src={pacira_logo}
+          // src='https://pacira-op-ui-staging.azurewebsites.net/static/media/pacira-logo.2f28cc6e.png'
           alt='pacira logo'
           className={classes.logo}
           />
         </div>
-        <img src='https://pacira-op-ui-staging.azurewebsites.net/static/media/pacirabg.11665d57.jpg'
+        <img src={pacira_image}
+        //src='https://pacira-op-ui-staging.azurewebsites.net/static/media/pacirabg.11665d57.jpg'
           alt='pacira login page'
           className={classes.image}
         />

@@ -11,6 +11,7 @@ import { getAccountById, updateAccountById } from '../../../../utils/baseUrl';
 import CustomAccountForm from '../../../../utils/useCustomAccountFormik';
 import AccountTabs from '../accountTabs';
 import { AccountInformationType_ } from './accountInformation_';
+import { PaymentTermsEnum } from '../../UseAccountFormik';
 interface Props {
   // accountName: string;
   // ein: string;
@@ -57,9 +58,12 @@ function AccountInformation({ }: Props): ReactElement {
     addressLine2: data?.addressLine2 ? data.addressLine2 : '',
     addressLine3: data?.addressLine3 ? data.addressLine3 : '',
     city: data?.city,
+    paymentType: data?.paymentTerms || PaymentTermsEnum.NET45,
+    accountStatus: data?.accountStatus
   }))
 
   const [count, setCount] = useState(0)
+
   const { data: updateFields } = useQuery('updateAccountInformation',
     () => updateAccountById(params.accountId,
       {
@@ -72,11 +76,14 @@ function AccountInformation({ }: Props): ReactElement {
         attention: acc.attention,
         state: acc.state,
         addressLine3: acc.addressLine3,
-        ein: acc.ein
+        ein: acc.ein,
+        paymentType: PaymentTermsEnum.NET45
       }),
     { enabled: Boolean(updateFlag) }
   )
-  console.log("data fetching ---> ", updateFields, params.accountId)
+  console.log("data fetching ---> ", updateFields, acc, 'data --> ', data)
+
+
 
   useEffect(() => {
     setAcc({
@@ -88,11 +95,12 @@ function AccountInformation({ }: Props): ReactElement {
       email: data?.email,
       addressLine1: data?.addressLine1,
       state: data?.state,
-      country: data?.country
+      country: data?.country,
+      accountStatus: data?.accountStatus
     })
     setUpdateFlag(false)
-    // setting the account data globally 
-    localStorage.setItem(params.accountId, JSON.stringify(data))
+    // setting the account data globally
+    // localStorage.setItem(params.accountId, JSON.stringify(data))
   }, [data])
   useEffect(() => {
     setAcc({
@@ -106,8 +114,14 @@ function AccountInformation({ }: Props): ReactElement {
       state: updateFields?.state,
       country: updateFields?.country
     })
+    // localStorage.setItem(params.accountId, JSON.stringify(updateFields))
     setUpdateFlag(false)
   }, [updateFields])
+
+  useEffect(() => {
+    localStorage.setItem(params.accountId, JSON.stringify(acc))
+    console.log("acc data * 0<", acc, data)
+  }, [acc])
 
   const onSubmit = () => {
     console.log("setupdate flag --->", updateFlag)

@@ -34,13 +34,6 @@ function FirstCard({ handleChange, values, classes, setCardState }: Props): Reac
           type='text'
           value={values.ein}
         />
-        {/* <CustomInput
-          name='subtype'
-          handleChange={handleChange}
-          placeholder='Subtype'
-          type='text'
-          value={values.subtype}
-        /> */}
         <CustomDropdown data={dropdownData} value={values.subtype} handleChange={handleChange} name='subtype' />
       </div>
       <div style={{ position: 'absolute', bottom: 10, right: 10, display: 'flex' }}>

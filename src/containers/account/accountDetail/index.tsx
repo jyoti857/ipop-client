@@ -70,11 +70,16 @@ function AccountDetail({ accountName, ein, phone, email }: Props): ReactElement 
   return (
     <div style={{ marginTop: 23 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: 1200 }}>
-        <div>
-
+        <div style={{ width: '40%', backgroundColor: 'red' }}>
           <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
-            <div style={{ marginLeft: 12, marginRight: 12, fontSize: 20, fontWeight: 'bolder' }}>{accData.name}</div>
-            <div style={{ backgroundColor: 'limegreen', padding: 4, textAlign: 'center', borderRadius: 8, }}>{accData.status}</div>
+            <div style={{ marginLeft: 12, marginRight: 12, fontSize: 20, fontWeight: 'bolder' }}>{accData?.name}</div>
+            <div style={{ backgroundColor: 'limegreen', padding: 4, textAlign: 'center', borderRadius: 8, }}>{accData?.accountStatus}</div>
+          </div>
+          <div style={{ display: 'flex', marginLeft: 12, justifyContent: 'flex-start' }}>
+            <div>{accData?.addressLine1},</div>
+            <div>{accData?.city},</div>
+            <div>{accData?.country}</div>
+            <div>{accData?.email}</div>
           </div>
         </div>
         <div>

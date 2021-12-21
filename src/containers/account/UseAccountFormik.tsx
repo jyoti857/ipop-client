@@ -8,6 +8,10 @@ import { useState } from 'react'
 import ThirdCard from './cards/thirdCard'
 import CustomAccountForm from '../../utils/useCustomAccountFormik'
 
+export enum PaymentTermsEnum {
+  NET45 = "net45",
+  PREPAID = 'prepaid'
+}
 export interface UseAccountProps {
   accountName: string;
   ein: string;
@@ -23,6 +27,8 @@ export interface UseAccountProps {
   handleClose?: any;
   filetype?: string;
   attention: string;
+  paymentType: PaymentTermsEnum;
+  accountStatus: string;
 }
 
 
@@ -31,8 +37,8 @@ const UseAccountFormik = ({ handleClose }: Partial<UseAccountProps>) => {
   const classes = useStyles();
   const [cardState, setCardState] = useState('first')
   const onSubmit = () => {
-    const { accountName, ein, subtype, phone, city, email, state, street1address, street2address, street3address, zip, attention } = values;
-    dispatch(createNewAccountAction({ accountName, ein, subtype, phone, city, email, state, street1address, street2address, street3address, zip, attention }))
+    const { accountName, ein, subtype, phone, city, email, state, street1address, street2address, street3address, zip, attention, paymentType, accountStatus } = values;
+    dispatch(createNewAccountAction({ accountName, ein, subtype, phone, city, email, state, street1address, street2address, street3address, zip, attention, paymentType, accountStatus }))
     console.log("email and password from use custom formik ---> ", accountName, ein, subtype);
     handleClose(false)
     dispatch(getAccountsAction())

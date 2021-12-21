@@ -54,9 +54,9 @@ function AccountList({ }: Props): ReactElement {
 
   // get the account list using react query above line is commented that is data we are getting using the 
   // redux saga with triggering the action
-  const accounts: any = data?.length > 0 && data.map(({ name, status, city, state, addressLine1, zip, country, _id }: any) => {
+  const accounts: any = data?.length > 0 && data.map(({ name, accountStatus, city, state, addressLine1, zip, country, _id }: any) => {
     return (
-      createData(name, status, addressLine1, city, state, country, zip, _id)
+      createData(name, accountStatus, addressLine1, city, state, country, zip, _id)
     )
   })
   // useEffect(() => {

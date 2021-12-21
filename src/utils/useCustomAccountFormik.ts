@@ -1,5 +1,5 @@
 import { useFormik } from 'formik'
-import { UseAccountProps } from '../containers/account/UseAccountFormik'
+import { PaymentTermsEnum, UseAccountProps } from '../containers/account/UseAccountFormik'
 
 
 type CustomAccountFormType = {
@@ -20,7 +20,9 @@ const CustomAccountForm = ({onSubmit}: CustomAccountFormType) => {
       street3address: '324234',
       zip: '93020',
       filetype: '2',
-      attention: "233"
+      attention: "233",
+      paymentType: PaymentTermsEnum.NET45,
+      accountStatus: "pending"
     },
     onSubmit
   })
