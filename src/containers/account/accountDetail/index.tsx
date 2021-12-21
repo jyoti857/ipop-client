@@ -2,13 +2,7 @@ import { Button, Divider, Paper } from '@mui/material';
 import { ReactElement, useEffect, useState } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom'
-import { useQuery } from 'react-query'
-import CustomInput from '../../../components/input/CustomInput'
-import { ReducersType } from '../../../reducers/rootReducers';
-import { getAccountByIdAction } from '../actions';
 import { useStyles } from './styles'
-import { getAccountById, updateAccountById } from '../../../utils/baseUrl';
-import CustomAccountForm from '../../../utils/useCustomAccountFormik';
 import AccountTabs from './accountTabs';
 import AccountInformation from './accountInformation';
 import SupportingDocuments from './supportingDocuments';
@@ -39,8 +33,7 @@ function AccountDetail(): ReactElement {
   const classes = useStyles();
   const [tabName, setTabName] = useState('AccountInformation');
   const params = useParams<{ accountId: string }>();
-  const [accData, setAccData] = useState(JSON.parse(localStorage.getItem(params.accountId)!));
-  console.log("acc data **---> ", accData, params.accountId)
+  const account = useSelector(({ accountReducers }: any) => accountReducers)
   const [value, setValue] = useState(0)
   const handleChange = (e: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
@@ -66,20 +59,20 @@ function AccountDetail(): ReactElement {
       default: return <div style={{ height: 23, width: 160, margin: '80px auto', alignSelf: 'center', backgroundColor: 'green', color: 'white', display: 'flex', borderRadius: 2 }}>Under development</div> // <SupportingDocuments />
     }
   }
-
+  console.log("use selector ***", account)
   return (
     <div style={{ marginTop: 23 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: 1200 }}>
         <div style={{ width: '40%', backgroundColor: 'red' }}>
           <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
-            <div style={{ marginLeft: 12, marginRight: 12, fontSize: 20, fontWeight: 'bolder' }}>{accData?.name}</div>
-            <div style={{ backgroundColor: 'limegreen', padding: 4, textAlign: 'center', borderRadius: 8, }}>{accData?.accountStatus}</div>
+            <div style={{ marginLeft: 12, marginRight: 12, fontSize: 20, fontWeight: 'bolder' }}>{account?.name}</div>
+            <div style={{ backgroundColor: 'limegreen', padding: 4, textAlign: 'center', borderRadius: 8, }}>{account?.accountStatus}</div>
           </div>
           <div style={{ display: 'flex', marginLeft: 12, justifyContent: 'flex-start' }}>
-            <div>{accData?.addressLine1},</div>
-            <div>{accData?.city},</div>
-            <div>{accData?.country}</div>
-            <div>{accData?.email}</div>
+            <div>{account?.addressLine1},</div>
+            <div>{account?.city},</div>
+            <div>{account?.country}</div>
+            <div>{account?.email}</div>
           </div>
         </div>
         <div>

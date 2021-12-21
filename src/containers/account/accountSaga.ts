@@ -65,7 +65,7 @@ function* updateAccount({payload}: any){
   
   console.log("submit from update account saga response --> ", response)
   if(response){
-    yield put(updateOneAccountFromSaga(response.data))
+    yield put(updateOneAccountFromSaga(response))
   }
 }
 

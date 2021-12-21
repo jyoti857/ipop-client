@@ -51,7 +51,6 @@ function AccountInfoComponent({ data }: Props): ReactElement {
     accountStatus: data?.accountStatus
   }))
 
-
   return (
     <div>
       {data ?
