@@ -1,15 +1,16 @@
 import { Button, Divider, Paper } from '@mui/material'
 import React, { ReactElement, useState } from 'react'
+import { useDispatch } from 'react-redux';
 import CustomInput from '../../../../components/input/CustomInput';
+import { updateOneAccountAction } from '../../actions';
 import { PaymentTermsEnum } from '../../UseAccountFormik';
 import { AccountInformationType_ } from './accountInformation_';
 import { useStyles } from './styles'
 interface Props {
   data: any;
-  onSubmit: any
 }
 
-function AccountInfoComponent({ data, onSubmit }: Props): ReactElement {
+function AccountInfoComponent({ data }: Props): ReactElement {
   const classes = useStyles();
   const [clinicPhysicianLicenseNumber_, setClinicPhysicianLicenseNumber_] = useState('')
   const [addressLine2_, setAddressLine2_] = useState(data?.addressLine2 ? data.addressLine2 : '')
@@ -24,9 +25,16 @@ function AccountInfoComponent({ data, onSubmit }: Props): ReactElement {
   const [dun_, setDun_] = useState("")
   const [attention_, setAttention_] = useState("")
 
+
+
   const [updateFlag, setUpdateFlag] = useState(false);
 
+  const dispatch = useDispatch()
 
+  const onSubmit = () => {
+    console.log("submit from update account!")
+    dispatch(updateOneAccountAction({ ...acc, accountId: data._id }))
+  }
   const [acc, setAcc] = useState<AccountInformationType_>(() => ({
     addressLine1: data?.addressLine1 ? data.addressLine1 : '',
     attention: data?.attention,

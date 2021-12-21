@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from "@redux-saga/core/effects"
 import { customFetch, uri } from "../../utils/fetchUrl";
 import { saveAccountsFromSaga, saveOneAccountFromSaga, updateOneAccountFromSaga } from "./actions";
-import { CREATE_ACCOUNT_ACTION, GET_ACCOUNTS_ACTION, GET_ACCOUNT_BY_ID_ACTION } from "./constants"
+import { CREATE_ACCOUNT_ACTION, GET_ACCOUNTS_ACTION, GET_ACCOUNT_BY_ID_ACTION, UPDATE_ONE_ACCOUNT_ACTION } from "./constants"
 
 
 
@@ -50,20 +50,20 @@ function* getAccountByIdApi({id}: any){
 }
 
 function* updateAccount({payload}: any){
-  
+  console.log("submit from update account saga --> ", payload)
   const {accountId, ...rest} = payload
   const body = JSON.stringify(rest)
   const options = {
     method: "PUT",
     body,
     headers: {
-      headers: {
-        'Content-Type': 'application/json',
-        "Authorization": localStorage.getItem('token')!
-      }
+      'Content-Type': 'application/json',
+      "Authorization": localStorage.getItem('token')!
     }
   }
   const response: CreateAccountResponseType = yield call(customFetch, uri+`/account/${accountId}`, options)
+  
+  console.log("submit from update account saga response --> ", response)
   if(response){
     yield put(updateOneAccountFromSaga(response.data))
   }
@@ -73,4 +73,5 @@ export default function* accountSaga(){
   yield takeLatest(CREATE_ACCOUNT_ACTION, createAccountSagaApi);
   yield takeLatest(GET_ACCOUNTS_ACTION, getAllAccounts);
   yield takeLatest(GET_ACCOUNT_BY_ID_ACTION, getAccountByIdApi);
+  yield takeLatest(UPDATE_ONE_ACCOUNT_ACTION, updateAccount)
 }
