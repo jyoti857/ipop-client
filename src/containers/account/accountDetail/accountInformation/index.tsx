@@ -26,15 +26,10 @@ export type AccountInformationType = {
 }
 function AccountInformation({ }: Props): ReactElement {
 
-  const history = useHistory()
   const params = useParams<{ accountId: string }>();
-  const [accountInformation, setaccountInformation] = useState<AccountInformationType>()
   const { data, isLoading } = useQuery(['accountInformation', params.accountId], () => getAccountById(params.accountId),
     { enabled: Boolean(params.accountId) }
   )
-
-
-  // const { handleChange, values } = CustomAccountForm({ onSubmit })
   return (
     <div>
       <AccountInfoComponent data={data} isLoading={isLoading} />

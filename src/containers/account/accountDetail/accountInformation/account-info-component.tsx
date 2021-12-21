@@ -69,7 +69,7 @@ function AccountInfoComponent({ data, isLoading }: Props): ReactElement {
     })
 
     setAcc(s())
-  }, [isLoading])
+  }, [data])
   console.log("acc *& --> ", acc)
   {
     return (

@@ -9,6 +9,8 @@ import SupportingDocuments from './supportingDocuments';
 import Purchaser from './purchaser';
 import AccountPrice from './accountPrice';
 import Quotes from './quotes';
+import { useQuery } from 'react-query';
+import { getAccountById } from '../../../utils/baseUrl';
 interface Props {
   accountName: string;
   ein: string;
@@ -30,10 +32,12 @@ const accountTabs = [
   { label: "Quotes", idx: 5 },
 ]
 function AccountDetail(): ReactElement {
-  const classes = useStyles();
   const [tabName, setTabName] = useState('AccountInformation');
   const params = useParams<{ accountId: string }>();
-  const account = useSelector(({ accountReducers }: any) => accountReducers)
+  const account = useSelector(({ accountReducers }: any) => accountReducers, shallowEqual)
+  const { data, isLoading } = useQuery(['accountInformation', params.accountId], () => getAccountById(params.accountId),
+    { enabled: Boolean(params.accountId) }
+  )
   const [value, setValue] = useState(0)
   const handleChange = (e: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
@@ -63,16 +67,16 @@ function AccountDetail(): ReactElement {
   return (
     <div style={{ marginTop: 23 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: 1200 }}>
-        <div style={{ width: '40%', backgroundColor: 'red' }}>
+        <div style={{ width: '40%' }}>
           <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
-            <div style={{ marginLeft: 12, marginRight: 12, fontSize: 20, fontWeight: 'bolder' }}>{account?.name}</div>
-            <div style={{ backgroundColor: 'limegreen', padding: 4, textAlign: 'center', borderRadius: 8, }}>{account?.accountStatus}</div>
+            <div style={{ marginLeft: 12, marginRight: 12, fontSize: 20, fontWeight: 'bolder' }}>{account?.name || data?.name}</div>
+            <div style={{ backgroundColor: 'limegreen', padding: 4, textAlign: 'center', borderRadius: 8, }}>{account?.accountStatus || data?.accountStatus}</div>
           </div>
           <div style={{ display: 'flex', marginLeft: 12, justifyContent: 'flex-start' }}>
-            <div>{account?.addressLine1},</div>
-            <div>{account?.city},</div>
-            <div>{account?.country}</div>
-            <div>{account?.email}</div>
+            <div>{account?.addressLine1 || data?.addressLine1},</div>
+            <div>{account?.city || data?.city},</div>
+            <div>{account?.country || data?.country}</div>
+            <div>{account?.email || data?.email}</div>
           </div>
         </div>
         <div>
