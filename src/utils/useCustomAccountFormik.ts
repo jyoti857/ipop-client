@@ -21,8 +21,8 @@ const CustomAccountForm = ({onSubmit}: CustomAccountFormType) => {
       zip: '93020',
       filetype: '2',
       attention: "233",
-      paymentType: PaymentTermsEnum.NET45,
-      accountStatus: "pending"
+      paymentType: PaymentTermsEnum.PREPAID,
+      // accountStatus: "pending"
     },
     onSubmit
   })

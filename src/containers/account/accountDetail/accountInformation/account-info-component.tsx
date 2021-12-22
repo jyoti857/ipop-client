@@ -2,6 +2,7 @@ import { Button, Divider, Paper } from '@mui/material'
 import React, { ReactElement, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import CustomInput from '../../../../components/input/CustomInput';
+import CustomizedRadios from '../../../../components/radio-button';
 import { updateOneAccountAction } from '../../actions';
 import { PaymentTermsEnum } from '../../UseAccountFormik';
 import { AccountInformationType_ } from './accountInformation_';
@@ -25,7 +26,7 @@ function AccountInfoComponent({ data, isLoading }: Props): ReactElement {
     addressLine2: data?.addressLine2,
     addressLine3: data?.addressLine3,
     city: data?.city,
-    paymentType: data?.paymentTerms || PaymentTermsEnum.NET45,
+    paymentType: data?.paymentTerms, //|| PaymentTermsEnum.NET45,
     accountStatus: data?.accountStatus,
     zip: data?.zip,
     apPhone: data?.apPhone,
@@ -35,17 +36,15 @@ function AccountInfoComponent({ data, isLoading }: Props): ReactElement {
     taxId: data?.taxId,
     hcpNpi: data?.hcpNpi
   }))
+  const [radioValue, setRadioValue] = useState("")
   const [clinicPhysicianLicenseNumber, setClinicPhysicianLicenseNumber] = useState('')
-  const [addressLine2, setAddressLine2] = useState(data?.addressLine2)
+  const [addressLine2] = useState(data?.addressLine2)
   const [addressLine3, setAddressLine3] = useState(data?.addressLine3)
-  const [hcpName, setHcpName] = useState(data?.hcpName)
-  const [hcpNpi, setHcpNpi] = useState(data?.hcpNpi)
-  const [taxId, setTaxId] = useState("")
-  const [dun, setDun] = useState("")
-
+  const [hcpName] = useState(data?.hcpName)
+  const [hcpNpi] = useState(data?.hcpNpi)
 
   console.log("data1 *& --> ", data)
-  const [updateFlag, setUpdateFlag] = useState(false);
+  const [updateFlag] = useState(false);
 
   const dispatch = useDispatch()
 
@@ -73,7 +72,7 @@ function AccountInfoComponent({ data, isLoading }: Props): ReactElement {
       addressLine2: data?.addressLine2,
       addressLine3: data?.addressLine3,
       city: data?.city,
-      paymentType: data?.paymentTerms || PaymentTermsEnum.NET45,
+      paymentType: data?.paymentType,
       accountStatus: data?.accountStatus,
       zip: data?.zip,
       apPhone: data?.apPhone,
@@ -84,8 +83,17 @@ function AccountInfoComponent({ data, isLoading }: Props): ReactElement {
       hcpNpi: data?.hcpNpi
     })
     setAcc(s())
+    console.log("acc *& --> ", radioValue, data?.paymentType)
   }, [data])
-  console.log("acc *& --> ", acc)
+  useEffect(() => {
+
+    setRadioValue(acc.paymentType === PaymentTermsEnum.PREPAID ? "prepaid" : 'net45')
+  }, [acc.paymentType])
+
+  const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setAcc({ ...acc, paymentType: event.target.value as unknown as PaymentTermsEnum })
+    setRadioValue(event.target.value)
+  }
   {
     return (
       isLoading ? (<>Loading</>) : 
@@ -307,7 +315,20 @@ function AccountInfoComponent({ data, isLoading }: Props): ReactElement {
                     style={{ margin: 10 }}
                   />
             </div>
-          </div>
+              </div>
+              <Divider />
+              <div className={classes.inputWrap} style={{ marginLeft: 10, marginTop: 10 }}>
+                <CustomizedRadios
+                  isDisabled={data?.paymentType === PaymentTermsEnum.NET45}
+                  radioValue={radioValue}
+                  handleChange={handleRadioChange}
+                  title="Preferred Payment Tems"
+                  options={[
+                    { label: "Prepay Account (Credit Card)", value: "prepaid" },
+                    { label: "Payment Terms (Net 45)", value: 'net45' }]}
+                />
+              </div>
+              <Divider style={{ margin: '10px' }} />
           <div className={classes.rowWrap}>
             <div className={classes.inputWrap}>
               <label className={classes.label}>EIN/Tax ID of Financially Responsible Entity *</label>

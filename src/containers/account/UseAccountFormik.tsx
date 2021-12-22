@@ -28,7 +28,7 @@ export interface UseAccountProps {
   filetype?: string;
   attention: string;
   paymentType: PaymentTermsEnum;
-  accountStatus: string;
+  accountStatus?: string;
 }
 
 

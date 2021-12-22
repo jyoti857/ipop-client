@@ -74,17 +74,17 @@ export interface CustomRadiosType {
   options?: OptionType[];
   defaultValue?: string;
   radioValue: string;
-  handleChange: any
+  handleChange: any;
+  isDisabled?: boolean
 }
-export default function CustomizedRadios({ radioValue, handleChange, title, options, defaultValue }: CustomRadiosType) {
+export default function CustomizedRadios({ radioValue, handleChange, title, options, defaultValue, isDisabled }: CustomRadiosType) {
 
   return (
-    <FormControl component="fieldset">
-      <FormLabel component="legend">{title}</FormLabel>
+    <FormControl component="fieldset" disabled={isDisabled}>
+      <FormLabel component="legend" disabled={isDisabled}>{title}</FormLabel>
       <RadioGroup
         // defaultValue="female"
         value={radioValue}
-        aria-label="gender"
         name="customized-radios"
         onChange={handleChange}
         style={{ display: 'flex' }}
