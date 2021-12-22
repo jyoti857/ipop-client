@@ -1,4 +1,4 @@
-import { CREATE_ACCOUNT_ACTION, SAVE_ACCOUNTS_FROM_SAGA, SAVE_ONE_ACCOUNT_FROM_SAGA, UPDATE_ONE_ACCOUNT_FROM_SAGA } from "./constants"
+import { CREATE_ACCOUNT_ACTION, GET_FINANCE_DETAIL_FROM_SAGA, SAVE_ACCOUNTS_FROM_SAGA, SAVE_ONE_ACCOUNT_FROM_SAGA, UPDATE_ONE_ACCOUNT_FROM_SAGA } from "./constants"
 import { AccountActionType } from "./types/accountTypes"
 
 export const initialState = {
@@ -17,7 +17,8 @@ export const initialState = {
   email: '',
   affiliated_hcp_name: "",
   hcpNpi: "", 
-  accounts: []
+  accounts: [],
+  financeDetails: {}
 }
 
 export const AccountReducers = (state_ = initialState, action: AccountActionType) => {
@@ -58,6 +59,13 @@ export const AccountReducers = (state_ = initialState, action: AccountActionType
       return {
         ...state_, 
         ...action.payload
+      }
+    }
+    case GET_FINANCE_DETAIL_FROM_SAGA: {
+      console.log("finance details reducers --> ", action.payload)
+      return {
+        ...state_,
+        financeDetails: action.payload
       }
     }
     default: return state_;

@@ -1,27 +1,38 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import clsx from 'clsx'
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useEffect } from 'react'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { ReducersType } from '../../../../reducers/rootReducers';
+import { getFinanceDetailByAccountId } from '../../actions';
 import { useStyles } from './styles'
 
 interface Props {
 
 }
-function createData(name: string, value: number) {
+function createData(name: string, value: number | string) {
   return { name, value };
 }
 function CreaditInformation({ }: Props): ReactElement {
   const classes = useStyles()
+  const { accountId } = useParams<{ accountId: string }>()
+  const dispatch = useDispatch();
+  const financeDetails = useSelector(({ accountReducers }: ReducersType) => accountReducers.financeDetails, shallowEqual)
+  console.log("finance details ", financeDetails)
   const rows = [
-    createData("Paydex", 80),
-    createData("Delinquency Score", 23),
-    createData("Failure Score", 23),
-    createData("Bankruptcy Found", 23),
-    createData("D&B Rating", 23)
+    createData("Paydex", financeDetails.paydex),
+    createData("Delinquency Score", financeDetails.delinquencyScore),
+    createData("Failure Score", financeDetails.failureScore),
+    createData("Bankruptcy Found", financeDetails.bankruptcyFound),
+    createData("D&B Rating", financeDetails.dnbRating)
   ];
+  useEffect(() => {
+    console.log("finance details *", accountId)
+    dispatch(getFinanceDetailByAccountId({ accountId }))
+  }, [accountId])
   return (
     <div>
       <div>
-
         <Paper className={clsx(classes.paper, classes.flex)}>
           <div>
             <Paper className={classes.nestedPaper}>

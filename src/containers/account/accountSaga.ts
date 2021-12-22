@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from "@redux-saga/core/effects"
 import { customFetch, uri } from "../../utils/fetchUrl";
-import { saveAccountsFromSaga, saveOneAccountFromSaga, updateOneAccountFromSaga } from "./actions";
-import { CREATE_ACCOUNT_ACTION, GET_ACCOUNTS_ACTION, GET_ACCOUNT_BY_ID_ACTION, UPDATE_ONE_ACCOUNT_ACTION } from "./constants"
+import { getFinanceDetailsFromSaga, saveAccountsFromSaga, saveOneAccountFromSaga, updateOneAccountFromSaga } from "./actions";
+import { CREATE_ACCOUNT_ACTION, GET_ACCOUNTS_ACTION, GET_ACCOUNT_BY_ID_ACTION, GET_FINANCE_DETAIL_ACTION, UPDATE_ONE_ACCOUNT_ACTION } from "./constants"
 
 
 
@@ -70,9 +70,26 @@ function* updateAccount({payload}: any){
   }
 }
 
+function* getFinanceDetailByAccountId({accountId}: any){
+  console.log("finance details account id  ----> ", accountId)
+  const options = {
+    method: "GET",
+    headers: {
+      'Content-Type': 'application/json',
+      "Authorization": localStorage.getItem('token')!
+    }
+  }
+  const response: CreateAccountResponseType = yield call(customFetch, uri+`/finance-detail/${accountId}`, options)
+  console.log("finance details response ", response)
+  if(response){
+    yield put(getFinanceDetailsFromSaga(response))
+  }
+}
+
 export default function* accountSaga(){
   yield takeLatest(CREATE_ACCOUNT_ACTION, createAccountSagaApi);
   yield takeLatest(GET_ACCOUNTS_ACTION, getAllAccounts);
   yield takeLatest(GET_ACCOUNT_BY_ID_ACTION, getAccountByIdApi);
-  yield takeLatest(UPDATE_ONE_ACCOUNT_ACTION, updateAccount)
+  yield takeLatest(UPDATE_ONE_ACCOUNT_ACTION, updateAccount);
+  yield takeLatest(GET_FINANCE_DETAIL_ACTION, getFinanceDetailByAccountId)
 }

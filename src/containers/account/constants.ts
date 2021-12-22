@@ -11,3 +11,6 @@ export const SAVE_ONE_ACCOUNT_FROM_SAGA = '@order_management/save_one_account_by
 
 export const UPDATE_ONE_ACCOUNT_ACTION = '@order_management/update_one_account_by_id_action';
 export const UPDATE_ONE_ACCOUNT_FROM_SAGA = '@order_management/update_one_account_by_id_from_saga';
+
+export const GET_FINANCE_DETAIL_ACTION = '@order_management/get_finance_detail_action';
+export const GET_FINANCE_DETAIL_FROM_SAGA = '@order_management/get_finance_detail_from_saga';
