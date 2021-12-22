@@ -2,6 +2,10 @@ import { PaymentTermsEnum } from "../../UseAccountFormik";
 
 
 export interface AccountInformationType_ {
+  hcpNpi: string | number;
+  taxId: string | number;
+  dun: string | number;
+  hcpName: string | number;
   zip: string | number;
   name: string;
   attention: string;

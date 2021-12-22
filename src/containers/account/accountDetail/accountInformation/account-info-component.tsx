@@ -13,37 +13,6 @@ interface Props {
 
 function AccountInfoComponent({ data, isLoading }: Props): ReactElement {
   const classes = useStyles();
-  const [clinicPhysicianLicenseNumber, setClinicPhysicianLicenseNumber] = useState('')
-  const [addressLine2, setAddressLine2] = useState(data?.addressLine2)
-  const [addressLine3, setAddressLine3] = useState(data?.addressLine3)
-  const [hcpName, setHcpName] = useState(data?.hcpName)
-  const [hcpNpi, setHcpNpi] = useState(data?.hcpNp)
-  const [state, setState] = useState("")
-  const [zipcode, setZipcode] = useState("")
-  const [apPhone, setApPhone] = useState("")
-  const [apEmail, setApEmail] = useState("")
-  const [taxId, setTaxId] = useState("")
-  const [dun, setDun] = useState("")
-  const [attention, setAttention] = useState("")
-
-
-  console.log("data1 *& --> ", data)
-  const [updateFlag, setUpdateFlag] = useState(false);
-
-  const dispatch = useDispatch()
-
-  const onSubmit = () => {
-    console.log("submit from update account!")
-    dispatch(updateOneAccountAction({
-      ...acc,
-      hcpName,
-      hcpNpi,
-      addressLine2,
-      apPhone,
-      apEmail,
-      accountId: data._id
-    }))
-  }
   const [acc, setAcc] = useState<AccountInformationType_>(() => ({
     addressLine1: data?.addressLine1,
     attention: data?.attention,
@@ -60,8 +29,37 @@ function AccountInfoComponent({ data, isLoading }: Props): ReactElement {
     accountStatus: data?.accountStatus,
     zip: data?.zip,
     apPhone: data?.apPhone,
-    apEmail: data?.apEmail
+    apEmail: data?.apEmail,
+    hcpName: data?.hcpName,
+    dun: data?.dun,
+    taxId: data?.taxId,
+    hcpNpi: data?.hcpNpi
   }))
+  const [clinicPhysicianLicenseNumber, setClinicPhysicianLicenseNumber] = useState('')
+  const [addressLine2, setAddressLine2] = useState(data?.addressLine2)
+  const [addressLine3, setAddressLine3] = useState(data?.addressLine3)
+  const [hcpName, setHcpName] = useState(data?.hcpName)
+  const [hcpNpi, setHcpNpi] = useState(data?.hcpNpi)
+  const [taxId, setTaxId] = useState("")
+  const [dun, setDun] = useState("")
+
+
+  console.log("data1 *& --> ", data)
+  const [updateFlag, setUpdateFlag] = useState(false);
+
+  const dispatch = useDispatch()
+
+  const onSubmit = () => {
+    console.log("submit from update account!")
+    dispatch(updateOneAccountAction({
+      ...acc,
+      hcpName,
+      hcpNpi,
+      addressLine2,
+      accountId: data._id
+    }))
+  }
+
   useEffect(() => {
     const s = () => ({
       addressLine1: data?.addressLine1,
@@ -79,7 +77,11 @@ function AccountInfoComponent({ data, isLoading }: Props): ReactElement {
       accountStatus: data?.accountStatus,
       zip: data?.zip,
       apPhone: data?.apPhone,
-      apEmail: data?.apEmail
+      apEmail: data?.apEmail,
+      hcpName: data?.hcpName,
+      dun: data?.dun,
+      taxId: data?.taxId,
+      hcpNpi: data?.hcpNpi
     })
     setAcc(s())
   }, [data])
@@ -179,24 +181,24 @@ function AccountInfoComponent({ data, isLoading }: Props): ReactElement {
             <div className={classes.inputWrap}>
               <label className={classes.label}>Affiliated HCP Name</label>
               <CustomInput
-                    value={hcpName}
+                    value={acc.hcpName}
                 name='hcpname'
                 type='text'
                 placeholder=''
                 classNames={classes.fields}
-                    handleChange={(e: React.ChangeEvent<any>) => setHcpName(e.target.value)}
+                    handleChange={(e: React.ChangeEvent<any>) => setAcc({ ...acc, hcpName: e.target.value })}
                 style={{ margin: 10 }}
               />
             </div>
             <div className={classes.inputWrap}>
               <label className={classes.label}>Affiliated HCP NPI #</label>
               <CustomInput
-                    value={hcpNpi}
+                    value={acc.hcpNpi}
                 name='hcpnpi'
                 type='text'
                 placeholder=''
                 classNames={classes.fields}
-                    handleChange={(e: React.ChangeEvent<any>) => setHcpNpi(e.target.value)}
+                    handleChange={(e: React.ChangeEvent<any>) => setAcc({ ...acc, hcpNpi: e.target.value })}
                 style={{ margin: 10 }}
               />
             </div>
@@ -213,17 +215,17 @@ function AccountInfoComponent({ data, isLoading }: Props): ReactElement {
                 classNames={classes.fields}
                 handleChange={(e: React.ChangeEvent<any>) => setAcc({ ...acc, addressLine1: e.target.value })}
                 style={{ margin: 10 }}
-              />
+                  />
             </div>
             <div className={classes.inputWrap}>
               <label className={classes.label}>Ship To Street 2</label>
               <CustomInput
-                    value={addressLine2}
-                name='addressline2'
-                type='text'
-                placeholder=''
-                classNames={classes.fields}
-                    handleChange={(e: React.ChangeEvent<any>) => setAddressLine2(e.target.value)}
+                    value={acc.addressLine2}
+                    name='addressline2'
+                    type='text'
+                    placeholder=''
+                    classNames={classes.fields}
+                    handleChange={(e: React.ChangeEvent<any>) => setAcc({ ...acc, addressLine2: e.target.value })}
                 style={{ margin: 10 }}
               />
             </div>
@@ -284,48 +286,50 @@ function AccountInfoComponent({ data, isLoading }: Props): ReactElement {
             <div className={classes.inputWrap}>
               <label className={classes.label}>Ship To AP Contact Phone *</label>
               <CustomInput
-                    value={apPhone}
+                    value={acc.apPhone}
                     name='apPhone'
                     type='number'
                     placeholder=''
                     classNames={classes.fields}
-                    handleChange={(e: React.ChangeEvent<any>) => setApPhone(e.target.value)}
+                    handleChange={(e: React.ChangeEvent<any>) => setAcc({ ...acc, apPhone: e.target.value })}
                     style={{ margin: 10 }}
                   />
             </div>
             <div className={classes.inputWrap}>
               <label className={classes.label}>Ship To AP Contact Email *</label>
               <CustomInput
-                    value={apEmail}
+                    value={acc.apEmail}
                 name='apemail'
                     type='email'
                 placeholder=''
                 classNames={classes.fields}
-                    handleChange={(e: React.ChangeEvent<any>) => setApEmail(e.target.value)}
-                style={{ margin: 10 }}
-              />
+                    handleChange={(e: React.ChangeEvent<any>) => setAcc({ ...acc, apEmail: e.target.value })}
+                    style={{ margin: 10 }}
+                  />
             </div>
           </div>
           <div className={classes.rowWrap}>
             <div className={classes.inputWrap}>
               <label className={classes.label}>EIN/Tax ID of Financially Responsible Entity *</label>
               <CustomInput
-                    value={taxId}
+                    value={acc.taxId}
                 name='taxid'
                 type='text'
                 placeholder=' '
                 classNames={classes.fields}
+                    handleChange={(e: React.ChangeEvent<any>) => setAcc({ ...acc, taxId: e.target.value })}
                 style={{ margin: 10 }}
-              />
+                  />
             </div>
             <div className={classes.inputWrap}>
               <label className={classes.label}>DUN #</label>
               <CustomInput
-                    value={dun}
+                    value={acc.dun}
                 name='dun'
                 type='text'
                 placeholder=''
                 classNames={classes.fields}
+                    handleChange={(e: React.ChangeEvent<any>) => setAcc({ ...acc, dun: e.target.value })}
                 style={{ margin: 10 }}
               />
             </div>

@@ -5,7 +5,7 @@ import { useStyles } from './styles'
 
 interface Props {
   handleChange?: any;
-  value: string | number;
+  value: string | number | undefined;
   name: string;
   type: string;
   placeholder: any;
