@@ -40,6 +40,7 @@ export const saveOneAccountFromSaga = (payload: any) => {
 }
 
 export const updateOneAccountAction = (payload: any) => {
+  console.log("update one *&", payload)
   return(
     {
       type: UPDATE_ONE_ACCOUNT_ACTION,

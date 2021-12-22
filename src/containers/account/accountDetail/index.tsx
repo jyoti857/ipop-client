@@ -35,7 +35,7 @@ function AccountDetail(): ReactElement {
   const [tabName, setTabName] = useState('AccountInformation');
   const params = useParams<{ accountId: string }>();
   const account = useSelector(({ accountReducers }: any) => accountReducers, shallowEqual)
-  const { data, isLoading } = useQuery(['accountInformation', params.accountId], () => getAccountById(params.accountId),
+  const { data } = useQuery(['accountInformation', params.accountId], () => getAccountById(params.accountId),
     { enabled: Boolean(params.accountId) }
   )
   const [value, setValue] = useState(0)

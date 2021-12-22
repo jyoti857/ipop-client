@@ -34,7 +34,15 @@ function AccountInfoComponent({ data, isLoading }: Props): ReactElement {
 
   const onSubmit = () => {
     console.log("submit from update account!")
-    dispatch(updateOneAccountAction({ ...acc, accountId: data._id }))
+    dispatch(updateOneAccountAction({
+      ...acc,
+      hcpName,
+      hcpNpi,
+      addressLine2,
+      apPhone,
+      apEmail,
+      accountId: data._id
+    }))
   }
   const [acc, setAcc] = useState<AccountInformationType_>(() => ({
     addressLine1: data?.addressLine1,
@@ -49,7 +57,10 @@ function AccountInfoComponent({ data, isLoading }: Props): ReactElement {
     addressLine3: data?.addressLine3,
     city: data?.city,
     paymentType: data?.paymentTerms || PaymentTermsEnum.NET45,
-    accountStatus: data?.accountStatus
+    accountStatus: data?.accountStatus,
+    zip: data?.zip,
+    apPhone: data?.apPhone,
+    apEmail: data?.apEmail
   }))
   useEffect(() => {
     const s = () => ({
@@ -65,9 +76,11 @@ function AccountInfoComponent({ data, isLoading }: Props): ReactElement {
       addressLine3: data?.addressLine3,
       city: data?.city,
       paymentType: data?.paymentTerms || PaymentTermsEnum.NET45,
-      accountStatus: data?.accountStatus
+      accountStatus: data?.accountStatus,
+      zip: data?.zip,
+      apPhone: data?.apPhone,
+      apEmail: data?.apEmail
     })
-
     setAcc(s())
   }, [data])
   console.log("acc *& --> ", acc)
@@ -142,7 +155,7 @@ function AccountInfoComponent({ data, isLoading }: Props): ReactElement {
               <CustomInput
                 value={acc.phone}
                 name='phone'
-                type='text'
+                    type='number'
                 placeholder=''
                 classNames={classes.fields}
                 handleChange={(e: React.ChangeEvent<any>) => setAcc({ ...acc, phone: e.target.value })}
@@ -154,7 +167,7 @@ function AccountInfoComponent({ data, isLoading }: Props): ReactElement {
               <CustomInput
                 value={acc.email}
                 name='email'
-                type='text'
+                    type='email'
                 placeholder=''
                 classNames={classes.fields}
                 handleChange={(e: React.ChangeEvent<any>) => setAcc({ ...acc, email: e.target.value })}
@@ -238,31 +251,33 @@ function AccountInfoComponent({ data, isLoading }: Props): ReactElement {
                 classNames={classes.fields}
                 handleChange={(e: React.ChangeEvent<any>) => setAcc({ ...acc, city: e.target.value })}
                 style={{ margin: 10 }}
-              />
+                  />
             </div>
           </div>
           <div className={classes.rowWrap}>
             <div className={classes.inputWrap}>
               <label className={classes.label}>Ship To State *</label>
               <CustomInput
-                    value={state}
-                name='state'
-                type='text'
-                placeholder=''
-                classNames={classes.fields}
-                style={{ margin: 10 }}
-              />
+                    value={acc.state}
+                    name='state'
+                    type='text'
+                    placeholder=''
+                    classNames={classes.fields}
+                    handleChange={(e: React.ChangeEvent<any>) => setAcc({ ...acc, state: e.target.value })}
+                    style={{ margin: 10 }}
+                  />
             </div>
             <div className={classes.inputWrap}>
               <label className={classes.label}>Ship To Zip Code *</label>
               <CustomInput
-                    value={zipcode}
-                name='zipcode'
-                type='text'
-                placeholder=''
-                classNames={classes.fields}
-                style={{ margin: 10 }}
-              />
+                    value={acc.zip}
+                    name='zipcode'
+                    type='text'
+                    placeholder=''
+                    classNames={classes.fields}
+                    handleChange={(e: React.ChangeEvent<any>) => setAcc({ ...acc, zip: e.target.value })}
+                    style={{ margin: 10 }}
+                  />
             </div>
           </div>
           <div className={classes.rowWrap}>
@@ -270,21 +285,23 @@ function AccountInfoComponent({ data, isLoading }: Props): ReactElement {
               <label className={classes.label}>Ship To AP Contact Phone *</label>
               <CustomInput
                     value={apPhone}
-                name='apPhone'
-                type='text'
-                placeholder=''
-                classNames={classes.fields}
-                style={{ margin: 10 }}
-              />
+                    name='apPhone'
+                    type='number'
+                    placeholder=''
+                    classNames={classes.fields}
+                    handleChange={(e: React.ChangeEvent<any>) => setApPhone(e.target.value)}
+                    style={{ margin: 10 }}
+                  />
             </div>
             <div className={classes.inputWrap}>
               <label className={classes.label}>Ship To AP Contact Email *</label>
               <CustomInput
                     value={apEmail}
                 name='apemail'
-                type='text'
+                    type='email'
                 placeholder=''
                 classNames={classes.fields}
+                    handleChange={(e: React.ChangeEvent<any>) => setApEmail(e.target.value)}
                 style={{ margin: 10 }}
               />
             </div>

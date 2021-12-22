@@ -15,7 +15,8 @@ export const initialState = {
   attention: "",
   phone: '',
   email: '',
-  affiliated_hcp_name: "", 
+  affiliated_hcp_name: "",
+  hcpNpi: "", 
   accounts: []
 }
 

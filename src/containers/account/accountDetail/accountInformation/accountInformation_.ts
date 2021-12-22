@@ -2,6 +2,7 @@ import { PaymentTermsEnum } from "../../UseAccountFormik";
 
 
 export interface AccountInformationType_ {
+  zip: string | number;
   name: string;
   attention: string;
   ein: string;
@@ -15,5 +16,7 @@ export interface AccountInformationType_ {
   city: string;
   paymentType: PaymentTermsEnum;
   accountStatus: string;
+  apPhone: number;
+  apEmail: string;
 }
 

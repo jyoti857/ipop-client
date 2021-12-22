@@ -50,9 +50,10 @@ function* getAccountByIdApi({id}: any){
 }
 
 function* updateAccount({payload}: any){
-  console.log("submit from update account saga --> ", payload)
+  // console.log("submit from update account saga --> ", payload)
   const {accountId, ...rest} = payload
   const body = JSON.stringify(rest)
+  console.log("submit from update account saga 1--> ", payload, accountId)
   const options = {
     method: "PUT",
     body,
