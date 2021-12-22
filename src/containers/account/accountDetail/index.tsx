@@ -11,6 +11,7 @@ import AccountPrice from './accountPrice';
 import Quotes from './quotes';
 import { useQuery } from 'react-query';
 import { getAccountById } from '../../../utils/baseUrl';
+import CreaditInformation from './creditInformation';
 interface Props {
   accountName: string;
   ein: string;
@@ -59,6 +60,9 @@ function AccountDetail(): ReactElement {
       }
       case 'Quotes': {
         return <Quotes />
+      }
+      case "CreditInformation": {
+        return <CreaditInformation />
       }
       default: return <div style={{ height: 23, width: 160, margin: '80px auto', alignSelf: 'center', backgroundColor: 'green', color: 'white', display: 'flex', borderRadius: 2 }}>Under development</div> // <SupportingDocuments />
     }
