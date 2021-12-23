@@ -5,6 +5,36 @@ export const useStyles = makeStyles({
   root: {
     margin: theme.size?.margin.primary
   },
+  root_: {
+    width: '90%',
+    minHeight: 300,
+    margin: '20px auto',
+    position: 'relative',
+    boxShadow: '5px 5px 20px  #151254',
+    borderStyle: 'none',
+    backgroundColor: 'red',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  fileIcon: {
+    backgroundColor: '#EDEFF0',
+    height: 70, 
+    width: 70,
+    display: 'flex',
+    borderRadius: '50%',
+    fontSize: 30,
+    position: 'relative', 
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 'auto'
+  },
+  centerLine: {
+    margin: 'auto',
+    zIndex: 12,
+    // marginTop: 13, 
+    transform: 'translate(-34%,-50%)'
+  },
   flex: {
     display: 'flex',
     // width: '95%',

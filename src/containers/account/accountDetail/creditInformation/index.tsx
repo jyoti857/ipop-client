@@ -1,10 +1,13 @@
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
+import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import clsx from 'clsx'
 import React, { ReactElement, useEffect } from 'react'
+import { FaFileInvoiceDollar } from 'react-icons/fa';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import CustomInput from '../../../../components/input/CustomInput';
 import { ReducersType } from '../../../../reducers/rootReducers';
 import { getFinanceDetailByAccountId } from '../../actions';
+import ChangeHistoryTable from './change-history-table';
 import { useStyles } from './styles'
 
 interface Props {
@@ -18,36 +21,49 @@ function CreaditInformation({ }: Props): ReactElement {
   const { accountId } = useParams<{ accountId: string }>()
   const dispatch = useDispatch();
   const financeDetails = useSelector(({ accountReducers }: ReducersType) => accountReducers.financeDetails, shallowEqual)
+  const { paydex, delinquencyScore, failureScore, bankruptcyFound, dnbRating, creditLimit, maxCreditRecommendation, customScore, financeDetailHistories, message } = financeDetails
   console.log("finance details ", financeDetails)
   const rows = [
-    createData("Paydex", financeDetails.paydex),
-    createData("Delinquency Score", financeDetails.delinquencyScore),
-    createData("Failure Score", financeDetails.failureScore),
-    createData("Bankruptcy Found", financeDetails.bankruptcyFound),
-    createData("D&B Rating", financeDetails.dnbRating)
+    createData("Paydex", paydex),
+    createData("Delinquency Score", delinquencyScore),
+    createData("Failure Score", failureScore),
+    createData("Bankruptcy Found", bankruptcyFound),
+    createData("D&B Rating", dnbRating)
   ];
   useEffect(() => {
     console.log("finance details *", accountId)
     dispatch(getFinanceDetailByAccountId({ accountId }))
   }, [accountId])
-  return (
-    <div>
+
+  // message ?
+  return <Paper className={classes.root}>
+    {
+      message ? <div>
+        <div
+          className={classes.fileIcon}
+        >
+          <FaFileInvoiceDollar />
+        </div>
+        <div className={classes.centerLine}>No price list found for this account!</div>
+      </div> :
+        (
+          <div>
       <div>
         <Paper className={clsx(classes.paper, classes.flex)}>
           <div>
             <Paper className={classes.nestedPaper}>
               {/* <div style={{ display: 'flex' }}> */}
               <div>Creadit Limit</div>
-              <div>$1.00</div>
+                    <div>{creditLimit}</div>
               {/* </div> */}
             </Paper>
             <Paper className={classes.nestedPaper}>
               <div>D&B Maximum Credit Recommendation</div>
-              <div>$15000.00</div>
+                    <div>${maxCreditRecommendation}</div>
             </Paper>
             <Paper className={classes.nestedPaper}>
               <div>Custom Scores</div>
-              <div>8.5</div>
+                    <div>{customScore}</div>
             </Paper>
           </div>
           <Paper className={classes.paperField}>
@@ -75,8 +91,10 @@ function CreaditInformation({ }: Props): ReactElement {
           </Paper>
         </Paper>
       </div>
-    </div>
-  )
+            <ChangeHistoryTable histories={financeDetailHistories || []} />
+          </div>
+        )}
+  </Paper >
 }
 
 export default CreaditInformation

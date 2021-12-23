@@ -79,6 +79,7 @@ function* getFinanceDetailByAccountId({accountId}: any){
       "Authorization": localStorage.getItem('token')!
     }
   }
+  console.log("finance details response ")
   const response: CreateAccountResponseType = yield call(customFetch, uri+`/finance-detail/${accountId}`, options)
   console.log("finance details response ", response)
   if(response){
