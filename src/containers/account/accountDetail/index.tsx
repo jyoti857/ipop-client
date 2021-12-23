@@ -12,6 +12,7 @@ import Quotes from './quotes';
 import { useQuery } from 'react-query';
 import { getAccountById } from '../../../utils/baseUrl';
 import CreaditInformation from './creditInformation';
+import { PaymentTermsEnum } from '../UseAccountFormik';
 interface Props {
   accountName: string;
   ein: string;
@@ -67,7 +68,7 @@ function AccountDetail(): ReactElement {
       default: return <div style={{ height: 23, width: 160, margin: '80px auto', alignSelf: 'center', backgroundColor: 'green', color: 'white', display: 'flex', borderRadius: 2 }}>Under development</div> // <SupportingDocuments />
     }
   }
-  console.log("use selector ***", account)
+  console.log("use selector ***", account, data)
   return (
     <div style={{ marginTop: 23 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: 1200 }}>
@@ -84,10 +85,31 @@ function AccountDetail(): ReactElement {
           </div>
         </div>
         <div>
-          <Button
-            variant='contained'
-            color='primary'
-          >Submit for approval</Button>
+          {
+            data?.accountStatus === 'finance-review' ?
+              <div style={{ display: 'flex', width: "120%", justifyContent: 'space-around' }}>
+                <Button
+                  disabled={(account?.financeDetails.creditLimit === 0) || Object.keys(account.financeDetails).length === 0}
+                  variant='contained'
+                  color='primary'
+                >Approve</Button>
+
+                <Button
+                  disabled={account.financeDetails.creditLimit !== 0}
+                  variant='outlined'
+                  color='secondary'
+                >Reject</Button>
+              </div>
+              : ''
+          }
+        </div>
+        <div>
+          {data?.paymentType === PaymentTermsEnum.PREPAID || account?.accountStatus === "Awaiting for ICS Confirmation" ?
+            <Button
+              variant='contained'
+              color='primary'
+            >Submit for approval</Button> : ''
+          }
         </div>
       </div>
       <AccountTabs tabs={accountTabs} tab={tabName} value={value} handleChange={handleChange} />

@@ -53,7 +53,7 @@ function CreaditInformation({ }: Props): ReactElement {
           <div>
             <Paper className={classes.nestedPaper}>
               {/* <div style={{ display: 'flex' }}> */}
-              <div>Creadit Limit</div>
+                    <div>Credit Limit</div>
                     <div>{creditLimit}</div>
               {/* </div> */}
             </Paper>
@@ -68,8 +68,7 @@ function CreaditInformation({ }: Props): ReactElement {
           </div>
           <Paper className={classes.paperField}>
             <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 650 }} aria-label="caption table">
-                <caption>A basic table example with a caption</caption>
+                    <Table sx={{ minWidth: 650 }} aria-label="caption table">
                 <TableHead>
                   <TableRow>
                     <TableCell>KDE Name</TableCell>
@@ -94,7 +93,7 @@ function CreaditInformation({ }: Props): ReactElement {
             <ChangeHistoryTable histories={financeDetailHistories || []} />
           </div>
         )}
-  </Paper >
+  </Paper>
 }
 
 export default CreaditInformation
