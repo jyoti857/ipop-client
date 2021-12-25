@@ -19,3 +19,7 @@ export const GET_FINANCE_DETAIL_FROM_SAGA = '@order_management/get_finance_detai
 export const UPDATE_TO_AWAITING_ICS_ACTION = '@order_management/update_to_awaiting_ics_action';
 export const UPDATE_TO_AWAITING_ICS_FROM_SAGA = '@order_management/update_to_awaiting_ics_from_saga';
 
+export const UPDATE_TO_EXTERNAL3PLID_APPROVED_ACTION = '@order_management/update_to_external3plId_approved_action';
+export const UPDATE_TO_EXTERNAL3PLID_APPROVED_FROM_SAGA = '@order_management/update_to_external3plId_approved_from_saga';
+
+

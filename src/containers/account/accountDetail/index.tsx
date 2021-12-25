@@ -13,7 +13,7 @@ import { useQuery } from 'react-query';
 import { getAccountById } from '../../../utils/baseUrl';
 import CreaditInformation from './creditInformation';
 import { PaymentTermsEnum } from '../UseAccountFormik';
-import { onApproveToAwaitingICSAction } from '../actions';
+import { onApproveToAwaitingICSAction, updateToExternal3PlIdToApprove } from '../actions';
 interface Props {
   accountName: string;
   ein: string;
@@ -50,6 +50,15 @@ function AccountDetail(): ReactElement {
   const handleChange = (e: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
     setTabName(accountTabs.find(c => c.idx === newValue)?.label!)
+  }
+  const payload = {
+    external3plId: "ICS-ID-867C95A2",
+    accountStatus: "approved",
+    accountId: params.accountId
+  }
+  const handleSubmitForApproval = () => {
+    console.log("handle awaiting ---> ", payload)
+    dispatch(updateToExternal3PlIdToApprove(payload))
   }
   function showTabPage(tabName: string): ReactElement {
     switch (tabName) {
@@ -111,10 +120,13 @@ function AccountDetail(): ReactElement {
           }
         </div>
         <div>
-          {data?.paymentType === PaymentTermsEnum.PREPAID || account?.accountStatus === "Awaiting for ICS Confirmation" ?
+          {data?.paymentType === PaymentTermsEnum.PREPAID || data?.accountStatus === "awaiting for ICS confirmation"
+            //  || (account?.accountStatus === "Awaiting for ICS Confirmation" && data?.paymentType === PaymentTermsEnum.NET45) 
+            ?
             <Button
               variant='contained'
               color='primary'
+              onClick={handleSubmitForApproval}
             >Submit for approval</Button> : ''
           }
         </div>

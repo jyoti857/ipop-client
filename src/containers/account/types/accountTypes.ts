@@ -17,7 +17,8 @@ export type CreateAccountPayload = {
   hcpName: string;
   hcpNpi: string;
   accounts: any[];
-  financeDetails: {}
+  financeDetails: {},
+  accountStatus: string;
 }
 export type AccountActionType = {
   type: string;

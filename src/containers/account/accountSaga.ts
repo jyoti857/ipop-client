@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from "@redux-saga/core/effects"
 import { customFetch, uri } from "../../utils/fetchUrl";
 import { getFinanceDetailsFromSaga, onApproveToAwaitingICSFromSaga, saveAccountsFromSaga, saveOneAccountFromSaga, updateOneAccountFromSaga } from "./actions";
-import { CREATE_ACCOUNT_ACTION, GET_ACCOUNTS_ACTION, GET_ACCOUNT_BY_ID_ACTION, GET_FINANCE_DETAIL_ACTION, UPDATE_ONE_ACCOUNT_ACTION, UPDATE_TO_AWAITING_ICS_ACTION } from "./constants"
+import { CREATE_ACCOUNT_ACTION, GET_ACCOUNTS_ACTION, GET_ACCOUNT_BY_ID_ACTION, GET_FINANCE_DETAIL_ACTION, UPDATE_ONE_ACCOUNT_ACTION, UPDATE_TO_AWAITING_ICS_ACTION, UPDATE_TO_EXTERNAL3PLID_APPROVED_ACTION } from "./constants"
 
 
 
@@ -103,6 +103,22 @@ function* updateToAwaitingICS({accountId}: any){
     yield put(onApproveToAwaitingICSFromSaga(response))
   }
 }
+
+function* updateToExternal3pIdApproved({payload}: any){
+  console.log("finance details account id  ----> ", payload)
+  const {accountId, ...rest} = payload
+  const body = JSON.stringify(rest)
+  const options = {
+    method: "PUT",
+    body,
+    headers: {
+      'Content-Type': 'application/json',
+      "Authorization": localStorage.getItem('token')!
+    }
+  }
+  const response: Partial<CreateAccountResponseType> = yield call(customFetch, uri+`/account/update/${accountId}`, options)
+  console.log("response ---> ", response)
+}
 export default function* accountSaga(){
   yield takeLatest(CREATE_ACCOUNT_ACTION, createAccountSagaApi);
   yield takeLatest(GET_ACCOUNTS_ACTION, getAllAccounts);
@@ -110,4 +126,5 @@ export default function* accountSaga(){
   yield takeLatest(UPDATE_ONE_ACCOUNT_ACTION, updateAccount);
   yield takeLatest(GET_FINANCE_DETAIL_ACTION, getFinanceDetailByAccountId);
   yield takeLatest(UPDATE_TO_AWAITING_ICS_ACTION, updateToAwaitingICS);
+  yield takeLatest(UPDATE_TO_EXTERNAL3PLID_APPROVED_ACTION, updateToExternal3pIdApproved)
 }

@@ -18,7 +18,8 @@ export const initialState: CreateAccountPayload = {
   hcpName: "",
   hcpNpi: "", 
   accounts: [],
-  financeDetails: {}
+  financeDetails: {},
+  accountStatus: ""
 }
 
 export const AccountReducers = (state_ = initialState, action: AccountActionType) => {
@@ -69,9 +70,11 @@ export const AccountReducers = (state_ = initialState, action: AccountActionType
       }
     }
     case UPDATE_TO_AWAITING_ICS_FROM_SAGA: {
+      console.log("state_ from reducers ---> ", state_)
       return {
         ...state_,
-        ...action.payload
+        // ...action.payload
+        accountStattus: action.payload.accountStatus
       }
     }
     default: return state_;
