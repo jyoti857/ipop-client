@@ -13,6 +13,7 @@ import { useQuery } from 'react-query';
 import { getAccountById } from '../../../utils/baseUrl';
 import CreaditInformation from './creditInformation';
 import { PaymentTermsEnum } from '../UseAccountFormik';
+import { onApproveToAwaitingICSAction } from '../actions';
 interface Props {
   accountName: string;
   ein: string;
@@ -41,6 +42,11 @@ function AccountDetail(): ReactElement {
     { enabled: Boolean(params.accountId) }
   )
   const [value, setValue] = useState(0)
+  const dispatch = useDispatch();
+  const onApprove = () => {
+    console.log("awaiting ics on approve")
+    dispatch(onApproveToAwaitingICSAction(params.accountId))
+  }
   const handleChange = (e: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
     setTabName(accountTabs.find(c => c.idx === newValue)?.label!)
@@ -86,12 +92,13 @@ function AccountDetail(): ReactElement {
         </div>
         <div>
           {
-            data?.accountStatus === 'finance-review' ?
+            data?.accountStatus === 'finance review' ?
               <div style={{ display: 'flex', width: "120%", justifyContent: 'space-around' }}>
                 <Button
                   disabled={(account?.financeDetails.creditLimit === 0) || Object.keys(account.financeDetails).length === 0}
                   variant='contained'
                   color='primary'
+                  onClick={onApprove}
                 >Approve</Button>
 
                 <Button

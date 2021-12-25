@@ -105,7 +105,7 @@ function AccountInfoComponent({ data, isLoading }: Props): ReactElement {
             type='submit'
             onClick={onSubmit}
             disabled={updateFlag}
-          >Save</Button>
+              >Save</Button>
           <Divider style={{ marginTop: 43, marginBottom: 12 }} />
           <div className={classes.rowWrap}>
             <div className={classes.inputWrap}>

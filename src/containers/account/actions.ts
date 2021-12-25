@@ -1,5 +1,5 @@
 import { UseAccountProps } from "./UseAccountFormik"
-import { CREATE_ACCOUNT_ACTION, GET_ACCOUNTS_ACTION, GET_ACCOUNT_BY_ID_ACTION, GET_FINANCE_DETAIL_ACTION, GET_FINANCE_DETAIL_FROM_SAGA, SAVE_ACCOUNTS_FROM_SAGA, SAVE_ONE_ACCOUNT_FROM_SAGA, UPDATE_ONE_ACCOUNT_ACTION, UPDATE_ONE_ACCOUNT_FROM_SAGA } from "./constants"
+import { CREATE_ACCOUNT_ACTION, GET_ACCOUNTS_ACTION, GET_ACCOUNT_BY_ID_ACTION, GET_FINANCE_DETAIL_ACTION, GET_FINANCE_DETAIL_FROM_SAGA, SAVE_ACCOUNTS_FROM_SAGA, SAVE_ONE_ACCOUNT_FROM_SAGA, UPDATE_ONE_ACCOUNT_ACTION, UPDATE_ONE_ACCOUNT_FROM_SAGA, UPDATE_TO_AWAITING_ICS_ACTION, UPDATE_TO_AWAITING_ICS_FROM_SAGA } from "./constants"
 
 
 export const createNewAccountAction = (payload: UseAccountProps) => {
@@ -49,7 +49,7 @@ export const updateOneAccountAction = (payload: any) => {
   )
 }
 export const updateOneAccountFromSaga = (payload: any) => {
-  console.log("this is update account from saga action is called!")
+  console.log("this is update account from saga action is called!", payload)
   return(
     {
       type: UPDATE_ONE_ACCOUNT_FROM_SAGA,
@@ -69,6 +69,21 @@ export const getFinanceDetailByAccountId = ({accountId}: any) => {
 export const getFinanceDetailsFromSaga = (payload: any) => {
   return {
     type: GET_FINANCE_DETAIL_FROM_SAGA,
+    payload
+  }
+}
+
+export const onApproveToAwaitingICSAction = (accountId: string) => {
+  console.log("awaitinc ics action ---> ", accountId)
+  return{
+    type: UPDATE_TO_AWAITING_ICS_ACTION,
+    accountId
+  }
+}
+
+export const onApproveToAwaitingICSFromSaga = (payload: any) => {
+  return {
+    type: UPDATE_TO_AWAITING_ICS_FROM_SAGA,
     payload
   }
 }

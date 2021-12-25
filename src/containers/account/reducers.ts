@@ -1,7 +1,7 @@
-import { CREATE_ACCOUNT_ACTION, GET_FINANCE_DETAIL_FROM_SAGA, SAVE_ACCOUNTS_FROM_SAGA, SAVE_ONE_ACCOUNT_FROM_SAGA, UPDATE_ONE_ACCOUNT_FROM_SAGA } from "./constants"
-import { AccountActionType } from "./types/accountTypes"
+import { CREATE_ACCOUNT_ACTION, GET_FINANCE_DETAIL_FROM_SAGA, SAVE_ACCOUNTS_FROM_SAGA, SAVE_ONE_ACCOUNT_FROM_SAGA, UPDATE_ONE_ACCOUNT_FROM_SAGA, UPDATE_TO_AWAITING_ICS_FROM_SAGA } from "./constants"
+import { AccountActionType, CreateAccountPayload } from "./types/accountTypes"
 
-export const initialState = {
+export const initialState: CreateAccountPayload = {
   accountName: "",
   ein: '',
   subtype: '',
@@ -15,7 +15,7 @@ export const initialState = {
   attention: "",
   phone: '',
   email: '',
-  affiliated_hcp_name: "",
+  hcpName: "",
   hcpNpi: "", 
   accounts: [],
   financeDetails: {}
@@ -66,6 +66,12 @@ export const AccountReducers = (state_ = initialState, action: AccountActionType
       return {
         ...state_,
         financeDetails: action.payload
+      }
+    }
+    case UPDATE_TO_AWAITING_ICS_FROM_SAGA: {
+      return {
+        ...state_,
+        ...action.payload
       }
     }
     default: return state_;

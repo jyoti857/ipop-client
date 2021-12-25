@@ -14,3 +14,8 @@ export const UPDATE_ONE_ACCOUNT_FROM_SAGA = '@order_management/update_one_accoun
 
 export const GET_FINANCE_DETAIL_ACTION = '@order_management/get_finance_detail_action';
 export const GET_FINANCE_DETAIL_FROM_SAGA = '@order_management/get_finance_detail_from_saga';
+
+
+export const UPDATE_TO_AWAITING_ICS_ACTION = '@order_management/update_to_awaiting_ics_action';
+export const UPDATE_TO_AWAITING_ICS_FROM_SAGA = '@order_management/update_to_awaiting_ics_from_saga';
+

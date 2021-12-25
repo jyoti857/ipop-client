@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from "@redux-saga/core/effects"
 import { customFetch, uri } from "../../utils/fetchUrl";
-import { getFinanceDetailsFromSaga, saveAccountsFromSaga, saveOneAccountFromSaga, updateOneAccountFromSaga } from "./actions";
-import { CREATE_ACCOUNT_ACTION, GET_ACCOUNTS_ACTION, GET_ACCOUNT_BY_ID_ACTION, GET_FINANCE_DETAIL_ACTION, UPDATE_ONE_ACCOUNT_ACTION } from "./constants"
+import { getFinanceDetailsFromSaga, onApproveToAwaitingICSFromSaga, saveAccountsFromSaga, saveOneAccountFromSaga, updateOneAccountFromSaga } from "./actions";
+import { CREATE_ACCOUNT_ACTION, GET_ACCOUNTS_ACTION, GET_ACCOUNT_BY_ID_ACTION, GET_FINANCE_DETAIL_ACTION, UPDATE_ONE_ACCOUNT_ACTION, UPDATE_TO_AWAITING_ICS_ACTION } from "./constants"
 
 
 
@@ -87,10 +87,27 @@ function* getFinanceDetailByAccountId({accountId}: any){
   }
 }
 
+function* updateToAwaitingICS({accountId}: any){
+  console.log("update to awaiting ics  account id ----> ",  accountId)
+  const options = {
+    method: "PUT",
+    headers: {
+      'Content-Type': 'application/json',
+      "Authorization": localStorage.getItem('token')!
+    }
+  }
+  console.log("finance details response ")
+  const response: CreateAccountResponseType = yield call(customFetch, uri+`/account/toICS/${accountId}`, options)
+  console.log("to awaiting ICS saga response ", response)
+  if(response){
+    yield put(onApproveToAwaitingICSFromSaga(response))
+  }
+}
 export default function* accountSaga(){
   yield takeLatest(CREATE_ACCOUNT_ACTION, createAccountSagaApi);
   yield takeLatest(GET_ACCOUNTS_ACTION, getAllAccounts);
   yield takeLatest(GET_ACCOUNT_BY_ID_ACTION, getAccountByIdApi);
   yield takeLatest(UPDATE_ONE_ACCOUNT_ACTION, updateAccount);
-  yield takeLatest(GET_FINANCE_DETAIL_ACTION, getFinanceDetailByAccountId)
+  yield takeLatest(GET_FINANCE_DETAIL_ACTION, getFinanceDetailByAccountId);
+  yield takeLatest(UPDATE_TO_AWAITING_ICS_ACTION, updateToAwaitingICS);
 }
