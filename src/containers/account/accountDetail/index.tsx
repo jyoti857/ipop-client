@@ -14,6 +14,16 @@ import { getAccountById } from '../../../utils/baseUrl';
 import CreaditInformation from './creditInformation';
 import { PaymentTermsEnum } from '../UseAccountFormik';
 import { onApproveToAwaitingICSAction, updateToExternal3PlIdToApprove } from '../actions';
+import { AccountStatusEnum } from '../../../types/accounts/AccountStatusEnum';
+
+export type AccountStatusColorType = 'APPROVED' | 'CRDREV' | 'PENDING' | 'FINANCEREV' | 'ICSCONF'
+export const AccountStatusColorMapper = {
+  APPROVED: "#C0FBAD",
+  CRDREV: "#D2AEE0",
+  PENDING: "#AEBDE0",
+  FINANCEREV: "#E0CDAE",
+  ICSCONF: '#AED9E0'
+}
 interface Props {
   accountName: string;
   ein: string;
@@ -53,7 +63,7 @@ function AccountDetail(): ReactElement {
   }
   const payload = {
     external3plId: "ICS-ID-867C95A2",
-    accountStatus: "approved",
+    accountStatus: AccountStatusEnum.APPROVED,
     accountId: params.accountId
   }
   const handleSubmitForApproval = () => {
@@ -90,7 +100,7 @@ function AccountDetail(): ReactElement {
         <div style={{ width: '40%' }}>
           <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
             <div style={{ marginLeft: 12, marginRight: 12, fontSize: 20, fontWeight: 'bolder' }}>{account?.name || data?.name}</div>
-            <div style={{ backgroundColor: 'limegreen', padding: 4, textAlign: 'center', borderRadius: 8, }}>{account?.accountStatus || data?.accountStatus}</div>
+            <div style={{ backgroundColor: AccountStatusColorMapper[String(data?.accountStatus) as AccountStatusColorType], padding: 8, textAlign: 'center', borderRadius: 8, }}>{account?.accountStatus || data?.accountStatus}</div>
           </div>
           <div style={{ display: 'flex', marginLeft: 12, justifyContent: 'flex-start' }}>
             <div>{account?.addressLine1 || data?.addressLine1},</div>
@@ -101,7 +111,7 @@ function AccountDetail(): ReactElement {
         </div>
         <div>
           {
-            data?.accountStatus === 'finance review' ?
+            data?.accountStatus === AccountStatusEnum.FINANCEREV ?
               <div style={{ display: 'flex', width: "120%", justifyContent: 'space-around' }}>
                 <Button
                   disabled={(account?.financeDetails.creditLimit === 0) || Object.keys(account.financeDetails).length === 0}
@@ -120,7 +130,7 @@ function AccountDetail(): ReactElement {
           }
         </div>
         <div>
-          {data?.paymentType === PaymentTermsEnum.PREPAID || data?.accountStatus === "awaiting for ICS confirmation"
+          {data?.paymentType === PaymentTermsEnum.PREPAID || data?.accountStatus === AccountStatusEnum.ICSCONF
             //  || (account?.accountStatus === "Awaiting for ICS Confirmation" && data?.paymentType === PaymentTermsEnum.NET45) 
             ?
             <Button

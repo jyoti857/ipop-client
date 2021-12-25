@@ -105,7 +105,7 @@ function* updateToAwaitingICS({accountId}: any){
 }
 
 function* updateToExternal3pIdApproved({payload}: any){
-  console.log("finance details account id  ----> ", payload)
+  console.log("handle awaiting saga details account id  ----> ", payload)
   const {accountId, ...rest} = payload
   const body = JSON.stringify(rest)
   const options = {
