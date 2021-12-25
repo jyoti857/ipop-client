@@ -100,7 +100,9 @@ function AccountDetail(): ReactElement {
         <div style={{ width: '40%' }}>
           <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
             <div style={{ marginLeft: 12, marginRight: 12, fontSize: 20, fontWeight: 'bolder' }}>{account?.name || data?.name}</div>
-            <div style={{ backgroundColor: AccountStatusColorMapper[String(data?.accountStatus) as AccountStatusColorType], padding: 8, textAlign: 'center', borderRadius: 8, }}>{account?.accountStatus || data?.accountStatus}</div>
+            <div>
+              <div style={{ backgroundColor: AccountStatusColorMapper[String(data?.accountStatus) as AccountStatusColorType], padding: 8, borderRadius: 8, fontFamily: 'sans-serif', fontSize: 14, textAlign: 'end' }}>{account?.accountStatus || data?.accountStatus}</div>
+            </div>
           </div>
           <div style={{ display: 'flex', marginLeft: 12, justifyContent: 'flex-start' }}>
             <div>{account?.addressLine1 || data?.addressLine1},</div>

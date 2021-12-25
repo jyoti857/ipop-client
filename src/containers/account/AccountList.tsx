@@ -10,16 +10,17 @@ import { getAccountsAction } from './actions';
 import { Link } from 'react-router-dom';
 import { getAccountList } from '../../utils/baseUrl';
 import Header from '../header';
+import { AccountStatusColorMapper, AccountStatusColorType } from './accountDetail';
 interface Props {
 
 }
 const columns: any = [
-  { id: 'name', label: 'Name', minWidth: 170 },
-  { id: 'status', label: 'Status', minWidth: 100 },
+  { id: 'name', label: 'Name', maxWidth: 150 },
+  { id: 'status', label: 'Status', maxWidth: 30, align: 'center' },
   { id: 'address', label: 'Address', minWidth: 100 },
   { id: 'city', label: 'City', minWidth: 100 },
   { id: 'state', label: 'State', minWidth: 100 },
-  { id: 'country', label: 'Country', minWidth: 100 },
+  { id: 'country', label: 'Country', minWidth: 100, },
   { id: 'zip', label: 'Zip', minWidth: 100 }
 ]
 function createData(
@@ -122,10 +123,13 @@ function AccountList({ }: Props): ReactElement {
                         // const value = row[column.id] == 'name' ? <Link to='/login'>{row[column.id]}</Link> : row[column.id]
                         const value = row[column.id];
                         return (
-                          <TableCell key={column.id} align={column.align}>
+                          <TableCell key={column.id} align={column.align}> 
+                            {/* {column.id === 'status' ? "center" : 'left'}> */}
                             {column.format && typeof value === 'number'
                               ? column.format(value)
-                              : column.id === 'name' ? <Link to={`/app-account/${userId}/individual-account/${row._id}`} style={{ textDecoration: 'none', color: '#0E1EBC' }}>{value}</Link> : value}
+                              : column.id === 'name' ? <Link to={`/app-account/${userId}/individual-account/${row._id}`} style={{ textDecoration: 'none', color: '#0E1EBC' }}>{value}</Link>
+                                : column.id === 'status' ? <div style={{ backgroundColor: AccountStatusColorMapper[value as AccountStatusColorType], textAlign: 'center', borderRadius: 12, padding: 4, fontSize: 14, fontFamily: "sans-serif" }}>{value}</div>
+                                  : value}
                           </TableCell>
                         );
                       })}
