@@ -42,5 +42,9 @@ export const useStyles = makeStyles({
   }, 
   customWidth: {
     width: 439
+  },
+  image: {
+    width: 80, 
+    height: 80
   }
 })

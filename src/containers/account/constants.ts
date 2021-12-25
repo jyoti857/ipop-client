@@ -22,4 +22,7 @@ export const UPDATE_TO_AWAITING_ICS_FROM_SAGA = '@order_management/update_to_awa
 export const UPDATE_TO_EXTERNAL3PLID_APPROVED_ACTION = '@order_management/update_to_external3plId_approved_action';
 export const UPDATE_TO_EXTERNAL3PLID_APPROVED_FROM_SAGA = '@order_management/update_to_external3plId_approved_from_saga';
 
+export const UPLOAD_FILE_ACTION = '@order_management/upload_file_action';
+export const UPLOAD_FILE_FROM_SAGA = '@order_management/upload_file_from_saga';
+
 

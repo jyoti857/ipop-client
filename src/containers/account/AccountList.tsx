@@ -60,13 +60,7 @@ function AccountList({ }: Props): ReactElement {
       createData(name, accountStatus, addressLine1, city, state, country, zip, _id)
     )
   })
-  // useEffect(() => {
-    // if (isLoading) {
-      //   window.location.reload()
-      // }
-      // }, [])
   useEffect(() => {
-    // dispatch(getAccountsAction())
     const s = async () => {
       const _id = await localStorage.getItem('userid')!;
       setUserId(_id)
@@ -140,7 +134,7 @@ function AccountList({ }: Props): ReactElement {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[10, 25, 100]}
+          rowsPerPageOptions={[5, 10, 20]}
           component="div"
           count={rows.length}
           rowsPerPage={10}
