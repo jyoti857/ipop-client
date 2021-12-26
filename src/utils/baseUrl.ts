@@ -79,3 +79,10 @@ export const createDiscountPrice = ({name, startDate, endDate, desc}: any) => {
     return res.data || ''
   })
 }
+
+export const getAccountPricesByAccountId = (accountId: string) => {
+  return api.get(`/account-price/${accountId}`).then((res: any) => {
+    console.log("get account prices by account id ----> ", res.data)
+    return res.data || ''
+  })
+}

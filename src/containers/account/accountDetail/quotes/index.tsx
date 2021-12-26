@@ -3,8 +3,11 @@ import { ReactElement, useState } from 'react'
 import { FaFileInvoice } from 'react-icons/fa';
 import CustomInput from '../../../../components/input/CustomInput';
 import CustomModal from '../../../../components/modal';
+import { AccountPriceHook } from '../accountPrice/accountPriceHook';
 import AccountPriceTable from '../accountPrice/accountPriceTable';
+import QuotesTable from './quotesTable';
 import { useStyles } from './styles'
+import useQuotesHook from './useQuotesHook';
 
 interface Props {
 
@@ -16,9 +19,14 @@ function Quotes({ }: Props): ReactElement {
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
   const classes = useStyles();
+
+  const { data, proposedPrice: pp, proposedPriceFromData: ppfd } = AccountPriceHook()
+  const { accountPriceData } = useQuotesHook();
+  console.log("data quotes ---> accountData", accountPriceData, data, pp, ppfd)
+  const s = accountPriceData?.map(({ productWithPrice }: any) => productWithPrice?.map((s: any) => s.proposedPrice))
+  console.log("ss **8 ---> ", s)
   return (
     <div>
-
     <Paper className={classes.root}>
         <div style={{ display: 'flex' }}>
           <Button
@@ -57,7 +65,7 @@ function Quotes({ }: Props): ReactElement {
               <CustomInput value={search} name='search' type='text' placeholder='End Date' style={{ width: '100%' }} />
             </div>
           </div>
-          {/* <AccountPriceTable /> */}
+          <QuotesTable />
         </div>
       </CustomModal>
     </div>

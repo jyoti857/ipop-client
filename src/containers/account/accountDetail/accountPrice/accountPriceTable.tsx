@@ -40,7 +40,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 interface Props {
   proposedPrice: any;
   handleProposedData?: any;
-  proposedPriceFromData: any;
+  proposedPriceFromData?: any;
   proposedPriceType?: boolean;
   discountPrice?: any;
 }
