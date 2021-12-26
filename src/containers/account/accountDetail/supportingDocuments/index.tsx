@@ -46,6 +46,7 @@ function SupportingDocuments({ }: Props): ReactElement {
       body: formData
     }).then((data) => data.json()).then(s => console.log("file is uploaded --->", s))
     // dispatch(uploadFileAction(formData))
+    setOpen(false)
   }
   console.log("file selected -->", selectFile);
   // const dialogTitle = () => {
@@ -87,8 +88,9 @@ function SupportingDocuments({ }: Props): ReactElement {
                 onChange={handleChange}
               /> */}
               <FileDropZone
-                // acceptedMimeTypes={excel.excelMimeTypes}
+                // acceptedMimeTypes={excel.`excelMimeTypes}
                 onFilesAdded={onFilesAdded}
+
                 // onFilesRejected={this.onFilesRejected}
                 elevation={2}
                 dragOverElevation={10} />
