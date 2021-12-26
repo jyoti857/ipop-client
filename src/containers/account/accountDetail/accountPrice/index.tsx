@@ -14,6 +14,7 @@ import { AccountPriceHook } from './accountPriceHook';
 import CustomizedAccordions from '../../../../components/accordion';
 import { Label } from '@mui/icons-material';
 import CustomDropdown from '../../../../components/dropdown';
+import { AccountPriceTypeEnum } from '../../types/AccountPriceTypeEnum';
 interface Props {
 
 }
@@ -27,6 +28,7 @@ function AccountPrice({ }: Props): ReactElement {
   const [discountPrice, setDiscountPrice] = useState([])
   const [discountPriceUpdateFlag, setDiscountPriceUpdateFlag] = useState(false)
   const [proposedPriceFromData, setProposedPriceFromData] = useState<any[]>(ppfd)
+  const [radioValue, setRadioValue] = useState("Matrix Pricing")
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
   const { accountId } = useParams<{ accountId: string }>();
@@ -34,7 +36,7 @@ function AccountPrice({ }: Props): ReactElement {
   const mutation = useMutation(createAccountPrice)
   const handleAccountPriceSubmit = (event: any) => {
     console.log("account-price-quote ", typeof event, priceTitle, startDate, endDate, proposedPrice)
-    mutation.mutateAsync({ id: accountId, title: priceTitle, startDate, endDate, productWithPrice: accountPrices })
+    mutation.mutateAsync({ id: accountId, title: priceTitle, startDate, endDate, productWithPrice: accountPrices, accountPriceType: radioValue === 'Matrix Pricing' ? AccountPriceTypeEnum.MATRXPR : AccountPriceTypeEnum.PREAPPR })
     priceTitle && handleClose()
   }
   useEffect(() => {
@@ -70,7 +72,6 @@ function AccountPrice({ }: Props): ReactElement {
   const { handleBlur, handleChange, values: { endDate, startDate, priceTitle } } = CustomAccountPriceQuoteFormik({ onsubmit: handleAccountPriceSubmit })
 
   // radion button setup
-  const [radioValue, setRadioValue] = useState("Matrix Pricing")
   const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRadioValue((event.target as HTMLInputElement).value);
   };

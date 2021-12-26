@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import { getAccountList } from '../../utils/baseUrl';
 import Header from '../header';
 import { AccountStatusColorMapper, AccountStatusColorType } from './accountDetail';
+import { FaHospitalUser } from 'react-icons/fa';
 interface Props {
 
 }
@@ -110,7 +111,7 @@ function AccountList({ }: Props): ReactElement {
             <TableBody>
               {!isLoading ?
                 accounts.length > 0 && accounts
-                .map((row: any) => {
+                  .map((row: any, rowIndex: number) => {
                   return (
                     <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                       {columns.map((column: any) => {
@@ -121,7 +122,11 @@ function AccountList({ }: Props): ReactElement {
                             {/* {column.id === 'status' ? "center" : 'left'}> */}
                             {column.format && typeof value === 'number'
                               ? column.format(value)
-                              : column.id === 'name' ? <Link to={`/app-account/${userId}/individual-account/${row._id}`} style={{ textDecoration: 'none', color: '#0E1EBC' }}>{value}</Link>
+                              : column.id === 'name' ?
+                                <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
+                                  <FaHospitalUser style={{ width: 40, height: 40, marginLeft: 1, color: AccountStatusColorMapper[accounts[rowIndex]?.status as AccountStatusColorType] || 'red' }} />
+                                  <Link to={`/app-account/${userId}/individual-account/${row._id}`} style={{ marginLeft: 12, textDecoration: 'none', color: '#0E1EBC' }}>{value}</Link>
+                                </div>
                                 : column.id === 'status' ? <div style={{ backgroundColor: AccountStatusColorMapper[value as AccountStatusColorType], textAlign: 'center', borderRadius: 12, padding: 4, fontSize: 14, fontFamily: "sans-serif" }}>{value}</div>
                                   : value}
                           </TableCell>

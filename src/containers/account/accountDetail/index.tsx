@@ -15,6 +15,7 @@ import CreaditInformation from './creditInformation';
 import { PaymentTermsEnum } from '../UseAccountFormik';
 import { onApproveToAwaitingICSAction, updateToExternal3PlIdToApprove } from '../actions';
 import { AccountStatusEnum } from '../../../types/accounts/AccountStatusEnum';
+import { FaHospital, FaHospitalUser } from 'react-icons/fa';
 
 export type AccountStatusColorType = 'APPROVED' | 'CRDREV' | 'PENDING' | 'FINANCEREV' | 'ICSCONF'
 export const AccountStatusColorMapper = {
@@ -99,16 +100,23 @@ function AccountDetail(): ReactElement {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: 1200 }}>
         <div style={{ width: '40%' }}>
           <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
-            <div style={{ marginLeft: 12, marginRight: 12, fontSize: 20, fontWeight: 'bolder' }}>{account?.name || data?.name}</div>
-            <div>
-              <div style={{ backgroundColor: AccountStatusColorMapper[String(data?.accountStatus) as AccountStatusColorType], padding: 8, borderRadius: 8, fontFamily: 'sans-serif', fontSize: 14, textAlign: 'end' }}>{account?.accountStatus || data?.accountStatus}</div>
+            <div style={{ display: 'flex' }}>
+              <FaHospitalUser style={{ width: 60, height: 60, marginLeft: 18, color: AccountStatusColorMapper[String(data?.accountStatus) as AccountStatusColorType] }} />
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <div style={{ marginLeft: 12, marginRight: 12, fontSize: 20, fontWeight: 'bolder' }}>{account?.name || data?.name}</div>
+                  <div style={{ backgroundColor: AccountStatusColorMapper[String(data?.accountStatus) as AccountStatusColorType], padding: 8, borderRadius: 8, fontFamily: 'sans-serif', fontSize: 14, textAlign: 'end' }}>{account?.accountStatus || data?.accountStatus}</div>
+                </div>
+                <div style={{ display: 'flex', marginLeft: 12, justifyContent: 'flex-start' }}>
+                  <div>{account?.addressLine1 || data?.addressLine1},</div>
+                  <div>{account?.city || data?.city}</div>
+                  <div>{account?.country || data?.country}</div>
+                  <div>{account?.email || data?.email}</div>
+                </div>
+              </div>
             </div>
-          </div>
-          <div style={{ display: 'flex', marginLeft: 12, justifyContent: 'flex-start' }}>
-            <div>{account?.addressLine1 || data?.addressLine1},</div>
-            <div>{account?.city || data?.city},</div>
-            <div>{account?.country || data?.country}</div>
-            <div>{account?.email || data?.email}</div>
+            <div>
+            </div>
           </div>
         </div>
         <div>

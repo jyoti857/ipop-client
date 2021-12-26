@@ -69,7 +69,7 @@ const Login: React.FC<Props> = ({ email, password }) => {
   console.log("Sdls", emailSelector)
   console.log("handle this ", values.email)
   return (
-    <div className={classes.root}>
+    <div className={classes.root} style={{ height: '90vh', overflow: 'hidden' }}>
       <div style={{ flex: 0.1 }}>
         <div style={{ width: 700, display: 'flex', justifyContent: 'center' }}>
           <img src={pacira_logo}

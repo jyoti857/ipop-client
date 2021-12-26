@@ -53,9 +53,10 @@ interface CustomizedAccordionsProps {
   proposedPriceFromData: any;
   allAccountPricesCreated: any[];
   discountPrice: any[];
+  footerButton?: boolean
 }
 export default function CustomizedAccordions(
-  { discountPrice, proposedPrice, proposedPriceFromData, allAccountPricesCreated }: CustomizedAccordionsProps) {
+  { discountPrice, proposedPrice, proposedPriceFromData, allAccountPricesCreated, footerButton }: CustomizedAccordionsProps) {
   const [expanded, setExpanded] = React.useState<string | false>(false);
 
   const handleChange =
@@ -79,8 +80,13 @@ export default function CustomizedAccordions(
                 <AccordionDetails>
                   <AccountPriceTable proposedPriceType={true} discountPrice={discountPrices} proposedPrice={proposedPrice} proposedPriceFromData={prices} />
                 </AccordionDetails>
-                <Button>Approve</Button>
-                <Button>Reject</Button>
+                {
+                  footerButton &&
+                  <div>
+                      <Button>Approve</Button>
+                      <Button>Reject</Button>
+                  </div>
+                }
               </Accordion>
             </div>
           )
