@@ -1,5 +1,5 @@
 import { Divider } from '@mui/material'
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useEffect, useRef, useState } from 'react'
 import { useStyles } from './styles'
 import { FaHospitalUser, FaChartPie } from 'react-icons/fa';
 import CustomAvatar from '../../components/avatar';
@@ -9,7 +9,7 @@ import Pages from './pages';
 import { Dashboard } from '@mui/icons-material';
 import AccountList from '../account/AccountList';
 import Configuration from '../configuration';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 // import logo from 'assets/img/pacira-logo.png'
 import logo from '../../assets/img/pacira-logo.png'
 interface Props {
@@ -21,19 +21,28 @@ function Header({ children }: Props): ReactElement {
   const handleCardOpen = () => setCardOpen(!cardOpen);
   const [pageName, setPageName] = useState('Account')
   const [loggedUser, setLoggedUser] = useState('')
+  const [userId, setUserId] = useState(localStorage.getItem('userid')!)
+  const userIdRef = useRef<string>('')
+  userIdRef.current = localStorage.getItem('userid')!
   const history = useHistory();
   const handleConfiguration = () => {
     history.push('/portal-configuration')
   }
+  const handleAccountList = () => {
+    history.push(`/app-account/${userId}`)
+  }
   // const handleConfiguration = () => {
-  //   history.push('/portal-configuration')
-  // }
+    //   history.push('/portal-configuration')
+    // }
+
   const handlePageName = (page: string) => {
     setPageName(page)
   }
   useEffect(() => {
+    const userId = localStorage.getItem('userid')!
+    setUserId(userId)
     setLoggedUser(localStorage.getItem('username')!)
-  }, [localStorage.getItem('username')])
+  }, [localStorage.getItem('username'), userId])
   const classes = useStyles()
   return (
     <div>
@@ -45,10 +54,13 @@ function Header({ children }: Props): ReactElement {
         />
         <div style={{ textAlign: 'center', margin: 10, marginRight: 20, width: 180, display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
           <FaChartPie className={classes.icons} onClick={() => handlePageName('Dashboard')} />
-          <FaHospitalUser className={classes.icons} onClick={() => handlePageName('Account')} />
+          <FaHospitalUser className={classes.icons}
+            // onClick={() => handlePageName('Account')} 
+            onClick={handleAccountList}
+          />
           <FaCogs className={classes.icons}
-            onClick={() => handlePageName('Configuration')}
-            // onClick={handleConfiguration}
+            // onClick={() => handlePageName('Configuration')}
+            onClick={handleConfiguration}
           />
           <CustomAvatar alt="Remy Sharp" src="https://reqres.in/img/faces/5-image.jpg" onClick={handleCardOpen} />
           {

@@ -30,13 +30,13 @@ function App() {
         {
         <Router>
             {window.location.pathname === '/app-login' && <Route exact path='/app-login' render={() => <Login email='john@1.com' password='123' />} />}
-            <Route path='/' component={Header} />
+            <Route path='/' component={Header} /> 
+            <Route exact path='/portal-configuration' component={Configuration} />
             <Switch>
+              <Route exact path='/app-account/:userId' component={AccountList} />
               {/* <Route path='/account/:id' component={AccountList} /> */}
               {/* <Header> */}
-              <Route exact path='/app-account/:userId' component={AccountList} />
               <Route exact path='/app-account/:userId/individual-account/:accountId' component={AccountDetail} />
-              {/* <Route exact path='/portal-configuration' component={Configuration} /> */}
               {/* </Header> */}
             </Switch>
         </Router>
