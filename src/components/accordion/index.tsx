@@ -71,7 +71,7 @@ export default function CustomizedAccordions(
           const prices = aacpc.productWithPrice.map((a: any) => a.proposedPrice)
           const discountPrices = aacpc.productWithPrice.map((a: any) => a.discountPrice)
           return (
-            <div style={{ minHeight: `panel${idx + 1}` === expanded ? 500 : '', marginBottom: 12 }}>
+            <div style={{ minHeight: `panel${idx + 1}` === expanded ? (prices.length * 100) : '', marginBottom: 12 }}>
               <Accordion expanded={expanded === `panel${idx + 1}`} onChange={handleChange(`panel${idx + 1}`)}>
                 <AccordionSummary aria-controls="panel1d-content" id={`panel${idx + 1}d-header`}>
                   <Typography >

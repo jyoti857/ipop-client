@@ -70,25 +70,28 @@ function AccountPriceTable({ discountPrice, proposedPrice, handleProposedData, p
             </TableRow>
           </TableHead>
           <TableBody>
-            {proposedPrice_ && proposedPrice_.length > 0 && proposedPrice_.map((row: any, idx: number) => (
-              <StyledTableRow key={row.catalog}>
-                <StyledTableCell component="th" scope="row">
-                  {row.name}
-                </StyledTableCell>
-                <StyledTableCell align="left">{row.name}</StyledTableCell>
-                <StyledTableCell align="left">{row.price}</StyledTableCell>
-                <StyledTableCell align="left">
-                  {proposedPriceType ? proposedPriceFromData[idx] : <CustomInput
-                    value={proposedPriceFromData[idx]}
-                    placeholder=''
-                    type='number'
-                    name='price'
-                    handleChange={(e: any) => handleProposedData(e, idx)}
-                  />}
-                </StyledTableCell>
-                <StyledTableCell align="center">{discountPrice && discountPrice[idx]}</StyledTableCell>
-              </StyledTableRow>
-            ))}
+            {proposedPrice_ && proposedPrice_.length > 0 && proposedPrice_.map((row: any, idx: number) => {
+              return proposedPriceFromData[idx] &&
+                (
+                  <StyledTableRow key={row.catalog}>
+                    <StyledTableCell component="th" scope="row">
+                    {row.catalog}
+                  </StyledTableCell>
+                  <StyledTableCell align="left">{row.name}</StyledTableCell>
+                  <StyledTableCell align="left">{row.price}</StyledTableCell>
+                  <StyledTableCell align="left">
+                    {proposedPriceType ? proposedPriceFromData[idx] : <CustomInput
+                      value={proposedPriceFromData[idx]}
+                      placeholder=''
+                      type='number'
+                      name='price'
+                      handleChange={(e: any) => handleProposedData(e, idx)}
+                    />}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">{discountPrice && discountPrice[idx]}</StyledTableCell>
+                </StyledTableRow>
+                )
+            })}
           </TableBody>
         </Table>
       </TableContainer>
