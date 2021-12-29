@@ -8,6 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import useQuotesHook from './useQuotesHook';
 import CustomInput from '../../../../components/input/CustomInput';
+import { AnyAction } from 'redux';
 
 function createData(
   catalog: string,
@@ -22,10 +23,14 @@ function createData(
 const rows = [
   createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
 ];
-export default function QuotesTable() {
+
+interface IQuotesTable {
+  quotePriceDetails?: any
+}
+export default function QuotesTable({ quotePriceDetails }: IQuotesTable) {
   const [qty, setQty] = React.useState(3)
   const s = useQuotesHook();
-  console.log("sss ---> ", s.accountPriceData)
+  console.log("sss ---> ", s.accountPriceData);
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 750 }} aria-label="simple table">

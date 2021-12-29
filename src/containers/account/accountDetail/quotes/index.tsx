@@ -18,13 +18,16 @@ function Quotes({ }: Props): ReactElement {
   const [search, setSearch] = useState('')
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
+  const [title, setTitle] = useState('')
   const classes = useStyles();
 
   const { data, proposedPrice: pp, proposedPriceFromData: ppfd } = AccountPriceHook()
-  const { accountPriceData } = useQuotesHook();
-  console.log("data quotes ---> accountData", accountPriceData, data, pp, ppfd)
-  const s = accountPriceData?.map(({ productWithPrice }: any) => productWithPrice?.map((s: any) => s.proposedPrice))
-  console.log("ss **8 ---> ", s)
+  // const s = accountPriceData?.map(({ productWithPrice }: any) => productWithPrice?.map((s: any) => s.proposedPrice))
+  // console.log("ss **8 ---> ", s)
+  const { isError, isLoading, accountPriceData } = useQuotesHook()
+  // const quotePriceDetails = _quotePriceDetails?.accountPriceData[0]?.productWithPrice;
+  console.log('quote price details 000---> ', accountPriceData)
+  // console.log("data quotes ---> accountData", accountPriceData, data, pp, ppfd)
   return (
     <div>
     <Paper className={classes.root}>
@@ -56,7 +59,14 @@ function Quotes({ }: Props): ReactElement {
           {/* <div style={{ position: 'absolute', fontWeight: 600, top: 20, left: 20 }}>Quotes</div> */}
           <div style={{ display: 'flex', justifyContent: 'space-between', marginLeft: -20, marginBottom: 12, minWidth: 1000 }}>
             <div style={{ width: '50%' }}>
-              <CustomInput value={search} name='search' type='text' placeholder='Quote Title' style={{ marginLeft: 18, width: '100%', }} />
+              <CustomInput
+                value={title}
+                name='title'
+                type='text'
+                placeholder='Quote Title'
+                style={{ marginLeft: 18, width: '100%', }}
+                handleChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
+              />
             </div>
             <div style={{ width: '20%' }}>
               <CustomInput value={search} name='search' type='text' placeholder='Start Date' style={{ width: '100%' }} />
@@ -65,7 +75,10 @@ function Quotes({ }: Props): ReactElement {
               <CustomInput value={search} name='search' type='text' placeholder='End Date' style={{ width: '100%' }} />
             </div>
           </div>
-          <QuotesTable />
+          {
+            isLoading ? <>Fetching the Quote details</> :
+              <QuotesTable quotePriceDetails={accountPriceData} />
+          }
         </div>
       </CustomModal>
     </div>

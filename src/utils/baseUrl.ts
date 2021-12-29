@@ -12,11 +12,11 @@ export default axios;
 
 
 export const getAccountList = () => {
-  return api.get('/account').then(async (res: any)=> {
+  return api.get('/user/currentUser').then(async (res: any)=> {
     console.log("data 00--> ", res.data);
-    if(await localStorage.getItem('token')){
+    // if(await localStorage.getItem('token')){
       return res.data
-    }
+    // }
   });
 }
 

@@ -10,9 +10,16 @@ interface Props {
 
 }
 
-function useQuotesHook(): any {
+type useQuoteHookReturnType = {
+  isLoading: boolean;
+  isError: boolean;
+  accountPriceData: any[];
+  productWithPrice: any
+}
+
+function useQuotesHook(): useQuoteHookReturnType {
   const params = useParams<{ accountId: string }>()
-  const { data } = useQuery(['accountPrice' + params.accountId], () => getAccountPricesByAccountId(params.accountId))
+  const { isLoading, isError, data } = useQuery(['accountPrice' + params.accountId], () => getAccountPricesByAccountId(params.accountId))
   const [dataQuotes, setDataQuotes] = useState(data)
   const activeAP = data?.filter((d: any) => d.account === 'Active')
   console.log("quotes data ---> ", data)
@@ -20,7 +27,7 @@ function useQuotesHook(): any {
   //   setDataQuotes(data)
   // }, [data])
 
-  return { accountPriceData: data, productWithPrice: data?.productWithPrice }
+  return { isLoading, isError, accountPriceData: data, productWithPrice: data?.productWithPrice }
 }
 
 export default useQuotesHook

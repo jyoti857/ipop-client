@@ -4,7 +4,7 @@ import { setLoadingAction, setTokenAction } from './actions';
 import { LOGIN_SAGA_DISPATCH } from './constants';
 
 
-type ResponseData = {data: {access_token: string; user: {userRole: any, username: string}}}
+type ResponseData = {data: {access_token: string; user: {_id: string, userRole: any, username: string}}}
 function* loginApi({email, password}: any){
   // username is mandatory and should be same as email, that is how it is designed in the backend 
   const body = JSON.stringify({email, password, username: email});
@@ -19,11 +19,11 @@ function* loginApi({email, password}: any){
   const response: ResponseData = yield call(customFetch, uri+'/auth/login', options);
   console.log(response, "from saga")
   console.log("hello saga ----> ")
-  const {data: {access_token, user: {userRole, username}}} = response;
+  const {data: {access_token, user: {_id, userRole, username}}} = response;
   console.log("sdkad",  access_token, userRole, username)
   if(response.data){
     localStorage.setItem('token', `Bearer ${access_token}`)
-    localStorage.setItem('userid', userRole._id)
+    localStorage.setItem('userid', _id)
     // added now 
     localStorage.setItem('username', username)
     yield put(setTokenAction(access_token, userRole))

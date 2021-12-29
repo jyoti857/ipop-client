@@ -34,6 +34,8 @@ const Login: React.FC<Props> = ({ email, password }) => {
     },
     onSubmit: () => loginSubmit()
   })
+
+  console.log("values ---> ** ", values)
   const loginSubmit = async () => {
     const { email, password } = values;
     dispatch(loginDispatch({ email, password }))
@@ -43,6 +45,7 @@ const Login: React.FC<Props> = ({ email, password }) => {
   useEffect(() => {
     const sd = async () => {
       const _id = await localStorage.getItem('userid');
+      console.log("loca sto ---> ", _id)
       _id && history.push(`/app-account/${_id}`)
       setUserId(_id)
       setLoading(false)
@@ -69,7 +72,7 @@ const Login: React.FC<Props> = ({ email, password }) => {
   console.log("Sdls", emailSelector)
   console.log("handle this ", values.email)
   return (
-    <div className={classes.root} style={{ height: '90vh', overflow: 'hidden' }}>
+    <div className={classes.root} style={{ height: '100vh', overflow: 'hidden' }}>
       <div style={{ flex: 0.1 }}>
         <div style={{ width: 700, display: 'flex', justifyContent: 'center' }}>
           <img src={pacira_logo}

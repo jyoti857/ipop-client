@@ -29,7 +29,8 @@ function Header({ children }: Props): ReactElement {
     history.push('/portal-configuration')
   }
   const handleAccountList = () => {
-    history.push(`/app-account/${userId}`)
+
+    return userId ? history.push(`/app-account/${userId}`) : "waiting"
   }
   // const handleConfiguration = () => {
     //   history.push('/portal-configuration')
