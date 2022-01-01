@@ -1,8 +1,10 @@
 import { Button, Paper } from '@mui/material';
 import { ReactElement, useState } from 'react'
 import { FaFileInvoice } from 'react-icons/fa';
+import { useMutation } from 'react-query';
 import CustomInput from '../../../../components/input/CustomInput';
 import CustomModal from '../../../../components/modal';
+import { createQuote } from '../../../../utils/baseUrl';
 import { AccountPriceHook } from '../accountPrice/accountPriceHook';
 import AccountPriceTable from '../accountPrice/accountPriceTable';
 import QuotesTable from './quotesTable';
@@ -21,13 +23,15 @@ function Quotes({ }: Props): ReactElement {
   const [title, setTitle] = useState('')
   const classes = useStyles();
 
-  const { data, proposedPrice: pp, proposedPriceFromData: ppfd } = AccountPriceHook()
-  // const s = accountPriceData?.map(({ productWithPrice }: any) => productWithPrice?.map((s: any) => s.proposedPrice))
-  // console.log("ss **8 ---> ", s)
   const { isError, isLoading, accountPriceData } = useQuotesHook()
-  // const quotePriceDetails = _quotePriceDetails?.accountPriceData[0]?.productWithPrice;
   console.log('quote price details 000---> ', accountPriceData)
-  // console.log("data quotes ---> accountData", accountPriceData, data, pp, ppfd)
+
+  const ds = useMutation(createQuote)
+  const handleQuoteSubmit = () => {
+    ds.mutateAsync({ title, quoteType: "ORDER", quoteStatus: "USED", productQuotes: accountPriceData })
+    console.log("quote mutate async is called ")
+  }
+  console.log("____ds", ds)
   return (
     <div>
     <Paper className={classes.root}>
@@ -54,7 +58,7 @@ function Quotes({ }: Props): ReactElement {
         <div className={classes.centerLine}>No quotes found for this account!</div>
       </div>
       </Paper>
-      <CustomModal handleClose={handleClose} open={open} modalName='Quotes' footerButtonName='Submit for approval' styles={{ minWidth: 1000, height: 700 }}>
+      <CustomModal onSubmit={handleQuoteSubmit} handleClose={handleClose} open={open} modalName='Quotes' footerButtonName='Submit for approval' styles={{ minWidth: 1000, height: 700 }}>
         <div>
           {/* <div style={{ position: 'absolute', fontWeight: 600, top: 20, left: 20 }}>Quotes</div> */}
           <div style={{ display: 'flex', justifyContent: 'space-between', marginLeft: -20, marginBottom: 12, minWidth: 1000 }}>

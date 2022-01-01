@@ -21,16 +21,17 @@ function Header({ children }: Props): ReactElement {
   const handleCardOpen = () => setCardOpen(!cardOpen);
   const [pageName, setPageName] = useState('Account')
   const [loggedUser, setLoggedUser] = useState('')
-  const [userId, setUserId] = useState(localStorage.getItem('userid')!)
+  const [userId, setUserId] = useState<string>()
+  const params = useParams<{ userId: string }>();
   const userIdRef = useRef<string>('')
-  userIdRef.current = localStorage.getItem('userid')!
+  userIdRef.current = params.userId;
   const history = useHistory();
   const handleConfiguration = () => {
     history.push('/portal-configuration')
   }
   const handleAccountList = () => {
-
-    return userId ? history.push(`/app-account/${userId}`) : "waiting"
+    console.log("handle account list userid ref ---> ", userId, userIdRef.current, localStorage.getItem('userid'))
+    return history.push(`/app-account/${localStorage.getItem('userid')}`)
   }
   // const handleConfiguration = () => {
     //   history.push('/portal-configuration')
@@ -49,7 +50,6 @@ function Header({ children }: Props): ReactElement {
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <img src={logo}
-        // src='https://pacira-op-ui-staging.azurewebsites.net/static/media/pacira-logo.2f28cc6e.png'
           alt='pacira logo'
           className={classes.logo}
         />

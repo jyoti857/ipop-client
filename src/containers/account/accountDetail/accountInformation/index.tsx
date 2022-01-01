@@ -26,14 +26,14 @@ export type AccountInformationType = {
 }
 function AccountInformation({ }: Props): ReactElement {
 
+
   const params = useParams<{ accountId: string }>();
   const { data, isLoading } = useQuery(['accountInformation', params.accountId], () => getAccountById(params.accountId),
     { enabled: Boolean(params.accountId) }
   )
   return (
-    <div>
-      <AccountInfoComponent data={data} isLoading={isLoading} />
-    </div>
+    isLoading ? <div>Loading,,,,from account info component render method </div> :
+      <div><AccountInfoComponent data={data} isLoading={isLoading} /></div>
   )
 }
 

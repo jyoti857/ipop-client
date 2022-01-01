@@ -29,7 +29,7 @@ function App() {
       <Provider store={store}>
         {
         <Router>
-            {window.location.pathname === '/app-login' && <Route exact path='/app-login' render={() => <Login email='rajib@mohan.com' password='1234' />} />}
+            {window.location.pathname === '/app-login' && <Route exact path='/app-login' render={() => <Login email='john@1.com' password='123' />} />}
             <Route path='/' component={Header} /> 
             <Route exact path='/portal-configuration' component={Configuration} />
             <Switch>

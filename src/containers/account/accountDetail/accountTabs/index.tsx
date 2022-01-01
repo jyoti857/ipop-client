@@ -30,7 +30,7 @@ function AccountTabs({ tabs, value, handleChange, tab }: Props): ReactElement {
         {
           tabs.map((tab) => {
             return (
-              <Tab label={tab.label} {...a11yProps(String(tab.idx))} />
+              <Tab key={tab.idx} label={tab.label} {...a11yProps(String(tab.idx))} />
             )
           })
         }

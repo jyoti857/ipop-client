@@ -42,21 +42,20 @@ const rows: any = [
 ];
 function AccountList({ }: Props): ReactElement {
   const classes = useStyles();
-  const result = useSelector(({ accountReducers }: any) => accountReducers)
-  const { data, isLoading, isError } = useQuery('accountList', getAccountList)
   const dispatch = useDispatch();
   const [open, setOpen] = useState<boolean>(false)
-  const [userId, setUserId] = useState<string>()
+  const [userId, setUserId] = useState<string | null>(localStorage.getItem('userid'))
+  const { data, isLoading, isError, isFetching, isFetched } = useQuery('accountList', getAccountList, { retry: true })
   const handleOpen = (open: boolean) => setOpen(open)
   const handleClose = (close: boolean) => setOpen(close)
 
-  console.log("account result ---> ", result.accounts)
-  console.log("data query ---> ", data, isLoading, isError)
-  // const accounts: any = result.accounts.length > 0 && result.accounts.map(({ name, status, city, state, addressLine1, zip, country, _id }: any) => {
+  console.log("data query ---> ", data, isLoading, isError, "user id ", userId,
+    "isFethcing ", isFetching, "isFetched ", isFetched
+  )
 
   // get the account list using react query above line is commented that is data we are getting using the 
   // redux saga with triggering the action
-  const accounts: any = data?.length > 0 && data.map(({ name, accountStatus, city, state, addressLine1, zip, country, _id }: any) => {
+  const accounts: any = data && data?.map(({ name, accountStatus, city, state, addressLine1, zip, country, _id }: any) => {
     return (
       createData(name, accountStatus, addressLine1, city, state, country, zip, _id)
     )
@@ -68,15 +67,15 @@ function AccountList({ }: Props): ReactElement {
     }
     s();
   }, [])
-  useEffect(() => { }, [result])
+  useEffect(() => { }, [isLoading])
+
 
   return (
-    // <div>
-    <div className={classes.root}>
+    !isLoading ? <div className={classes.root}>
       <div style={{ display: 'flex', justifyContent: 'space-between' }} >
         <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
           <div className={classes.accountsText}>Accounts</div>
-          <div className={classes.accountCount}>{accounts.length}</div>
+          <div className={classes.accountCount}>{accounts?.length}</div>
         </div>
         <div>
           <button
@@ -109,8 +108,8 @@ function AccountList({ }: Props): ReactElement {
               </TableRow>
             </TableHead>
             <TableBody>
-              {!isLoading ?
-                accounts.length > 0 && accounts
+              {!isLoading && isFetched ?
+                accounts?.length > 0 && accounts 
                   .map((row: any, rowIndex: number) => {
                   return (
                     <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
@@ -119,7 +118,6 @@ function AccountList({ }: Props): ReactElement {
                         const value = row[column.id];
                         return (
                           <TableCell key={column.id} align={column.align}> 
-                            {/* {column.id === 'status' ? "center" : 'left'}> */}
                             {column.format && typeof value === 'number'
                               ? column.format(value)
                               : column.id === 'name' ?
@@ -148,7 +146,7 @@ function AccountList({ }: Props): ReactElement {
           onRowsPerPageChange={() => { }} //handleChangeRowsPerPage}
           />
       </Paper>
-    </div>
+    </div> : <>lds</>
   )
 }
 

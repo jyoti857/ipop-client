@@ -4,21 +4,23 @@ const s  = () => localStorage.getItem('token')!
 const api = axios.create({
   baseURL: 'http://localhost:3000/',
   headers: {
-    'Authorization': s()
+    'Authorization': localStorage.getItem('token')! //s()
   }
 });
 // axios.defaults.headers.common = {'Authorization': s()}
 export default axios;
 
 
-export const getAccountList = () => {
-  return api.get('/user/currentUser').then(async (res: any)=> {
-    console.log("data 00--> ", res.data);
-    // if(await localStorage.getItem('token')){
-      return res.data
-    // }
+export const getAccountList = async () => {
+  const result = await api.get('/user/currentUser', {
+    headers: {
+      'Authorization':  localStorage.getItem('token')!
+    }
   });
-}
+  const res = result.data as unknown as any[];
+  console.log("from usequery ---> ", res)
+  return res;
+} 
 
 export const getAccountById = (id: string) =>{
   return api.get(`/account/${id}`).then((res: any) => {
@@ -85,4 +87,20 @@ export const getAccountPricesByAccountId = (accountId: string) => {
     console.log("get account prices by account id ----> ", res.data)
     return res.data || ''
   })
+}
+
+
+
+// export interface IQuote = {
+  
+// }
+export const createQuote = async (payload: any) => {
+  const {accountId, ...rest} = payload
+  try{
+    const res = await api.post(`/quote/${accountId}`, rest)
+    console.log("res****** ", res)
+  }catch(err){
+    console.log("err -----> ", err)
+    console.log("res****** ", err)
+  }
 }
