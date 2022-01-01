@@ -39,25 +39,35 @@ function Quotes({ }: Props): ReactElement {
   const classes = useStyles();
   const { accountId } = useParams<{ accountId: string }>()
   const { isError, isLoading, accountPriceData, productWithPrice } = useQuotesHook()
-  console.log('quote price details 000---> ', productWithPrice)
-  //qty set 
-  const [qtySet, setQtySet] = useState<any>(productWithPrice?.map((a: any) => a.qty))
-
   const ds = useMutation(createQuote)
+
+  const [qtySet, setQtySet] = useState<any>(productWithPrice?.map((a: any) => a.qty) || [])
+
+  const quoteDetails = {
+    accountId,
+    title,
+    quoteType: "ORDER",
+    quoteStatus: "USED",
+    productQuotes: productWithPrice?.map((a: any, idx: number) => ({
+      ...a,
+      qty: qtySet[idx] || 0
+    }))
+  }
+
   const handleQuoteSubmit = () => {
-    const activeAccountPrice: AccountPriceType = accountPriceData.find((apd: AccountPriceType) => apd.status === 'Active')
-    console.log("rest ** ---", activeAccountPrice, productWithPrice)
-    ds.mutateAsync({ accountId, title, quoteType: "ORDER", quoteStatus: "USED", productQuotes: activeAccountPrice.productWithPrice })
+    console.log(" quote details **** ", quoteDetails)
+    ds.mutateAsync({ ...quoteDetails })
     console.log("quote mutate async is called ")
   }
+
   console.log("qtySet ---> ", qtySet)
   const { handleChange, values: { priceTitle } } = CustomAccountPriceQuoteFormik({ onsubmit: handleQuoteSubmit })
   const handleQuoteQuantity = (e: React.ChangeEvent<HTMLInputElement>, idx: number) => {
     const pwp: any = [...qtySet]
-    pwp[idx] = e.target.value
+    pwp[idx] = +e.target.value
     setQtySet(pwp)
   }
-  console.log("____ds", ds)
+
   return (
     <div>
     <Paper className={classes.root}>
