@@ -25,7 +25,7 @@ function useQuotesHook(): useQuoteHookReturnType {
   const [qties, setQties] = useState(0)
   const activeAP: AccountPriceType = data?.find((d: any) => d.status === 'Active')
   console.log("quotes data activeAP---> ", activeAP?.productWithPrice)
-  const addQtyToProductPrice = activeAP?.productWithPrice.map((a: any) => ({ ...a, qty: 0 }))
+  const addQtyToProductPrice = activeAP?.productWithPrice.map((a: any) => ({ ...a, quantity: 0 }))
   // useEffect(() => {
   //   setDataQuotes(data)
   // }, [data])

@@ -46,11 +46,12 @@ function Quotes({ }: Props): ReactElement {
   const quoteDetails = {
     accountId,
     title,
+    status: 'ACTV',
     quoteType: "ORDER",
     quoteStatus: "USED",
     productQuotes: productWithPrice?.map((a: any, idx: number) => ({
       ...a,
-      qty: qtySet[idx] || 0
+      qunatity: qtySet[idx] || 0,
     }))
   }
 
