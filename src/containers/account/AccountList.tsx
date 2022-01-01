@@ -45,7 +45,7 @@ function AccountList({ }: Props): ReactElement {
   const dispatch = useDispatch();
   const [open, setOpen] = useState<boolean>(false)
   const [userId, setUserId] = useState<string | null>(localStorage.getItem('userid'))
-  const { data, isLoading, isError, isFetching, isFetched } = useQuery('accountList', getAccountList, { retry: true })
+  const { data, isLoading, isError, isFetching, isFetched } = useQuery('accountList', getAccountList)
   const handleOpen = (open: boolean) => setOpen(open)
   const handleClose = (close: boolean) => setOpen(close)
 

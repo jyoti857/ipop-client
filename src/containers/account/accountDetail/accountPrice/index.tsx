@@ -48,9 +48,9 @@ function AccountPrice({ }: Props): ReactElement {
     proposedPrice: proposedPriceFromData[idx],
     discountPrice: discountPrice[idx]
   }))
-  console.log("bandira ---> ", accountPrices, proposedPrice, proposedPriceFromData)
-  console.log("mand  ---> ", allAccountPricesCreated)
-  const handleProposedData = (e: any, id: number) => {
+
+  // here the e is given the type from being an any
+  const handleProposedData = (e: React.ChangeEvent<HTMLInputElement>, id: number) => {
     const sd: any[] = [...proposedPriceFromData]
     if (e.target.value > data?.map((d: any) => d.price)[id]) {
       console.log("from data ***", proposedPriceFromData[id])
@@ -68,7 +68,6 @@ function AccountPrice({ }: Props): ReactElement {
     const dis = data?.map((d: any, i: number) => (((d.price - proposedPriceFromData[i]) / d.price) * 100).toFixed(2))
     setDiscountPrice(dis)
   }
-  console.log("from data ***, proposed", discountPrice, proposedPriceFromData)
   const { handleBlur, handleChange, values: { endDate, startDate, priceTitle } } = CustomAccountPriceQuoteFormik({ onsubmit: handleAccountPriceSubmit })
 
   // radion button setup
@@ -140,7 +139,7 @@ function AccountPrice({ }: Props): ReactElement {
               <CustomInput value={endDate} handleChange={handleChange} name='endDate' type='text' placeholder='End Date' style={{ width: '100%' }} />
             </div>
           </div>
-          {proposedPrice && proposedPriceFromData?.length > 0 ? <AccountPriceTable discountPrice={discountPrice} proposedPrice={proposedPrice} proposedPriceFromData={proposedPriceFromData} handleProposedData={handleProposedData} /> : 'loading'}
+          {proposedPrice && proposedPriceFromData?.length > 0 ? <AccountPriceTable discountPrice={discountPrice} proposedPrice={proposedPrice} proposedPriceFromData={proposedPriceFromData} handleProposedData={handleProposedData} /> : 'loading account price table'}
         </div>
       </CustomModal>
     </div>

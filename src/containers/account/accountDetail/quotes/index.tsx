@@ -1,12 +1,14 @@
 import { Button, Paper } from '@mui/material';
-import { ReactElement, useState } from 'react'
+import React, { ReactElement, useState } from 'react'
 import { FaFileInvoice } from 'react-icons/fa';
 import { useMutation } from 'react-query';
+import { useParams } from 'react-router-dom';
 import CustomInput from '../../../../components/input/CustomInput';
 import CustomModal from '../../../../components/modal';
 import { createQuote } from '../../../../utils/baseUrl';
 import { AccountPriceHook } from '../accountPrice/accountPriceHook';
 import AccountPriceTable from '../accountPrice/accountPriceTable';
+import CustomAccountPriceQuoteFormik from '../accountPriceQuoteFormik';
 import QuotesTable from './quotesTable';
 import { useStyles } from './styles'
 import useQuotesHook from './useQuotesHook';
@@ -14,22 +16,46 @@ import useQuotesHook from './useQuotesHook';
 interface Props {
 
 }
+export type AccountPriceType = {
+  catalog: string;
+  discountPrice: number;
+  name: string;
+  price: number;
+  proposedPrice: number;
+  status: string;
+  updatedAt: string;
+  createdAt: string;
+  productWithPrice: any;
+  _id: string;
 
+}
 function Quotes({ }: Props): ReactElement {
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState('')
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
   const [title, setTitle] = useState('')
-  const classes = useStyles();
 
-  const { isError, isLoading, accountPriceData } = useQuotesHook()
-  console.log('quote price details 000---> ', accountPriceData)
+  const classes = useStyles();
+  const { accountId } = useParams<{ accountId: string }>()
+  const { isError, isLoading, accountPriceData, productWithPrice } = useQuotesHook()
+  console.log('quote price details 000---> ', productWithPrice)
+  //qty set 
+  const [qtySet, setQtySet] = useState<any>(productWithPrice?.map((a: any) => a.qty))
 
   const ds = useMutation(createQuote)
   const handleQuoteSubmit = () => {
-    ds.mutateAsync({ title, quoteType: "ORDER", quoteStatus: "USED", productQuotes: accountPriceData })
+    const activeAccountPrice: AccountPriceType = accountPriceData.find((apd: AccountPriceType) => apd.status === 'Active')
+    console.log("rest ** ---", activeAccountPrice, productWithPrice)
+    ds.mutateAsync({ accountId, title, quoteType: "ORDER", quoteStatus: "USED", productQuotes: activeAccountPrice.productWithPrice })
     console.log("quote mutate async is called ")
+  }
+  console.log("qtySet ---> ", qtySet)
+  const { handleChange, values: { priceTitle } } = CustomAccountPriceQuoteFormik({ onsubmit: handleQuoteSubmit })
+  const handleQuoteQuantity = (e: React.ChangeEvent<HTMLInputElement>, idx: number) => {
+    const pwp: any = [...qtySet]
+    pwp[idx] = e.target.value
+    setQtySet(pwp)
   }
   console.log("____ds", ds)
   return (
@@ -81,7 +107,7 @@ function Quotes({ }: Props): ReactElement {
           </div>
           {
             isLoading ? <>Fetching the Quote details</> :
-              <QuotesTable quotePriceDetails={accountPriceData} />
+              <QuotesTable handleChange={handleChange} handleQuoteQuantity={handleQuoteQuantity} qtySet={qtySet} />
           }
         </div>
       </CustomModal>

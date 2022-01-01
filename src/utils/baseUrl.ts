@@ -89,13 +89,9 @@ export const getAccountPricesByAccountId = (accountId: string) => {
   })
 }
 
-
-
-// export interface IQuote = {
-  
-// }
 export const createQuote = async (payload: any) => {
   const {accountId, ...rest} = payload
+  console.log("account id and rest ** ---> ", accountId, rest)
   try{
     const res = await api.post(`/quote/${accountId}`, rest)
     console.log("res****** ", res)

@@ -13,7 +13,7 @@ const CustomAccountPriceQuoteFormik = ({ onSubmit }: any) => {
     initialValues: {
       endDate: "",
       startDate: "",
-      priceTitle: ""
+      priceTitle: "",
     },
     onSubmit
   })

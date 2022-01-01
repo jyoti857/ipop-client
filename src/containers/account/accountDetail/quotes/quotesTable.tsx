@@ -25,12 +25,14 @@ const rows = [
 ];
 
 interface IQuotesTable {
-  quotePriceDetails?: any
+  handleQuoteQuantity: any;
+  qtySet: any;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
-export default function QuotesTable({ quotePriceDetails }: IQuotesTable) {
-  const [qty, setQty] = React.useState(3)
-  const s = useQuotesHook();
-  console.log("sss ---> ", s.accountPriceData);
+export default function QuotesTable({ handleChange, handleQuoteQuantity, qtySet }: IQuotesTable) {
+  const { productWithPrice } = useQuotesHook();
+  const [quoteDetails, setQuoteDetails] = React.useState<any>(productWithPrice)
+  console.log("sss ---> ", quoteDetails);
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 750 }} aria-label="simple table">
@@ -44,7 +46,7 @@ export default function QuotesTable({ quotePriceDetails }: IQuotesTable) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {s?.accountPriceData[0]?.productWithPrice?.map((row: any) => (
+          {productWithPrice?.map((row: any, idx: number) => (
             <TableRow
               key={row.name}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -54,11 +56,19 @@ export default function QuotesTable({ quotePriceDetails }: IQuotesTable) {
               </TableCell>
               <TableCell align="left">{row.name}</TableCell>
               <TableCell align="right">
-                <CustomInput name='qty' type='number' value={qty} placeholder='0' />
+                <CustomInput
+                  name='qty'
+                  type='number'
+                  handleChange={(e: React.ChangeEvent<HTMLInputElement>) => handleQuoteQuantity(e, idx)}
+                  value={qtySet[idx] || 0}
+                  placeholder='0' />
               </TableCell>
               <TableCell align="right">{row.proposedPrice}</TableCell>
               <TableCell align="right">
-                <CustomInput name='qty' type='number' value={qty * row.proposedPrice} placeholder={''} />
+                <CustomInput
+                  name='qty_mul_product'
+                  type='number'
+                  value={(qtySet[idx] || 0) * row.proposedPrice} placeholder={''} />
               </TableCell>
             </TableRow>
           ))}
