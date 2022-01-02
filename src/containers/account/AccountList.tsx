@@ -12,6 +12,7 @@ import { getAccountList } from '../../utils/baseUrl';
 import Header from '../header';
 import { AccountStatusColorMapper, AccountStatusColorType } from './accountDetail';
 import { FaHospitalUser } from 'react-icons/fa';
+import Loading from '../../components/loading';
 interface Props {
 
 }
@@ -132,7 +133,7 @@ function AccountList({ }: Props): ReactElement {
                       })}
                     </TableRow>
                   );
-                }) : <div>Loading,,,</div>}
+                  }) : <Loading />}
             </TableBody>
           </Table>
         </TableContainer>
@@ -146,7 +147,7 @@ function AccountList({ }: Props): ReactElement {
           onRowsPerPageChange={() => { }} //handleChangeRowsPerPage}
           />
       </Paper>
-    </div> : <>lds</>
+    </div> : <Loading />
   )
 }
 
