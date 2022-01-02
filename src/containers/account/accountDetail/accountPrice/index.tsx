@@ -107,7 +107,7 @@ function AccountPrice({ }: Props): ReactElement {
           <div className={classes.centerLine}>No price list found for this account!</div>
           </div> :
             <div style={{ marginTop: 12, left: -260, top: 40, position: 'relative', paddingBottom: 60 }}>
-              <CustomizedAccordions discountPrice={discountPrice} proposedPrice={proposedPrice} allAccountPricesCreated={allAccountPricesCreated} proposedPriceFromData={proposedPriceFromData} />
+              <CustomizedAccordions accordionType='account-price' discountPrice={discountPrice} proposedPrice={proposedPrice} allAccountPricesCreated={allAccountPricesCreated} proposedPriceFromData={proposedPriceFromData} />
             </div>
         }
       </Paper>

@@ -3,12 +3,15 @@ import React, { ReactElement, useState } from 'react'
 import { FaFileInvoice } from 'react-icons/fa';
 import { useMutation } from 'react-query';
 import { useParams } from 'react-router-dom';
+import CustomizedAccordions from '../../../../components/accordion';
 import CustomInput from '../../../../components/input/CustomInput';
+import Loading from '../../../../components/loading';
 import CustomModal from '../../../../components/modal';
 import { createQuote } from '../../../../utils/baseUrl';
 import { AccountPriceHook } from '../accountPrice/accountPriceHook';
 import AccountPriceTable from '../accountPrice/accountPriceTable';
 import CustomAccountPriceQuoteFormik from '../accountPriceQuoteFormik';
+import QuoteAccordion from './QuoteAccordion';
 import QuotesTable from './quotesTable';
 import { useStyles } from './styles'
 import useQuotesHook from './useQuotesHook';
@@ -55,6 +58,18 @@ function Quotes({ }: Props): ReactElement {
     }))
   }
 
+  const quoteList = {
+    title,
+    status: "Active",
+    quoteStatus: "USED",
+    productQuotes: productWithPrice?.map((a: any, idx: number) => ({
+      productName: a.name,
+      quantity: qtySet[idx] || 0,
+      price: a.proposedPrice * (qtySet[idx] || 0)
+    }))
+  }
+  console.log("quoteList ---> quoteList ", quoteList)
+
   const handleQuoteSubmit = () => {
     console.log(" quote details **** ", quoteDetails)
     ds.mutateAsync({ ...quoteDetails })
@@ -71,7 +86,7 @@ function Quotes({ }: Props): ReactElement {
 
   return (
     <div>
-    <Paper className={classes.root}>
+      <Paper className={classes.root}>
         <div style={{ display: 'flex' }}>
           <Button
             color='primary'
@@ -94,6 +109,9 @@ function Quotes({ }: Props): ReactElement {
         </div>
         <div className={classes.centerLine}>No quotes found for this account!</div>
       </div>
+        {/* <div style={{ marginTop: 12, left: -260, top: 40, position: 'relative', paddingBottom: 60 }}>
+          <QuoteAccordion quoteList={quoteList} footerButton={false} />
+        </div> */}
       </Paper>
       <CustomModal onSubmit={handleQuoteSubmit} handleClose={handleClose} open={open} modalName='Quotes' footerButtonName='Submit for approval' styles={{ minWidth: 1000, height: 700 }}>
         <div>
@@ -117,8 +135,8 @@ function Quotes({ }: Props): ReactElement {
             </div>
           </div>
           {
-            isLoading ? <>Fetching the Quote details</> :
-              <QuotesTable handleChange={handleChange} handleQuoteQuantity={handleQuoteQuantity} qtySet={qtySet} />
+            isLoading ? <Loading /> :
+              <QuotesTable productWithPrice={productWithPrice} handleChange={handleChange} handleQuoteQuantity={handleQuoteQuantity} qtySet={qtySet} />
           }
         </div>
       </CustomModal>

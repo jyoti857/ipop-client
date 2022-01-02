@@ -123,7 +123,7 @@ function AccountList({ }: Props): ReactElement {
                               ? column.format(value)
                               : column.id === 'name' ?
                                 <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
-                                  <FaHospitalUser style={{ width: 40, height: 40, marginLeft: 1, color: AccountStatusColorMapper[accounts[rowIndex]?.status as AccountStatusColorType] || 'red' }} />
+                                  <FaHospitalUser style={{ width: 40, height: 40, marginLeft: 1, backgroundColor: AccountStatusColorMapper[accounts[rowIndex]?.status as AccountStatusColorType] || 'pink', padding: 10, borderRadius: '50%', color: '#fff' }} />
                                   <Link to={`/app-account/${userId}/individual-account/${row._id}`} style={{ marginLeft: 12, textDecoration: 'none', color: '#0E1EBC' }}>{value}</Link>
                                 </div>
                                 : column.id === 'status' ? <div style={{ backgroundColor: AccountStatusColorMapper[value as AccountStatusColorType], textAlign: 'center', borderRadius: 12, padding: 4, fontSize: 14, fontFamily: "sans-serif" }}>{value}</div>

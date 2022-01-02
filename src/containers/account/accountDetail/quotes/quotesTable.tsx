@@ -25,12 +25,12 @@ const rows = [
 ];
 
 interface IQuotesTable {
-  handleQuoteQuantity: any;
+  handleQuoteQuantity?: any;
   qtySet: any;
-  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  handleChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  productWithPrice: any
 }
-export default function QuotesTable({ handleChange, handleQuoteQuantity, qtySet }: IQuotesTable) {
-  const { productWithPrice } = useQuotesHook();
+export default function QuotesTable({ productWithPrice, handleChange, handleQuoteQuantity, qtySet }: IQuotesTable) {
   const [quoteDetails, setQuoteDetails] = React.useState<any>(productWithPrice)
   console.log("sss ---> ", quoteDetails);
   return (
@@ -63,13 +63,14 @@ export default function QuotesTable({ handleChange, handleQuoteQuantity, qtySet 
                   value={qtySet[idx] || 0}
                   placeholder='0' />
               </TableCell>
-              <TableCell align="right">{row.proposedPrice}</TableCell>
-              <TableCell align="right">
+              <TableCell align="center">{row.proposedPrice}</TableCell>
+              {/* <TableCell align="right">
                 <CustomInput
                   name='qty_mul_product'
                   type='number'
                   value={(qtySet[idx] || 0) * row.proposedPrice} placeholder={''} />
-              </TableCell>
+              </TableCell> */}
+              <TableCell align="center">{(qtySet[idx] || 0) * row.proposedPrice}</TableCell>
             </TableRow>
           ))}
         </TableBody>
