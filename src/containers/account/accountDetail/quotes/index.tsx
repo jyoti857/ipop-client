@@ -86,7 +86,7 @@ function Quotes({ }: Props): ReactElement {
 
   return (
     <div>
-      <Paper className={classes.root}>
+      <Paper className={classes.root} style={{ position: 'relative', minHeight: 300 }}>
         <div style={{ display: 'flex' }}>
           <Button
             color='primary'
@@ -112,7 +112,7 @@ function Quotes({ }: Props): ReactElement {
         <div className={classes.centerLine}>No quotes found for this account!</div>
       </div>
             :
-        <div style={{ marginTop: 12, left: -260, top: 40, position: 'relative', paddingBottom: 60 }}>
+            <div style={{ marginTop: 12, left: 60, top: 40, position: 'absolute', paddingBottom: 60 }}>
           <QuoteAccordion quoteList={data} footerButton={false} />
         </div>
         }
