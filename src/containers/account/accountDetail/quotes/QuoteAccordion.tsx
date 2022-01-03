@@ -58,11 +58,20 @@ export default function QuoteAccordion(
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
     };
+  // const filterTheQuoteListByQuantityGreaterThanZero = () => {
+  //   const qL = [...quoteList]
+  //   const
+  //     productQuotes: quoteList?.map((aacpc: any, idx: number) => aacpc.productQuotes.filter((a: any) => a.quantity > 0))
+  // }
+  //quoteList?.map((aacpc: any, idx: number) => aacpc.productQuotes.filter((a: any) => a.quantity > 0))
+  console.log("quote list in the quote accordions ---> ", quoteList)
   return (
     <div style={{ display: 'block' }}>
       {
         quoteList?.map((aacpc: any, idx: number) => {
-          const qtySet = aacpc?.productQuotes?.map((a: any) => a.quantity)
+          const qtySet = aacpc?.productQuotes?.map((a: any) => { if (a.quantity > 0) return a.quantity }).filter((a: any) => a > 0)
+          // const qtySet_ = aacpc?.productQuotes?.filter((a: any) => { if (a.quantity > 0) return a.quantity })
+          console.log("quote list qtyset 2 ---> ", qtySet)
           return (
             <div style={{ minHeight: `panel${idx + 1}` === expanded ? (2 * 100) : '', marginBottom: 12 }}>
               <Accordion expanded={expanded === `panel${idx + 1}`} onChange={handleChange(`panel${idx + 1}`)}>
@@ -71,7 +80,7 @@ export default function QuoteAccordion(
                     {aacpc.title} created Date: <span style={{ color: 'blue', fontSize: 12 }}>{new Date().toISOString().split("T")[0]}</span><span style={{ backgroundColor: 'blue', color: 'white', borderRadius: 12, padding: 4, fontSize: 12, marginLeft: 12 }}>{aacpc.status}</span></Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <QuotesTable productWithPrice={aacpc.productQuotes} qtySet={qtySet} />
+                  <QuotesTable productWithPrice={aacpc.productQuotes.filter((a: any) => a.quantity > 0)} qtySet={qtySet} editable={false} />
                 </AccordionDetails>
                 {
                   footerButton &&

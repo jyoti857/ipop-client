@@ -103,15 +103,19 @@ function Quotes({ }: Props): ReactElement {
           >Sync</Button>
           <CustomInput value='search' name='search' type='text' placeholder='search' style={{ width: '20%', position: 'absolute', top: 10, right: 150 }} />
       </div>
-      <div>
+        {
+          !data ? 
+            <div>
         <div className={classes.fileIcon}>
           <FaFileInvoice />
         </div>
         <div className={classes.centerLine}>No quotes found for this account!</div>
       </div>
+            :
         <div style={{ marginTop: 12, left: -260, top: 40, position: 'relative', paddingBottom: 60 }}>
           <QuoteAccordion quoteList={data} footerButton={false} />
         </div>
+        }
       </Paper>
       <CustomModal onSubmit={handleQuoteSubmit} handleClose={handleClose} open={open} modalName='Quotes' footerButtonName='Submit for approval' styles={{ minWidth: 1000, height: 700 }}>
         <div>
@@ -136,7 +140,7 @@ function Quotes({ }: Props): ReactElement {
           </div>
           {
             isLoading ? <Loading /> :
-              <QuotesTable productWithPrice={productWithPrice} handleChange={handleChange} handleQuoteQuantity={handleQuoteQuantity} qtySet={qtySet} />
+              <QuotesTable editable={true} productWithPrice={productWithPrice} handleChange={handleChange} handleQuoteQuantity={handleQuoteQuantity} qtySet={qtySet} />
           }
         </div>
       </CustomModal>

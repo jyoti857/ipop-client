@@ -28,17 +28,18 @@ interface IQuotesTable {
   handleQuoteQuantity?: any;
   qtySet: any;
   handleChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  productWithPrice: any
+  productWithPrice: any;
+  editable?: boolean;
 }
-export default function QuotesTable({ productWithPrice, handleChange, handleQuoteQuantity, qtySet }: IQuotesTable) {
+export default function QuotesTable({ productWithPrice, handleChange, handleQuoteQuantity, qtySet, editable }: IQuotesTable) {
   const [quoteDetails, setQuoteDetails] = React.useState<any>(productWithPrice)
   console.log("sss ---> ", quoteDetails);
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 750 }} aria-label="simple table">
+      <Table sx={{ minWidth: 750 }} size={!editable ? 'small' : 'medium'} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Catalog No.</TableCell>
+            <TableCell>Catalog No.</TableCell> 
             <TableCell align="left">Product</TableCell>
             <TableCell align="center">Qty</TableCell>
             <TableCell align="right">Price</TableCell>
@@ -56,12 +57,15 @@ export default function QuotesTable({ productWithPrice, handleChange, handleQuot
               </TableCell>
               <TableCell align="left">{row.name}</TableCell>
               <TableCell align="right">
+                {
+                  !editable ? qtySet[idx] : 
                 <CustomInput
-                  name='qty'
-                  type='number'
-                  handleChange={(e: React.ChangeEvent<HTMLInputElement>) => handleQuoteQuantity(e, idx)}
-                  value={qtySet[idx] || 0}
-                  placeholder='0' />
+                      name='qty'
+                      type='number'
+                      handleChange={(e: React.ChangeEvent<HTMLInputElement>) => handleQuoteQuantity(e, idx)}
+                      value={qtySet[idx] || 0}
+                      placeholder='0' />
+                }
               </TableCell>
               <TableCell align="center">{row.proposedPrice}</TableCell>
               {/* <TableCell align="right">
