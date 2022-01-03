@@ -1,13 +1,13 @@
 import { Button, Paper } from '@mui/material';
 import React, { ReactElement, useState } from 'react'
 import { FaFileInvoice } from 'react-icons/fa';
-import { useMutation } from 'react-query';
+import { useMutation, useQueries, useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 import CustomizedAccordions from '../../../../components/accordion';
 import CustomInput from '../../../../components/input/CustomInput';
 import Loading from '../../../../components/loading';
 import CustomModal from '../../../../components/modal';
-import { createQuote } from '../../../../utils/baseUrl';
+import { createQuote, getQuotes } from '../../../../utils/baseUrl';
 import { AccountPriceHook } from '../accountPrice/accountPriceHook';
 import AccountPriceTable from '../accountPrice/accountPriceTable';
 import CustomAccountPriceQuoteFormik from '../accountPriceQuoteFormik';
@@ -38,7 +38,7 @@ function Quotes({ }: Props): ReactElement {
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
   const [title, setTitle] = useState('')
-
+  const { data } = useQuery(['getQuote'], getQuotes)
   const classes = useStyles();
   const { accountId } = useParams<{ accountId: string }>()
   const { isError, isLoading, accountPriceData, productWithPrice } = useQuotesHook()
@@ -54,7 +54,7 @@ function Quotes({ }: Props): ReactElement {
     quoteStatus: "USED",
     productQuotes: productWithPrice?.map((a: any, idx: number) => ({
       ...a,
-      qunatity: qtySet[idx] || 0,
+      quantity: qtySet[idx] || 0,
     }))
   }
 
@@ -68,7 +68,7 @@ function Quotes({ }: Props): ReactElement {
       price: a.proposedPrice * (qtySet[idx] || 0)
     }))
   }
-  console.log("quoteList ---> quoteList ", quoteList)
+  console.log("quoteList ---> quoteList ", quoteList, data)
 
   const handleQuoteSubmit = () => {
     console.log(" quote details **** ", quoteDetails)
@@ -109,9 +109,9 @@ function Quotes({ }: Props): ReactElement {
         </div>
         <div className={classes.centerLine}>No quotes found for this account!</div>
       </div>
-        {/* <div style={{ marginTop: 12, left: -260, top: 40, position: 'relative', paddingBottom: 60 }}>
-          <QuoteAccordion quoteList={quoteList} footerButton={false} />
-        </div> */}
+        <div style={{ marginTop: 12, left: -260, top: 40, position: 'relative', paddingBottom: 60 }}>
+          <QuoteAccordion quoteList={data} footerButton={false} />
+        </div>
       </Paper>
       <CustomModal onSubmit={handleQuoteSubmit} handleClose={handleClose} open={open} modalName='Quotes' footerButtonName='Submit for approval' styles={{ minWidth: 1000, height: 700 }}>
         <div>

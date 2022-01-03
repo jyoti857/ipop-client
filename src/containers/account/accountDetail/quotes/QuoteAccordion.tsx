@@ -53,8 +53,7 @@ interface QuoteAccordionProps {
 export default function QuoteAccordion(
   { quoteList, footerButton }: QuoteAccordionProps) {
   const [expanded, setExpanded] = React.useState<string | false>(false);
-  const productWithPrice = quoteList.productQuotes.map((a: any) => ({ name: a.name, catalog: a.catalog, proposedPrice: a.proposedPrice }))
-  const qtySet = quoteList.productQuotes.map((a: any) => ({ qtySet }))
+  const productWithPrice = quoteList?.productQuotes?.map((a: any) => ({ name: a.name, catalog: a.catalog, proposedPrice: a.proposedPrice }))
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
@@ -63,6 +62,7 @@ export default function QuoteAccordion(
     <div style={{ display: 'block' }}>
       {
         quoteList?.map((aacpc: any, idx: number) => {
+          const qtySet = aacpc?.productQuotes?.map((a: any) => a.quantity)
           return (
             <div style={{ minHeight: `panel${idx + 1}` === expanded ? (2 * 100) : '', marginBottom: 12 }}>
               <Accordion expanded={expanded === `panel${idx + 1}`} onChange={handleChange(`panel${idx + 1}`)}>
@@ -71,7 +71,7 @@ export default function QuoteAccordion(
                     {aacpc.title} created Date: <span style={{ color: 'blue', fontSize: 12 }}>{new Date().toISOString().split("T")[0]}</span><span style={{ backgroundColor: 'blue', color: 'white', borderRadius: 12, padding: 4, fontSize: 12, marginLeft: 12 }}>{aacpc.status}</span></Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <QuotesTable productWithPrice={productWithPrice} qtySet={qtySet} />
+                  <QuotesTable productWithPrice={aacpc.productQuotes} qtySet={qtySet} />
                 </AccordionDetails>
                 {
                   footerButton &&

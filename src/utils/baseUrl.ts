@@ -100,3 +100,12 @@ export const createQuote = async (payload: any) => {
     console.log("res****** ", err)
   }
 }
+
+export const getQuotes = async() => {
+  try{
+    const res = await api.get('/quote')
+    return res.data
+  }catch(err){
+    console.log("err in get quotes ---> ", err)
+  }
+}
