@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
@@ -9,6 +8,8 @@ import Paper from '@mui/material/Paper';
 import useQuotesHook from './useQuotesHook';
 import CustomInput from '../../../../components/input/CustomInput';
 import { AnyAction } from 'redux';
+import { theme } from '../../../../theme/customTheme';
+import { StyledTableCell } from '../accountPrice/accountPriceTable';
 
 function createData(
   catalog: string,
@@ -36,14 +37,14 @@ export default function QuotesTable({ productWithPrice, handleChange, handleQuot
   console.log("sss ---> ", quoteDetails);
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 750 }} size={!editable ? 'small' : 'medium'} aria-label="simple table">
-        <TableHead>
+      <Table sx={{ minWidth: 750 }} size={!editable ? 'small' : 'medium'} aria-label="a table">
+        <TableHead style={{ color: 'red' }}>
           <TableRow>
-            <TableCell>Catalog No.</TableCell> 
-            <TableCell align="left">Product</TableCell>
-            <TableCell align="center">Qty</TableCell>
-            <TableCell align="right">Price</TableCell>
-            <TableCell align="center">Qty * Price</TableCell>
+            <StyledTableCell>Catalog No.</StyledTableCell>
+            <StyledTableCell align="left">Product</StyledTableCell>
+            <StyledTableCell align="right">Qty</StyledTableCell>
+            <StyledTableCell align="center">Price</StyledTableCell>
+            <StyledTableCell align="center">Qty * Price</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -52,11 +53,11 @@ export default function QuotesTable({ productWithPrice, handleChange, handleQuot
               key={row.name}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell component="th" scope="row" align='left'>
+              <StyledTableCell component="th" scope="row" align='left'>
                 {row.catalog}
-              </TableCell>
-              <TableCell align="left">{row.name}</TableCell>
-              <TableCell align="right">
+              </StyledTableCell>
+              <StyledTableCell align="left">{row.name}</StyledTableCell>
+              <StyledTableCell align="right">
                 {
                   !editable ? qtySet[idx] : 
                 <CustomInput
@@ -66,15 +67,15 @@ export default function QuotesTable({ productWithPrice, handleChange, handleQuot
                       value={qtySet[idx] || 0}
                       placeholder='0' />
                 }
-              </TableCell>
-              <TableCell align="center">{row.proposedPrice}</TableCell>
-              {/* <TableCell align="right">
+              </StyledTableCell>
+              <StyledTableCell align="center">{row.proposedPrice}</StyledTableCell>
+              {/* <StyledTableCell align="right">
                 <CustomInput
                   name='qty_mul_product'
                   type='number'
                   value={(qtySet[idx] || 0) * row.proposedPrice} placeholder={''} />
-              </TableCell> */}
-              <TableCell align="center">{(qtySet[idx] || 0) * row.proposedPrice}</TableCell>
+              </StyledTableCell> */}
+              <StyledTableCell align="center">{(qtySet[idx] || 0) * row.proposedPrice}</StyledTableCell>
             </TableRow>
           ))}
         </TableBody>

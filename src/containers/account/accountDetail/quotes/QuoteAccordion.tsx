@@ -73,7 +73,7 @@ export default function QuoteAccordion(
           // const qtySet_ = aacpc?.productQuotes?.filter((a: any) => { if (a.quantity > 0) return a.quantity })
           console.log("quote list qtyset 2 ---> ", qtySet)
           return (
-            <div style={{ minHeight: `panel${idx + 1}` === expanded ? (qtySet.length > 3 ? qtySet.length * 70 : qtySet.length * 100) : '', marginBottom: 12 }}>
+            <div style={{ minHeight: `panel${idx + 1}` === expanded ? (qtySet.length > 3 ? qtySet.length * 50 : qtySet.length * 100) : '', marginBottom: 12 }}>
               <Accordion expanded={expanded === `panel${idx + 1}`} onChange={handleChange(`panel${idx + 1}`)}>
                 <AccordionSummary aria-controls="panel1d-content" id={`panel${idx + 1}d-header`}>
                   <Typography >

@@ -13,7 +13,7 @@ import CustomInput from '../../../../components/input/CustomInput';
 import { useState } from 'react';
 import { AccountPriceHook } from './accountPriceHook';
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
+export const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: '#DACCE1',//theme.palette.common.black,
     color: theme.palette.primary,
@@ -26,7 +26,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
+export const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': {
     backgroundColor: theme.palette.action.hover,
   },
