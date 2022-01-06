@@ -16,6 +16,7 @@ import { PaymentTermsEnum } from '../UseAccountFormik';
 import { onApproveToAwaitingICSAction, updateToExternal3PlIdToApprove } from '../actions';
 import { AccountStatusEnum } from '../../../types/accounts/AccountStatusEnum';
 import { FaHospital, FaHospitalUser } from 'react-icons/fa';
+import Orders from './orders';
 
 export type AccountStatusColorType = 'APPROVED' | 'CRDREV' | 'PENDING' | 'FINANCEREV' | 'ICSCONF'
 export const AccountStatusColorMapper = {
@@ -38,12 +39,13 @@ export type AccountDetailType = {
 }
 
 const accountTabs = [
-  { label: "AccountInformation", idx: 0 },
-  { label: "CreditInformation", idx: 1 },
-  { label: "SupportingDocuments", idx: 2 },
-  { label: "Purchaser", idx: 3 },
-  { label: "AccountPrice", idx: 4 },
-  { label: "Quotes", idx: 5 },
+  { label: "Account Information", code: "AccountInformation", idx: 0 },
+  { label: "Credit Information", code: "CreditInformation", idx: 1 },
+  { label: "Supporting Documents", code: "SupportingDocuments", idx: 2 },
+  { label: "Purchaser", code: "Purchaser", idx: 3 },
+  { label: "Account Price", code: "AccountPrice", idx: 4 },
+  { label: "Quotes", code: "Quotes", idx: 5 },
+  { label: "Orders", code: "Orders", idx: 6 },
 ]
 function AccountDetail(): ReactElement {
   const [tabName, setTabName] = useState('AccountInformation');
@@ -90,6 +92,9 @@ function AccountDetail(): ReactElement {
       }
       case "CreditInformation": {
         return <CreaditInformation />
+      }
+      case "Orders": {
+        return <Orders />
       }
       default: return <div style={{ height: 23, width: 160, margin: '80px auto', alignSelf: 'center', backgroundColor: 'green', color: 'white', display: 'flex', borderRadius: 2 }}>Under development</div> // <SupportingDocuments />
     }

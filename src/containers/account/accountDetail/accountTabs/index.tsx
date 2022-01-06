@@ -6,6 +6,7 @@ import { useStyles } from './styles'
 type AccountTabType = {
   label: string;
   idx: number;
+  code: string;
 }
 interface Props {
   tabs: AccountTabType[];
