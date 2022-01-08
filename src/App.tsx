@@ -12,6 +12,7 @@ import Configuration from './containers/configuration';
 import Dashboard from './containers/dashboard';
 import Pages from './containers/header/pages';
 import { useEffect, useState } from 'react';
+import { brandingDarkTheme } from './theme/brandingTheme';
 // import { Dashboard } from '@mui/icons-material';
 if (window.location.pathname === '/') {
   window.location.pathname = '/app-login'
@@ -25,7 +26,8 @@ function App() {
   //   setPath_(window.location.pathname)
   // }, [path_])
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={brandingDarkTheme} >
+      {/* //{theme}> */}
       <Provider store={store}>
         {
         <Router>

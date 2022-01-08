@@ -62,7 +62,7 @@ function AccountDetail(): ReactElement {
   }
   const handleChange = (e: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
-    setTabName(accountTabs.find(c => c.idx === newValue)?.label!)
+    setTabName(accountTabs.find(c => c.idx === newValue)?.code!)
   }
   const payload = {
     external3plId: "ICS-ID-867C95A2",

@@ -19,7 +19,7 @@ export const useStyles = makeStyles({
     width: 1, 
   },
   icons: {
-    fontSize: 20, 
+    fontSize: 40, 
     outline: 'none',
     // backgroundColor: '#F1C3F1',
     padding: 8,

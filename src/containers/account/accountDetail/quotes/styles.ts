@@ -42,5 +42,17 @@ export const useStyles = makeStyles({
   }, 
   customWidth: {
     width: 439
+  },
+  dropdown: {
+    width: 300,
+    marginLeft: 12,
+  },
+  flex_gen: {
+    display: 'flex',
+    justifyContent: 'space-between', 
+    // backgroundColor: 'red',
+    alignItems: 'center',
+    marginRight: 6,
+    marginBottom: 23, 
   }
 })

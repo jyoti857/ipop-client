@@ -11,6 +11,7 @@ import { BiX } from "react-icons/bi";
 import { BiCheck } from "react-icons/bi";
 import { useStyles } from './styles'
 import { theme } from '../../../theme/customTheme';
+import Loading from '../../../components/loading';
 function createData(
   name: string,
   catoalog: number,
@@ -113,13 +114,9 @@ function Products(): ReactElement {
           </form>
         </CustomModal>
       }
-    <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 700 }} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <div style={{ margin: 10, display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'transparent', width: '137%' }}>
+      <div style={{ margin: 10, display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'transparent' }}>
               <div>Products</div>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around', backgroundColor: 'transparent' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around', backgroundColor: 'transparent', gap: 12 }}>
                 <CustomInput name='Search' type='text' value='search' placeholder='Search' />
                 <Button
                   variant='contained'
@@ -132,7 +129,9 @@ function Products(): ReactElement {
                 >Sync</Button>
               </div>
             </div>
-          </TableRow>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+          <TableHead>
           <TableRow>
             {
               headers.map((header) => {
@@ -144,7 +143,7 @@ function Products(): ReactElement {
           </TableRow>
         </TableHead>
           {
-            isLoading ? <div>Loading*****</div> :
+            isLoading ? <Loading /> :
               <TableBody>
                 {modifiedProduct?.map((row: any, idx: number) => {
                   return (

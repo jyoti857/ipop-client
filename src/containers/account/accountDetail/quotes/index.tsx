@@ -4,9 +4,11 @@ import { FaFileInvoice } from 'react-icons/fa';
 import { useMutation, useQueries, useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 import CustomizedAccordions from '../../../../components/accordion';
+import CustomDropdown from '../../../../components/dropdown';
 import CustomInput from '../../../../components/input/CustomInput';
 import Loading from '../../../../components/loading';
 import CustomModal from '../../../../components/modal';
+import CustomFullModal from '../../../../components/modal/customFiullModal';
 import { createQuote, getQuotes } from '../../../../utils/baseUrl';
 import { AccountPriceHook } from '../accountPrice/accountPriceHook';
 import AccountPriceTable from '../accountPrice/accountPriceTable';
@@ -117,33 +119,47 @@ function Quotes({ }: Props): ReactElement {
         </div>
         }
       </Paper>
-      <CustomModal onSubmit={handleQuoteSubmit} handleClose={handleClose} open={open} modalName='Quotes' footerButtonName='Submit for approval' styles={{ minWidth: 1000, height: 700 }}>
+      {/* CustomModal is cut from here, will be put after sometime   */}
+      <CustomFullModal open={true} handleClose={(close = false) => { }} modalName='Quotes' footerButtonName='Submit for approval'>
         <div>
-          {/* <div style={{ position: 'absolute', fontWeight: 600, top: 20, left: 20 }}>Quotes</div> */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginLeft: -20, marginBottom: 12, minWidth: 1000 }}>
-            <div style={{ width: '50%' }}>
-              <CustomInput
-                value={title}
-                name='title'
-                type='text'
-                placeholder='Quote Title'
-                style={{ marginLeft: 18, width: '100%', }}
-                handleChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
-              />
+          <div className={classes.flex_gen}>
+            <CustomInput
+              value={title}
+              name='title'
+              type='text'
+              placeholder='Quote Title'
+              style={{ marginLeft: 18, width: '20%', }}
+              handleChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
+            />
+            <div style={{ marginLeft: 18, width: '20%', }}>
+              <CustomDropdown data={[{ desc: "dasd", value: "23" }]} name='quote-type' value='23' classNames={classes.dropdown} />
             </div>
-            <div style={{ width: '20%' }}>
-              <CustomInput value={search} name='search' type='text' placeholder='Start Date' style={{ width: '100%' }} />
+            <div style={{ marginLeft: 18, width: '20%', }}>
+              <CustomDropdown data={[{ desc: "dasd", value: "23" }]} name='quote-sub-type' value='23' classNames={classes.dropdown} />
             </div>
-            <div style={{ width: '20%' }}>
-              <CustomInput value={search} name='search' type='text' placeholder='End Date' style={{ width: '100%' }} />
-            </div>
+            <CustomInput
+              value={title}
+              name='title'
+              type='text'
+              placeholder='Start Date'
+              style={{ marginLeft: 18, width: '20%', }}
+              handleChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
+            />
+            <CustomInput
+              value={title}
+              name='title'
+              type='text'
+              placeholder='End Date'
+              style={{ marginLeft: 18, width: '20%', }}
+              handleChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
+            />
           </div>
           {
             isLoading ? <Loading /> :
               <QuotesTable editable={true} productWithPrice={productWithPrice} handleChange={handleChange} handleQuoteQuantity={handleQuoteQuantity} qtySet={qtySet} />
           }
         </div>
-      </CustomModal>
+      </CustomFullModal>
     </div>
   )
 }
