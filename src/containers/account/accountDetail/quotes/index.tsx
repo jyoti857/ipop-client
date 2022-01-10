@@ -8,8 +8,8 @@ import CustomDropdown from '../../../../components/dropdown';
 import CustomInput from '../../../../components/input/CustomInput';
 import Loading from '../../../../components/loading';
 import CustomModal from '../../../../components/modal';
-import CustomFullModal from '../../../../components/modal/customFiullModal';
-import { createQuote, getQuotes } from '../../../../utils/baseUrl';
+import CustomFullModal from '../../../../components/modal/customFullModal';
+import { createQuote, getQuotes, getQuotesByAccountId } from '../../../../utils/baseUrl';
 import { AccountPriceHook } from '../accountPrice/accountPriceHook';
 import AccountPriceTable from '../accountPrice/accountPriceTable';
 import CustomAccountPriceQuoteFormik from '../accountPriceQuoteFormik';
@@ -40,9 +40,9 @@ function Quotes({ }: Props): ReactElement {
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
   const [title, setTitle] = useState('')
-  const { data } = useQuery(['getQuote'], getQuotes)
   const classes = useStyles();
   const { accountId } = useParams<{ accountId: string }>()
+  const { data } = useQuery(['getQuote'], () => getQuotesByAccountId(accountId))
   const { isError, isLoading, accountPriceData, productWithPrice } = useQuotesHook()
   const ds = useMutation(createQuote)
 
@@ -76,6 +76,7 @@ function Quotes({ }: Props): ReactElement {
     console.log(" quote details **** ", quoteDetails)
     ds.mutateAsync({ ...quoteDetails })
     console.log("quote mutate async is called ")
+    setOpen(false)
   }
 
   console.log("qtySet ---> ", qtySet)
@@ -120,7 +121,7 @@ function Quotes({ }: Props): ReactElement {
         }
       </Paper>
       {/* CustomModal is cut from here, will be put after sometime   */}
-      <CustomFullModal open={true} handleClose={(close = false) => { }} modalName='Quotes' footerButtonName='Submit for approval'>
+      <CustomFullModal onSubmit={handleQuoteSubmit} open={open} handleClose={handleClose} modalName='Quotes' footerButtonName='Submit for approval'>
         <div>
           <div className={classes.flex_gen}>
             <CustomInput

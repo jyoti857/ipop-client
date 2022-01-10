@@ -1,15 +1,37 @@
 import { Button, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useState } from 'react'
 import CustomInput from '../../../../components/input/CustomInput'
 import { theme } from '../../../../theme/customTheme'
+import { VscInfo } from "react-icons/vsc";
+import OrderDetails from './orderDetails';
+import { useStyles } from './styles';
+import { useOrderHook } from './useOrderHook';
 
 interface Props {
 
 }
 const s = [{ orderNumber: "320-323123", createdAt: '2021-2-2', updatedAt: "2021-2-3", placedBy: 'John', status: 'Active' }]
 function Orders({ }: Props): ReactElement {
+  const [isOrderDisplayed, setIsOrderDisplayed] = useState(false);
+  const [selectedOrderId, setSelectedOrderId] = useState("")
+  const handleOrderDisplayed = () => setIsOrderDisplayed(true)
+  const navigateOrderDetailPage = (order_id: string) => {
+    setIsOrderDisplayed(true)
+    setSelectedOrderId(order_id)
+  }
+  const classes = useStyles()
+  const { data } = useOrderHook()
+  const orderExtracted = data?.map((a: any) => ({
+    id: a.id,
+    orderNumber: a.orderNumber,
+    createdAt: '2021-2-2',
+    updatedAt: "2021-2-3",
+    placedBy: 'John',
+    status: a.currentOrderStatus
+  }))
+  console.log("&& from order page order", orderExtracted)
   return (
-    <div>
+    <div className={classes.root}>
       {/* <Container> */}
       <Paper style={{ margin: theme.size?.margin.secondary }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', margin: 12, gap: 12 }}>
@@ -35,8 +57,7 @@ function Orders({ }: Props): ReactElement {
               </TableRow>
             </TableHead>
             <TableBody>
-              <TableRow>
-                {s.map((a: any) => <>
+              {orderExtracted?.map((a: any) => <TableRow>
                   <TableCell>{a.orderNumber}</TableCell>
                   <TableCell align="right">{a.createdAt}</TableCell>
                   <TableCell align="right">{a.updatedAt}</TableCell>
@@ -46,16 +67,21 @@ function Orders({ }: Props): ReactElement {
                     <Button
                       color='primary'
                       variant='outlined'
-                    >View</Button>
-                  </TableCell>
-                </>
-                )}
+                    onClick={() => navigateOrderDetailPage(a.id)}
+                    >
+                      <VscInfo size={20} style={{ marginRight: 4 }} />
+                      View</Button>
+                </TableCell>
               </TableRow>
+              )}
             </TableBody>
           </Table>
         </TableContainer>
       </Paper>
       {/* </Container> */}
+      {
+        isOrderDisplayed ? <OrderDetails closeOrderDisplayed={setIsOrderDisplayed} selectedOrderId={selectedOrderId} /> : null
+      }
     </div>
   )
 }

@@ -37,7 +37,7 @@ export default function QuotesTable({ productWithPrice, handleChange, handleQuot
   console.log("sss ---> ", quoteDetails);
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 750 }} size={!editable ? 'small' : 'medium'} aria-label="a table">
+      <Table sx={{ minWidth: 750, width: '98%', margin: 'auto' }} size={!editable ? 'small' : 'medium'} aria-label="a table">
         <TableHead style={{ color: 'red' }}>
           <TableRow>
             <StyledTableCell>Catalog No.</StyledTableCell>

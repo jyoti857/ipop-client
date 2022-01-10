@@ -34,7 +34,7 @@ function CustomFullModal({ open, handleClose, children, modalName, footerButtonN
         {children}
         {
           footerButtonName && <Button
-            // onClick={onSubmit}
+            onClick={onSubmit}
             color='secondary'
             type='submit'
             variant='outlined'

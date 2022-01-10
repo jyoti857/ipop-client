@@ -109,3 +109,20 @@ export const getQuotes = async() => {
     console.log("err in get quotes ---> ", err)
   }
 }
+export const getQuotesByAccountId = async(accountId: string) => {
+  try{
+    const res = await api.get(`/quote/${accountId}`)
+    return res.data
+  }catch(err){
+    console.log("err in get quotes ---> ", err)
+  }
+}
+
+export const getOrdersByAccountId = async(accountId: string) => {
+  try{
+    const res = await api.get(`/order/${accountId}`)
+    return res.data
+  }catch(err){
+    console.log("err in get orders ---> ", err)
+  }
+}
