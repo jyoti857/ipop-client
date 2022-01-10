@@ -6,6 +6,7 @@ import { VscInfo } from "react-icons/vsc";
 import OrderDetails from './orderDetails';
 import { useStyles } from './styles';
 import { useOrderHook } from './useOrderHook';
+import { orderStatusMap } from './utils/orderStatusMap'
 
 interface Props {
 
@@ -21,15 +22,24 @@ function Orders({ }: Props): ReactElement {
   }
   const classes = useStyles()
   const { data } = useOrderHook()
+  const ds = data?.find((d: any) => d.id === selectedOrderId)
+  const selectedOrderDetail = ds && {
+    ...ds,
+    currentOrderStatus: orderStatusMap[ds!.currentOrderStatus][0],
+    statusColor: orderStatusMap[ds!.currentOrderStatus][2],
+    color: orderStatusMap[ds!.currentOrderStatus][1]
+  }
   const orderExtracted = data?.map((a: any) => ({
     id: a.id,
     orderNumber: a.orderNumber,
     createdAt: '2021-2-2',
     updatedAt: "2021-2-3",
     placedBy: 'John',
-    status: a.currentOrderStatus
+    status: orderStatusMap[a.currentOrderStatus][0],
+    statusColor: orderStatusMap[a.currentOrderStatus][2],
+    color: orderStatusMap[a.currentOrderStatus][1]
   }))
-  console.log("&& from order page order", orderExtracted)
+  console.log("&& from order page order", selectedOrderDetail)
   return (
     <div className={classes.root}>
       {/* <Container> */}
@@ -51,8 +61,8 @@ function Orders({ }: Props): ReactElement {
                 <TableCell>Order Number</TableCell>
                 <TableCell align="right">Created At</TableCell>
                 <TableCell align="right">Updated At</TableCell>
-                <TableCell align="right">Placed By</TableCell>
-                <TableCell align="right">Status</TableCell>
+                <TableCell align="center">Placed By</TableCell>
+                <TableCell align="center">Status</TableCell>
                 <TableCell align="center">Action</TableCell>
               </TableRow>
             </TableHead>
@@ -61,8 +71,12 @@ function Orders({ }: Props): ReactElement {
                   <TableCell>{a.orderNumber}</TableCell>
                   <TableCell align="right">{a.createdAt}</TableCell>
                   <TableCell align="right">{a.updatedAt}</TableCell>
-                  <TableCell align="right">{a.placedBy}</TableCell>
-                  <TableCell align="right">{a.status}</TableCell>
+                <TableCell align="center">{a.placedBy}</TableCell>
+                <TableCell align="right" style={{ width: '12%', }}>
+                  <div style={{ color: a.color, backgroundColor: a.statusColor, padding: 4, borderRadius: 12, display: 'flex', textAlign: 'center', justifyContent: 'center' }}>
+                    {a.status}
+                  </div>
+                </TableCell>
                   <TableCell align="center">
                     <Button
                       color='primary'
@@ -80,7 +94,7 @@ function Orders({ }: Props): ReactElement {
       </Paper>
       {/* </Container> */}
       {
-        isOrderDisplayed ? <OrderDetails closeOrderDisplayed={setIsOrderDisplayed} selectedOrderId={selectedOrderId} /> : null
+        isOrderDisplayed ? <OrderDetails selectedOrderDetail={selectedOrderDetail} closeOrderDisplayed={setIsOrderDisplayed} selectedOrderId={selectedOrderId} /> : null
       }
     </div>
   )

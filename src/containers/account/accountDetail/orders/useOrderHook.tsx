@@ -13,12 +13,13 @@ interface OrderDetailsType {
   shippingCost: string;
   totalAmount: string;
   specialInstruction?: string;
+  quote: any
 }
 
 export const useOrderHook = () => {
 
   const { accountId } = useParams<{ accountId: string }>()
-  const { data }: { data: any } = useQuery(['order, `${accountId}`'], () => getOrdersByAccountId(accountId))
+  const { data, isLoading, isError }: { data: any, isLoading: boolean, isError: boolean } = useQuery(['order, `${accountId}`'], () => getOrdersByAccountId(accountId))
   console.log("order id ***  data ---> ", data)
   const ad: OrderDetailsType[] = data?.map((d: any) => {
     return {
@@ -32,11 +33,12 @@ export const useOrderHook = () => {
       mot: d.mot,
       shippingCost: d.deliveryCost,
       totalAmount: d.totalAmount,
-      specialInstruction: d?.specialInstruction || 'default special instruction'
+      specialInstruction: d?.specialInstruction || 'default special instruction',
+      quote: d.quote
     }
   })
   console.log("order id ***  data **  ---> ", ad)
   return {
-    data: ad
+    data: ad, isLoading
   }
 }

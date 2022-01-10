@@ -59,31 +59,32 @@ export type CustomPartitionTableProps = {
 
 
 export default function CustomPartitionTable({ selectedOrderDetail }: any) {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const handleChangePage = (
-    event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number,
-  ) => {
-    setPage(newPage);
-  };
-  const keys_ = Object.keys(selectedOrderDetail);
-  console.log("keys__", keys_)
-  const rows_ = keys_.map((d: any) => createData(d, selectedOrderDetail[d]))
+  const { color, statusColor, ...rest } = selectedOrderDetail
+  const keys_ = Object.keys(rest);
+  const rows_ = keys_.map((d: any) => {
+    return createData(d.charAt(0).toUpperCase() + d.slice(1).split(/(?=[A-Z])/).join(',').replaceAll(',', ' '), selectedOrderDetail[d])
+  })
 
   return (
-    <Root sx={{ width: '98%', maxWidth: '100%', marginTop: 2 }}>
+    <Root sx={{ width: '100%' }}>
       <table>
         <tbody>
-          {(rowsPerPage > 0
-            ? rows_.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            : rows_
-          ).map((row) => (
+          {rows_.map((row) => (
             <tr key={row._key}>
               <td style={{ width: 400 }} align="right">
                 {row._key}
               </td>
-              <td>{row._value}</td>
+              {
+                row._key.slice(-6) === 'Status'
+                  ? <td>
+                    <div style={{ width: '12%', color, backgroundColor: statusColor, padding: 3, borderRadius: 8, textAlign: 'center', fontSize: 16 }}>
+                      {row._value}
+                    </div>
+                  </td>
+                  : <td>
+                    {row._value}
+                  </td>
+              }
             </tr>
           ))}
         </tbody>
