@@ -14,24 +14,28 @@ interface Props {
   handleChange?: any;
   name: string;
   classNames?: any;
+  placeholder?: string;
 }
 
-function CustomDropdown({ data, value, handleChange, name, classNames }: Props): ReactElement {
+function CustomDropdown({ data, value, handleChange, name, classNames, placeholder }: Props): ReactElement {
   const classes = useStyles();
-  const [age, setAge] = useState(value);
-  const handleChange_ = (event: any) => {
-    setAge(event.target.value);
-  };
+  const handleDropdownChange = () => {
+
+  }
   return (
     <div className={classes.root}>
-      <Box>
-        <FormControl size='small' className={clsx(classes.formControl, classNames)} >
+      <FormControl sx={{ m: 1, width: 300 }} size='small' className={clsx(classes.formControl, classNames)}>
           <Select
             value={value}
             onChange={handleChange}
             name={name}
+          placeholder={placeholder}
+          inputProps={{ 'aria-label': 'Without label' }}
             fullWidth
           >
+          <MenuItem disabled value="">
+            <em>{placeholder}</em>
+          </MenuItem>
             {
               data.map((item: DropdownType, idx: number) => {
                 return (
@@ -40,9 +44,7 @@ function CustomDropdown({ data, value, handleChange, name, classNames }: Props):
               })
             }
           </Select>
-        </FormControl>
-      </Box>
-
+      </FormControl>
     </div >
   )
 }

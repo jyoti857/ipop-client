@@ -33,7 +33,9 @@ function OrderDetails({ closeOrderDisplayed, selectedOrderId, selectedOrderDetai
         <Paper elevation={3} style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
           <CustomPartitionTable selectedOrderDetail={restSelectedOrderDetail} />
         </Paper>
-        <QuoteOrderTable productWithPrice={productQuotes} />
+        <div style={{ marginTop: 20 }}>
+          <QuoteOrderTable productWithPrice={productQuotes} />
+        </div>
       </div>
     </div >
   )

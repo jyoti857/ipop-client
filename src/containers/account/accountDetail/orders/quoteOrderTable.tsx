@@ -33,7 +33,7 @@ export default function QuoteOrderTable({ productWithPrice }: IQuoteOrderTablePr
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 750, width: '98%', margin: 'auto' }} size='small' aria-label="a table">
-        <TableHead style={{ color: 'red' }}>
+        <TableHead>
           <TableRow>
             <StyledTableCell>Catalog No.</StyledTableCell>
             <StyledTableCell align="left">Product</StyledTableCell>

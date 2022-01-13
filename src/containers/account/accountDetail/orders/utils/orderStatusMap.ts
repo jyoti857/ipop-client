@@ -4,6 +4,6 @@ export const orderStatusMap: any = {
   '25': ['Order on hold', "#F77879", "#F1E4EA"],
   '28': ['Order on hold', "#E89959", "#F1ECE4"],
   '30': ["Order placed", "#E8E359", "#F4F5E1"],
-  '45': ["Order shipped", "#59C6E8", "#66E7AB"],
-  '60': ['Order completed', "D8F5E8", "#66E7AB"],
+  '45': ["Order shipped",  "#26D6D7", "#DEE9E9"],
+  '60': ['Order completed',, "#D8F5E8",  "#35D55B"],
 }

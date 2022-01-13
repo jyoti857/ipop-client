@@ -102,7 +102,7 @@ function AccountDetail(): ReactElement {
   console.log("use selector ***", account, data)
   return (
     <div style={{ marginTop: 23 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: 1200 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
         <div style={{ width: '40%' }}>
           <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
             <div style={{ display: 'flex' }}>
@@ -114,9 +114,11 @@ function AccountDetail(): ReactElement {
                 </div>
                 <div style={{ display: 'flex', marginLeft: 12, justifyContent: 'flex-start' }}>
                   <div>{account?.addressLine1 || data?.addressLine1},</div>
-                  <div>{account?.city || data?.city}</div>
+                  <div>{account?.addressLine2 || data?.addressLine2},</div>
+                  <div>{account?.city || data?.city},</div>
+                  <div>{account?.state || data?.state},</div>
+                  <div>{account?.zip || data?.zip},</div>
                   <div>{account?.country || data?.country}</div>
-                  <div>{account?.email || data?.email}</div>
                 </div>
               </div>
             </div>
@@ -124,10 +126,10 @@ function AccountDetail(): ReactElement {
             </div>
           </div>
         </div>
-        <div>
+        <div style={{ width: '100%' }}>
           {
             data?.accountStatus === AccountStatusEnum.FINANCEREV ?
-              <div style={{ display: 'flex', width: "120%", justifyContent: 'space-around' }}>
+              <div style={{ display: 'flex', width: "94%", justifyContent: 'flex-end', gap: 6, backgroundColor: 'transparent' }}>
                 <Button
                   disabled={(account?.financeDetails.creditLimit === 0) || Object.keys(account.financeDetails).length === 0}
                   variant='contained'
@@ -144,7 +146,7 @@ function AccountDetail(): ReactElement {
               : ''
           }
         </div>
-        <div>
+        <div style={{ width: '20%' }}>
           {data?.paymentType === PaymentTermsEnum.PREPAID || data?.accountStatus === AccountStatusEnum.ICSCONF
             //  || (account?.accountStatus === "Awaiting for ICS Confirmation" && data?.paymentType === PaymentTermsEnum.NET45) 
             ?

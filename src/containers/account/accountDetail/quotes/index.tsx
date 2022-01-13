@@ -42,7 +42,7 @@ function Quotes({ }: Props): ReactElement {
   const [title, setTitle] = useState('')
   const classes = useStyles();
   const { accountId } = useParams<{ accountId: string }>()
-  const { data } = useQuery(['getQuote'], () => getQuotesByAccountId(accountId))
+  const { data } = useQuery(['getQuotesByAccountId', accountId], () => getQuotesByAccountId(accountId))
   const { isError, isLoading, accountPriceData, productWithPrice } = useQuotesHook()
   const ds = useMutation(createQuote)
 
@@ -139,16 +139,16 @@ function Quotes({ }: Props): ReactElement {
               <CustomDropdown data={[{ desc: "dasd", value: "23" }]} name='quote-sub-type' value='23' classNames={classes.dropdown} />
             </div>
             <CustomInput
-              value={title}
-              name='title'
+              value={new Date().toISOString().split('T')[0]}
+              name='startDate'
               type='text'
               placeholder='Start Date'
               style={{ marginLeft: 18, width: '20%', }}
               handleChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
             />
             <CustomInput
-              value={title}
-              name='title'
+              value={new Date().toISOString().split('T')[0]}
+              name='endDate'
               type='text'
               placeholder='End Date'
               style={{ marginLeft: 18, width: '20%', }}

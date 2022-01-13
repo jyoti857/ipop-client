@@ -13,5 +13,13 @@ export const useStyles = makeStyles({
     height: 40,
     backgroundColor: 'transparent',
     textAlign: 'center'
+  },
+  dropdown: {
+    width: '100%',
+  },
+  flex_column:{
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
   }
 });
