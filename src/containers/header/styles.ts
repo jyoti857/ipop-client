@@ -25,7 +25,10 @@ export const useStyles = makeStyles({
     padding: 8,
     borderRadius: 4,
     cursor: 'pointer',
-    "&:hover,&.Mui-focusVisible": { backgroundColor: "#F1C3F1" },
+    "&:hover,&.Mui-focusVisible": { backgroundColor: "#E9E6EC" },
     "&:focus": { backgroundColor: "yellow" }
   },
+  active: {
+    backgroundColor: '#F1C3F1',
+  }
 });

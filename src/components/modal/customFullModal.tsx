@@ -12,9 +12,10 @@ interface Props {
   styles?: any;
   footerButtonName?: string;
   onSubmit?: any;
+  disabled?: boolean
 }
 
-function CustomFullModal({ open, handleClose, children, modalName, footerButtonName, styles, onSubmit }: Props): ReactElement {
+function CustomFullModal({ open, handleClose, children, modalName, footerButtonName, styles, onSubmit, disabled }: Props): ReactElement {
   const classes = useCustomFullModalStyle();
   return (
     <Modal
@@ -24,7 +25,7 @@ function CustomFullModal({ open, handleClose, children, modalName, footerButtonN
       {/* <Paper> */}
       <div className={classes.root}>
         <div className={classes.header}>
-          <div style={{ fontWeight: 700 }}>{modalName}</div>
+          <div style={{ fontWeight: 700, fontSize: 24 }}>{modalName}</div>
           <IconButton
             onClick={() => handleClose(false)}
           >
@@ -38,6 +39,7 @@ function CustomFullModal({ open, handleClose, children, modalName, footerButtonN
             color='secondary'
             type='submit'
             variant='outlined'
+            disabled={disabled}
             style={{ position: 'absolute', right: 2, margin: 12 }}>{footerButtonName}</Button>
         }
       </div>

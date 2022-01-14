@@ -36,5 +36,6 @@ export const useCustomFullModalStyle = makeStyles({
     display: 'flex',
     justifyContent: 'space-between',
     margin: "0 12px",
+    alignItems: 'center'
   }
 })

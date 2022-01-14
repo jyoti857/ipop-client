@@ -3,7 +3,7 @@ import { theme } from '../../../../theme/customTheme';
 
 export const useStyles = makeStyles({
   root: {
-    margin: theme.size?.margin.primary
+    // margin: theme.size?.margin.primary
   },
   flex_gen: {
     display: 'flex',

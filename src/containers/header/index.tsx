@@ -12,6 +12,7 @@ import Configuration from '../configuration';
 import { useHistory, useParams } from 'react-router-dom';
 // import logo from 'assets/img/pacira-logo.png'
 import logo from '../../assets/img/pacira-logo.png'
+import clsx from 'clsx'
 interface Props {
   children?: React.ReactElement
 }
@@ -20,6 +21,7 @@ function Header({ children }: Props): ReactElement {
   const [cardOpen, setCardOpen] = useState(false);
   const handleCardOpen = () => setCardOpen(!cardOpen);
   const [pageName, setPageName] = useState('Account')
+  const [headerIconActive, setHeaderIconActive] = useState(pageName)
   const [loggedUser, setLoggedUser] = useState('')
   const [userId, setUserId] = useState<string>()
   const params = useParams<{ userId: string }>();
@@ -27,9 +29,11 @@ function Header({ children }: Props): ReactElement {
   userIdRef.current = params.userId;
   const history = useHistory();
   const handleConfiguration = () => {
+    handleHeaderIconClick("Configuration")
     history.push('/portal-configuration')
   }
   const handleAccountList = () => {
+    handleHeaderIconClick("Account")
     console.log("handle account list userid ref ---> ", userId, userIdRef.current, localStorage.getItem('userid'))
     return history.push(`/app-account/${localStorage.getItem('userid')}`)
   }
@@ -37,6 +41,9 @@ function Header({ children }: Props): ReactElement {
     //   history.push('/portal-configuration')
     // }
 
+  const handleHeaderIconClick = (iconName: string) => {
+    setHeaderIconActive(iconName)
+  }
   const handlePageName = (page: string) => {
     setPageName(page)
   }
@@ -54,12 +61,12 @@ function Header({ children }: Props): ReactElement {
           className={classes.logo}
         />
         <div style={{ textAlign: 'center', margin: 10, marginRight: 20, width: 180, display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
-          <FaChartPie className={classes.icons} onClick={() => handlePageName('Dashboard')} />
-          <FaHospitalUser className={classes.icons}
+          <FaChartPie className={clsx(classes.icons, headerIconActive === 'Dashboard' && classes.active)} onClick={() => handlePageName('Dashboard')} />
+          <FaHospitalUser className={clsx(classes.icons, headerIconActive === 'Account' && classes.active)}
             // onClick={() => handlePageName('Account')} 
             onClick={handleAccountList}
           />
-          <FaCogs className={classes.icons}
+          <FaCogs className={clsx(classes.icons, headerIconActive === 'Configuration' && classes.active)}
             // onClick={() => handlePageName('Configuration')}
             onClick={handleConfiguration}
           />

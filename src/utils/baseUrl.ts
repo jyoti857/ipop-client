@@ -126,3 +126,15 @@ export const getOrdersByAccountId = async(accountId: string) => {
     console.log("err in get orders ---> ", err)
   }
 }
+
+export const createOrder = async(body: any) => {
+  const {accountId, ...rest} = body
+  try{
+    const res = await api.post(`/order/${accountId}`, rest)
+    console.log("res data create order ----> ", res.data)
+    return res.data;
+    
+  }catch(err){
+    console.log("err in create order ---> ", err)
+  }
+}

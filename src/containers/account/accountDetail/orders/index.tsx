@@ -11,6 +11,9 @@ import CustomFullModal from '../../../../components/modal/customFullModal';
 import CustomDropdown from '../../../../components/dropdown';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import QuoteOrderTable from './quoteOrderTable'
+import { useMutation } from 'react-query';
+import { createOrder } from '../../../../utils/baseUrl';
+import { useParams } from 'react-router-dom';
 
 interface Props {
 
@@ -19,6 +22,7 @@ const s = [{ orderNumber: "320-323123", createdAt: '2021-2-2', updatedAt: "2021-
 function Orders({ }: Props): ReactElement {
   const [isOrderDisplayed, setIsOrderDisplayed] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState("")
+  const { accountId } = useParams<{ accountId: string }>()
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState('')
   const handleOpen = () => setOpen(true)
@@ -50,7 +54,8 @@ function Orders({ }: Props): ReactElement {
     statusColor: orderStatusMap[a.currentOrderStatus][2],
   }))
   console.log("&& from order page order u", quotes)
-
+  const [ponumber, setPonumber] = useState()
+  const [attentionTo, setAttentionTo] = useState()
   const [dropdown, setDropdown] = useState({ quote: '', transportation: '' })
   const handleDropdown = (e: SelectChangeEvent) => {
     setDropdown(
@@ -61,7 +66,28 @@ function Orders({ }: Props): ReactElement {
     )
   }
   const selectedQuote = activeQuotes?.find((aq: any) => aq.title === dropdown.quote)
-  console.log("selected quote ---** --->", activeQuotes, selectedQuote)
+  console.log("selected quote ---** --->", selectedQuote)
+  const mutation = useMutation(createOrder)
+  const handleCreateOrder = () => {
+    console.log("handle create order ----> ", handleCreateOrder)
+    mutation.mutateAsync({
+      accountId,
+      quoteId: selectedQuote?.id,
+      poNumber: ponumber, attentionTo,
+      deliveryCost: '55',
+      mot: "OVRNT0830",
+      status: "ACTV",
+      createdFrom3pl: false,
+      orderType: "SO",
+      orderFormType: "ORDFREE",
+      createdBy: "3860BBBF-77FE-EB11-B562-C896653B4413",
+      updatedBy: "3860BBBF-77FE-EB11-B562-C896653B4413",
+      deletedBy: null,
+      orderStatus: "10",
+      totalAmount: 2929
+    })
+    handleClose()
+  }
   return (
     <div className={classes.root}>
       <Paper style={{ margin: theme.size?.margin.secondary }}>
@@ -118,30 +144,32 @@ function Orders({ }: Props): ReactElement {
         isOrderDisplayed ? <OrderDetails selectedOrderDetail={selectedOrderDetail} closeOrderDisplayed={setIsOrderDisplayed} selectedOrderId={selectedOrderId} /> : null
       }
       <div>
-        <CustomFullModal open={open} footerButtonName='Place Order' handleClose={handleClose} modalName='Create Order'>
+        <CustomFullModal disabled={!selectedQuote ? true : false} open={open} footerButtonName='Place Order' onSubmit={handleCreateOrder} handleClose={handleClose} modalName='Create Order'>
           <div>
             <Divider style={{ marginTop: 2, marginBottom: 12 }} />
-            <div className={classes.flex_gen} style={{ width: '50%', margin: 10 }}>
+            <div style={{ margin: '40px 0', borderTopWidth: 3, borderColor: 'red' }} />
+            <div className={classes.flex_gen} style={{ width: '34.2%', margin: 10 }}>
               <div className={classes.flex_column}>
                 <label>Po Number</label>
-                <CustomInput name='po_number' value={32} type='text' placeholder='Enter po number' />
+                <CustomInput style={{ width: '140%' }} name='po_number' handleChange={(e: any) => setPonumber(e.target.value)} value={ponumber} type='text' placeholder='Enter po number' />
               </div>
               <div className={classes.flex_column}>
                 <label>Attention To</label>
-                <CustomInput name='attention_to' value={32} type='text' placeholder='Enter attention ' />
+                <CustomInput style={{ width: '140%' }} name='attention_to' handleChange={(e: any) => setAttentionTo(e.target.value)} value={attentionTo} type='text' placeholder='Enter attention ' />
               </div>
             </div>
+            <div style={{ margin: '40px 0', borderTopWidth: 3, borderColor: 'red' }} />
             <div style={{ display: 'flex', backgroundColor: 'transparent', justifyContent: 'flex-start' }}>
               <div className={classes.flex_column}>
-                <label>Select a Quote</label>
+                <label style={{ margin: '0 10px' }}>Select a Quote</label>
                 <CustomDropdown name='quote' placeholder='Select a quote' handleChange={handleDropdown} value={dropdown.quote} data={quoteDropdownData} classNames={classes.dropdown} />
               </div>
               <div className={classes.flex_column}>
-                <label>Select Mode of transportation</label>
+                <label style={{ margin: '0 10px' }}>Select Mode of transportation</label>
                 <CustomDropdown name='transportation' handleChange={handleDropdown} placeholder='Select Mode of transportation' value={dropdown.transportation} data={quoteDropdownData} classNames={classes.dropdown} />
               </div>
             </div>
-            <QuoteOrderTable productWithPrice={selectedQuote?.productQuotes?.filter((pq: any) => pq.quantity > 0)} />
+            {selectedQuote && <QuoteOrderTable productWithPrice={selectedQuote?.productQuotes?.filter((pq: any) => pq.quantity > 0)} />}
           </div>
         </CustomFullModal>
       </div>

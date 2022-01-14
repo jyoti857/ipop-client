@@ -44,7 +44,7 @@ function Quotes({ }: Props): ReactElement {
   const { accountId } = useParams<{ accountId: string }>()
   const { data } = useQuery(['getQuotesByAccountId', accountId], () => getQuotesByAccountId(accountId))
   const { isError, isLoading, accountPriceData, productWithPrice } = useQuotesHook()
-  const ds = useMutation(createQuote)
+  const mutation = useMutation(createQuote)
 
   const [qtySet, setQtySet] = useState<any>(productWithPrice?.map((a: any) => a.qty) || [])
 
@@ -74,7 +74,7 @@ function Quotes({ }: Props): ReactElement {
 
   const handleQuoteSubmit = () => {
     console.log(" quote details **** ", quoteDetails)
-    ds.mutateAsync({ ...quoteDetails })
+    mutation.mutateAsync({ ...quoteDetails })
     console.log("quote mutate async is called ")
     setOpen(false)
   }

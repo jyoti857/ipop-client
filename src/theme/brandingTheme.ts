@@ -582,13 +582,13 @@ export function getThemedComponents(theme: Theme) {
                 ? theme.palette.primaryDark[500]
                 : theme.palette.grey[200],
             '&.Mui-selected': {
-              color: theme.palette.mode === 'dark' ? '#fff' : theme.palette.primary[500],
+              color: theme.palette.mode === 'light' ? '#fff' : theme.palette.primary[500],
               borderColor:
                 theme.palette.mode === 'dark'
                   ? `${theme.palette.primary[700]} !important`
                   : `${theme.palette.primary[500]} !important`,
               backgroundColor:
-                theme.palette.mode === 'dark'
+                theme.palette.mode === 'light'
                   ? theme.palette.primaryDark[700]
                   : theme.palette.primary[50],
               '&:hover': {
