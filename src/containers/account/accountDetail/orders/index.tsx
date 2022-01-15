@@ -101,6 +101,7 @@ function Orders({ }: Props): ReactElement {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', margin: 12, gap: 12 }}>
           <CustomInput name='search' placeholder='Search order' type='text' value='Search' />
           <Button
+            disabled
             variant='contained'
             onClick={handleOpen}
           >Place an Order</Button>

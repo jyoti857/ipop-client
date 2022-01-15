@@ -2,6 +2,8 @@ import { Card, CardActionArea, Divider, Paper } from '@mui/material'
 import React, { ReactElement } from 'react'
 import { IoArrowUndoOutline } from "react-icons/io5";
 import { VscGoToFile } from "react-icons/vsc";
+import { HiOutlineCash } from "react-icons/hi";
+import { HiOutlineReply } from 'react-icons/hi'
 import { useStyles } from './styles';
 interface Props {
 
@@ -26,14 +28,14 @@ function OrderMoreCard({ }: Props): ReactElement {
         </CardActionArea>
         <Divider style={{ marginTop: 10 }} />
         <CardActionArea style={{ marginLeft: 12, display: 'flex', justifyContent: 'flex-start' }}>
-          <IoArrowUndoOutline size={24} />
+          <HiOutlineCash size={24} />
           <div
             style={{ padding: 6, fontSize: 14, fontWeight: 400, textAlign: 'left' }}
           >Request Credit</div>
         </CardActionArea>
         <Divider style={{ marginTop: 10 }} />
         <CardActionArea style={{ marginLeft: 12, display: 'flex', justifyContent: 'flex-start' }}>
-          <IoArrowUndoOutline size={24} />
+          <HiOutlineReply size={24} />
           <div
             style={{ padding: 6, fontSize: 14, fontWeight: 400, textAlign: 'left' }}
           >Request Rebill</div>

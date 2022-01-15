@@ -1,15 +1,13 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material';
-import { ReactElement, useEffect, useRef, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import CustomModal from '../../components/modal';
 import AccountModal from './AccountModal';
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Data } from './AccountTable';
 import { useQuery } from 'react-query'
 import { useStyles } from './styles'
-import { getAccountsAction } from './actions';
 import { Link } from 'react-router-dom';
 import { getAccountList } from '../../utils/baseUrl';
-import Header from '../header';
 import { AccountStatusColorMapper, AccountStatusColorType } from './accountDetail';
 import { FaHospitalUser } from 'react-icons/fa';
 import Loading from '../../components/loading';

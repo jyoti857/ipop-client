@@ -34,7 +34,7 @@ function CustomCard({ setCardOpen, loggedUser }: Props): ReactElement {
   const handleModalClose = () => setModalOpen(false)
   return (
     <div>
-      <Card sx={{ maxWidth: 345, position: 'absolute', top: 60, right: 10, zIndex: 100 }}>
+      <Card sx={{ maxWidth: 345, position: 'absolute', top: 67, boxShadow: '6px 6px 6px #F1C3F1', right: 10, zIndex: 100, minWidth: 299 }}>
         <div style={{ display: 'flex', justifyContent: 'flex-start', padding: 8 }}>
           <CustomAvatar alt="Remy Sharp" src="https://reqres.in/img/faces/5-image.jpg" />
           <div style={{ marginLeft: 6, textAlign: 'left' }}>
