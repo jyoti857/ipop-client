@@ -14,6 +14,8 @@ import QuoteOrderTable from './quoteOrderTable'
 import { useMutation } from 'react-query';
 import { createOrder } from '../../../../utils/baseUrl';
 import { useParams } from 'react-router-dom';
+import { FaRegShareSquare } from "react-icons/fa";
+import OrderMoreCard from './orderMoreCard';
 
 interface Props {
 
@@ -24,9 +26,14 @@ function Orders({ }: Props): ReactElement {
   const [selectedOrderId, setSelectedOrderId] = useState("")
   const { accountId } = useParams<{ accountId: string }>()
   const [open, setOpen] = useState(false)
+  const [isMore, setIsMore] = useState(false)
   const [search, setSearch] = useState('')
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
+  const handleMore = (id: string) => {
+    setIsMore(!isMore)
+    setSelectedOrderId(id)
+  }
   const handleOrderDisplayed = () => setIsOrderDisplayed(true)
   const navigateOrderDetailPage = (order_id: string) => {
     setIsOrderDisplayed(true)
@@ -116,7 +123,7 @@ function Orders({ }: Props): ReactElement {
             </TableHead>
             <TableBody>
               {orderExtracted?.map((a: any) => <TableRow>
-                  <TableCell>{a.orderNumber}</TableCell>
+                <TableCell style={{ width: '14%' }}>{a.orderNumber}</TableCell>
                   <TableCell align="right">{a.createdAt}</TableCell>
                   <TableCell align="right">{a.updatedAt}</TableCell>
                 <TableCell align="center">{a.placedBy}</TableCell>
@@ -125,14 +132,29 @@ function Orders({ }: Props): ReactElement {
                     {a.status}
                   </div>
                 </TableCell>
-                  <TableCell align="center">
+                <TableCell align="center" style={{ width: '14%' }}>
+                  <div style={{ justifyContent: 'space-between', display: 'flex', fontSize: 14, position: 'relative' }}>
                     <Button
                       color='primary'
                       variant='outlined'
                     onClick={() => navigateOrderDetailPage(a.id)}
                     >
-                      <VscInfo size={20} style={{ marginRight: 4 }} />
-                      View</Button>
+                      View
+                      <VscInfo size={18} style={{ marginLeft: 4 }} />
+                    </Button>
+                    <Button
+                      color='primary'
+                      variant='outlined'
+                      onClick={() => handleMore(a.id)}
+                      disabled={a.status === 'Order completed' ? false : true}
+                    >
+                      More
+                      <FaRegShareSquare size={18} style={{ marginLeft: 4 }} />
+                    </Button>
+                    {
+                      isMore && selectedOrderId === a.id ? <OrderMoreCard /> : ''
+                    }
+                  </div>
                 </TableCell>
               </TableRow>
               )}

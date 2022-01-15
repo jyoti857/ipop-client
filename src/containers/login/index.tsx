@@ -43,6 +43,7 @@ const Login: React.FC<Props> = ({ email, password }) => {
       await localStorage.removeItem('userid')
       await localStorage.removeItem('token')
       history.push('/app-login')
+      window.location.reload()
     }, 1000 * 60 * 60 * 24) // automatic logout in 24hrs
   }
 

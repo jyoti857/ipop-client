@@ -3,7 +3,7 @@ import { theme } from '../../../../theme/customTheme';
 
 export const useStyles = makeStyles({
   root: {
-    // margin: theme.size?.margin.primary
+    margin: theme.size?.margin.primary
   },
   flex_gen: {
     display: 'flex',
@@ -21,5 +21,10 @@ export const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',
+  },
+  orderMore: {
+    marginLeft: 10, 
+    display: 'flex', 
+    justifyContent: 'flex-start'
   }
 });
