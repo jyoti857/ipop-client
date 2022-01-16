@@ -15,6 +15,8 @@ import CustomizedAccordions from '../../../../components/accordion';
 import { Label } from '@mui/icons-material';
 import CustomDropdown from '../../../../components/dropdown';
 import { AccountPriceTypeEnum } from '../../types/AccountPriceTypeEnum';
+import CustomDatePicker from '../../../../components/calendar';
+import { addDays } from '../../../../utils/dateFunctions';
 interface Props {
 
 }
@@ -29,6 +31,8 @@ function AccountPrice({ }: Props): ReactElement {
   const [discountPriceUpdateFlag, setDiscountPriceUpdateFlag] = useState(false)
   const [proposedPriceFromData, setProposedPriceFromData] = useState<any[]>(ppfd)
   const [radioValue, setRadioValue] = useState("Matrix Pricing")
+  const currentDate = new Date()
+  const [date, setDate] = useState({ startDate: currentDate.toISOString().split('T').toString(), endDate: addDays(currentDate, 60).toISOString().split("T")[0] })
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
   const { accountId } = useParams<{ accountId: string }>();
@@ -120,7 +124,6 @@ function AccountPrice({ }: Props): ReactElement {
             </div>
             <div style={{ width: '49%' }}>
               <CustomInput value={priceTitle} handleChange={handleChange} name='priceTitle' type='text' placeholder='Price list title' style={{ width: '100%' }} />
-
               {
                 radioValue === 'Matrix Pricing' ? '' :
                   <CustomDropdown
@@ -133,10 +136,23 @@ function AccountPrice({ }: Props): ReactElement {
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', margin: 12 }}>
             <div style={{ width: '48%' }}>
-              <CustomInput value={startDate} handleChange={handleChange} name='startDate' type='text' placeholder='Start Date' style={{ width: '100%' }} />
+              {/* <CustomInput value={startDate} handleChange={handleChange} name='startDate' type='text' placeholder='Start Date' style={{ width: '100%' }} /> */}
+              <CustomDatePicker label='Start Date' name='startDate' value={date.startDate}
+                handleDateChange={
+                  (newValue: string) => setDate({
+                    ...date,
+                    startDate: newValue
+                  })} />
             </div>
             <div style={{ width: '49%' }}>
-              <CustomInput value={endDate} handleChange={handleChange} name='endDate' type='text' placeholder='End Date' style={{ width: '100%' }} />
+              <CustomDatePicker label='End Date' name='endDate' value={date.endDate}
+                handleDateChange={
+                  (newValue: string) => setDate({
+                    ...date,
+                    endDate: newValue
+                  })}
+              />
+              {/* <CustomInput value={endDate} handleChange={handleChange} name='endDate' type='text' placeholder='End Date' style={{ width: '100%' }} /> */}
             </div>
           </div>
           {proposedPrice && proposedPriceFromData?.length > 0 ? <AccountPriceTable discountPrice={discountPrice} proposedPrice={proposedPrice} proposedPriceFromData={proposedPriceFromData} handleProposedData={handleProposedData} /> : 'loading account price table'}

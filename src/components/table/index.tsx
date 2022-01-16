@@ -29,6 +29,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:last-child td, &:last-child th': {
     border: 0,
   },
+  margin: 'dense'
 }));
 
 function createData(
@@ -68,8 +69,8 @@ export default function CustomizedTables() {
     setPage(0)
   }
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+    <TableContainer component={Paper} >
+      <Table sx={{ minWidth: 700, lineHeight: .12, margin: 'dense' }} aria-label="dense table">
         <TableHead>
           <TableRow>
             <div style={{ margin: 6, display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'transparent', width: '178%' }}>

@@ -4,12 +4,14 @@ import { FaFileInvoice } from 'react-icons/fa';
 import { useMutation, useQueries, useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 import CustomizedAccordions from '../../../../components/accordion';
+import CustomDatePicker from '../../../../components/calendar';
 import CustomDropdown from '../../../../components/dropdown';
 import CustomInput from '../../../../components/input/CustomInput';
 import Loading from '../../../../components/loading';
 import CustomModal from '../../../../components/modal';
 import CustomFullModal from '../../../../components/modal/customFullModal';
 import { createQuote, getQuotes, getQuotesByAccountId } from '../../../../utils/baseUrl';
+import { addDays } from '../../../../utils/dateFunctions';
 import { AccountPriceHook } from '../accountPrice/accountPriceHook';
 import AccountPriceTable from '../accountPrice/accountPriceTable';
 import CustomAccountPriceQuoteFormik from '../accountPriceQuoteFormik';
@@ -40,6 +42,8 @@ function Quotes({ }: Props): ReactElement {
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
   const [title, setTitle] = useState('')
+  const currentDate = new Date()
+  const [date, setDate] = useState({ startDate: currentDate.toISOString().split('T').toString(), endDate: addDays(currentDate, 60).toISOString().split("T")[0] })
   const classes = useStyles();
   const { accountId } = useParams<{ accountId: string }>()
   const { data } = useQuery(['getQuotesByAccountId', accountId], () => getQuotesByAccountId(accountId))
@@ -51,6 +55,8 @@ function Quotes({ }: Props): ReactElement {
   const quoteDetails = {
     accountId,
     title,
+    startDate: date.startDate,
+    endDate: date.endDate,
     status: 'ACTV',
     quoteType: "ORDER",
     quoteStatus: "USED",
@@ -138,21 +144,18 @@ function Quotes({ }: Props): ReactElement {
             <div style={{ marginLeft: 18, width: '20%', }}>
               <CustomDropdown data={[{ desc: "dasd", value: "23" }]} name='quote-sub-type' value='23' classNames={classes.dropdown} />
             </div>
-            <CustomInput
-              value={new Date().toISOString().split('T')[0]}
-              name='startDate'
-              type='text'
-              placeholder='Start Date'
-              style={{ marginLeft: 18, width: '20%', }}
-              handleChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
-            />
-            <CustomInput
-              value={new Date().toISOString().split('T')[0]}
-              name='endDate'
-              type='text'
-              placeholder='End Date'
-              style={{ marginLeft: 18, width: '20%', }}
-              handleChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
+            <CustomDatePicker label='Start Date' name='startDate' value={date.startDate}
+              handleDateChange={
+                (newValue: string) => setDate({
+                  ...date,
+                  startDate: newValue
+                })} />
+            <CustomDatePicker label='End Date' name='endDate' value={date.endDate}
+              handleDateChange={
+                (newValue: string) => setDate({
+                  ...date,
+                  endDate: newValue
+                })}
             />
           </div>
           {

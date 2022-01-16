@@ -20,7 +20,6 @@ import OrderMoreCard from './orderMoreCard';
 interface Props {
 
 }
-const s = [{ orderNumber: "320-323123", createdAt: '2021-2-2', updatedAt: "2021-2-3", placedBy: 'John', status: 'Active' }]
 function Orders({ }: Props): ReactElement {
   const [isOrderDisplayed, setIsOrderDisplayed] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState("")
@@ -43,6 +42,20 @@ function Orders({ }: Props): ReactElement {
   const { data, quotes } = useOrderHook()
   const activeQuotes = quotes?.filter((quote: any) => quote.status === 'ACTV').map(({ title, productQuotes, id }: any) => ({ title, productQuotes, id }))
   const quoteDropdownData = activeQuotes?.map((aq: any) => ({ desc: aq.title, value: aq.title }))
+  const transportationDropdownData = [
+    {
+      desc: 'OVRNT0830',
+      value: 'OVRNT0830',
+    },
+    {
+      desc: 'OVRNT0855',
+      value: 'OVRNT0855',
+    },
+    {
+      desc: 'OVRNT0855',
+      value: 'OVRNT0855',
+    }
+  ]
   const ds = data?.find((d: any) => d.id === selectedOrderId)
   const selectedOrderDetail = ds && {
     ...ds,
@@ -101,7 +114,7 @@ function Orders({ }: Props): ReactElement {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', margin: 12, gap: 12 }}>
           <CustomInput name='search' placeholder='Search order' type='text' value='Search' />
           <Button
-            disabled
+            // disabled
             variant='contained'
             onClick={handleOpen}
           >Place an Order</Button>
@@ -189,7 +202,7 @@ function Orders({ }: Props): ReactElement {
               </div>
               <div className={classes.flex_column}>
                 <label style={{ margin: '0 10px' }}>Select Mode of transportation</label>
-                <CustomDropdown name='transportation' handleChange={handleDropdown} placeholder='Select Mode of transportation' value={dropdown.transportation} data={quoteDropdownData} classNames={classes.dropdown} />
+                <CustomDropdown name='transportation' handleChange={handleDropdown} placeholder='Select Mode of transportation' value={dropdown.transportation} data={transportationDropdownData} classNames={classes.dropdown} />
               </div>
             </div>
             {selectedQuote && <QuoteOrderTable productWithPrice={selectedQuote?.productQuotes?.filter((pq: any) => pq.quantity > 0)} />}
