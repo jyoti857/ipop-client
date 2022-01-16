@@ -20,7 +20,7 @@ function createData(
   return { name, catoalog, price };
 }
 const headers = ["Name", "Cataolog", "Price", "Actions"]
-const StyledTableCell = styled(TableCell)(() => ({
+export const StyledTableCell = styled(TableCell)(() => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.color?.secondary,
     color: 'white',
@@ -29,7 +29,7 @@ const StyledTableCell = styled(TableCell)(() => ({
     fontSize: 12,
   },
 }));
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
+export const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': {
     backgroundColor: theme.palette?.action.hover,
   },
@@ -115,20 +115,20 @@ function Products(): ReactElement {
         </CustomModal>
       }
       <div style={{ margin: 10, display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'transparent' }}>
-              <div>Products</div>
+        <div>Products</div>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around', backgroundColor: 'transparent', gap: 12 }}>
-                <CustomInput name='Search' type='text' value='search' placeholder='Search' />
-                <Button
-                  variant='contained'
-                  color='primary'
-                    onClick={handleModalOpen}
-                >Add +</Button>
-                <Button
-                  variant='outlined'
-                  color='primary'
-                >Sync</Button>
-              </div>
-            </div>
+          <CustomInput name='Search' type='text' value='search' placeholder='Search' />
+          <Button
+            variant='contained'
+            color='primary'
+            onClick={handleModalOpen}
+          >Add +</Button>
+          <Button
+            variant='outlined'
+            color='primary'
+          >Sync</Button>
+        </div>
+      </div>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>

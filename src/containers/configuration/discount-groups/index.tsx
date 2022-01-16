@@ -19,6 +19,13 @@ function DiscountGroups({ }: Props): ReactElement {
   const [discountPrice, setDiscountPrice] = useState([])
   const [discountPriceUpdateFlag, setDiscountPriceUpdateFlag] = useState(false)
   const [proposedPriceFromData, setProposedPriceFromData] = useState<any[]>(ppfd)
+
+  // set the detail per discount table row 
+  const [isDetailEnabled, setIsDetailEnabled] = useState(false)
+  const handleDeatailEnabled = () => {
+    setIsDetailEnabled(!isDetailEnabled)
+  }
+
   useEffect(() => { calculateDiscountPrice() }, [discountPriceUpdateFlag])
   const calculateDiscountPrice = () => {
     const dis = data?.map((d: any, i: number) => (((d.price - proposedPriceFromData[i]) / d.price) * 100).toFixed(2))

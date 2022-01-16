@@ -14,6 +14,9 @@ import DiscountGroupsAccordion from '../../../components/accordion/discount-grou
 import { useQuery } from 'react-query';
 import { getAllDiscountPrices } from '../../../utils/baseUrl';
 import CustomizedAccordions from '../../../components/accordion';
+import Loading from '../../../components/loading';
+import DiscountGroupDetailTable from './discount-groups-detail-table';
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -114,11 +117,13 @@ function DiscountGroupTable({ setHandleModalOpen }: Props): ReactElement {
               }
             </TableRow>
           </TableHead>
-          {isLoading ? <div>Loading,,,</div> : <TableBody>
-            {data.map((row: any) => (
-              <DiscountGroupsAccordion row={row} />
-              // <CustomizedAccordions />
+          {isLoading ? <Loading /> : <TableBody>
+            {data.map((row: any, id: number) => (
+              <DiscountGroupsAccordion row={row} key={id} id={id} />
             ))}
+            <StyledTableRow>
+              <DiscountGroupDetailTable />
+            </StyledTableRow>
           </TableBody>}
           <TableFooter style={{ position: 'relative', right: 0 }}>
             <div

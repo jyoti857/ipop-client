@@ -1,25 +1,18 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
-import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
-import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
-import MuiAccordionSummary, {
-  AccordionSummaryProps,
-} from '@mui/material/AccordionSummary';
-import MuiAccordionDetails from '@mui/material/AccordionDetails';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
+import { FiChevronDown, FiChevronRight } from 'react-icons/fi';
+import DiscountGroupDetailTable from '../../containers/configuration/discount-groups/discount-groups-detail-table';
+import { TableCell, tableCellClasses } from '@mui/material';
+import { theme } from '../../theme/customTheme';
 
 
 
 
 
-export default function DiscountGroupsAccordion({ row }: any) {
-  const [expanded, setExpanded] = React.useState<string | false>('panel1');
-
-  const handleChange =
-    (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
-      setExpanded(newExpanded ? panel : false);
-    };
+export default function DiscountGroupsAccordion({ row, id }: any) {
+  const [expanded, setExpanded] = React.useState<boolean>(false);
+  const [activeRowId, setActiveRowId] = React.useState<number>(id)
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: '#942BA8',
@@ -28,6 +21,7 @@ export default function DiscountGroupsAccordion({ row }: any) {
     [`&.${tableCellClasses.body}`]: {
       fontSize: 12,
     },
+    margin: 'dense'
   }));
 
   const StyledTableRow = styled(TableRow)(({ theme }) => ({
@@ -50,14 +44,25 @@ export default function DiscountGroupsAccordion({ row }: any) {
   ) {
     return { name, code, createdBy, startDate, endDate, status, actions };
   }
-  const rows = [
-    createData('Occasion Name', 'code', 'createdBy', "start date", "end date", 'inactive', 'actions'),
-  ];
+  const handleIconClick = (id: number) => {
+    setExpanded(!expanded)
+    setActiveRowId(id)
+  }
   return (
-    <StyledTableRow key={row.name}>
-      <StyledTableCell component="th" scope="row">
-        {row.name}
-      </StyledTableCell>
+    <StyledTableRow key={row.name} >
+      <TableCell scope="row">
+        <div style={{ display: 'flex', alignItems: 'center', minHeight: expanded ? 239 : 'auto' }}>
+          {
+            !expanded ?
+              <FiChevronRight style={{ marginRight: 4, padding: 4, backgroundColor: theme.color?.primary, color: 'white', borderRadius: '50%', height: 30, width: 30 }} size={24} onClick={() => handleIconClick(activeRowId)} />
+              : <FiChevronDown style={{ marginRight: 4, padding: 4, backgroundColor: theme.color?.secondary, color: 'white', borderRadius: '50%', height: 30, width: 30 }} size={24} onClick={() => handleIconClick(activeRowId)} />
+          }
+          <div>
+            {row.name}
+            <DiscountGroupDetailTable />
+          </div>
+        </div>
+      </TableCell>
       <StyledTableCell align="right">{row.code}</StyledTableCell>
       <StyledTableCell align="right">{row.createdBy}</StyledTableCell>
       <StyledTableCell align="right">{row.startDate}</StyledTableCell>
@@ -65,6 +70,10 @@ export default function DiscountGroupsAccordion({ row }: any) {
       <StyledTableCell align="right">{row.status}</StyledTableCell>
       <StyledTableCell align="right">{row.actions}</StyledTableCell>
     </StyledTableRow>
+  //     {/* {
+  //       expanded && <DiscountGroupDetailTable />
+  //     } */}
+  // {/* </div> */ }
   );
 }
 
