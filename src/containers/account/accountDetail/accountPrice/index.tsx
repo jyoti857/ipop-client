@@ -1,5 +1,5 @@
 import { Button, Paper } from '@mui/material';
-import { ReactElement, useEffect, useState } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 import { FaFileInvoiceDollar } from 'react-icons/fa';
 import CustomInput from '../../../../components/input/CustomInput';
 import CustomModal from '../../../../components/modal';
@@ -17,6 +17,8 @@ import CustomDropdown from '../../../../components/dropdown';
 import { AccountPriceTypeEnum } from '../../types/AccountPriceTypeEnum';
 import CustomDatePicker from '../../../../components/calendar';
 import { addDays } from '../../../../utils/dateFunctions';
+import { useDiscountGroups } from '../../../configuration/discount-groups/useDiscountGroups';
+import CustomFullModal from '../../../../components/modal/customFullModal';
 interface Props {
 
 }
@@ -31,6 +33,10 @@ function AccountPrice({ }: Props): ReactElement {
   const [discountPriceUpdateFlag, setDiscountPriceUpdateFlag] = useState(false)
   const [proposedPriceFromData, setProposedPriceFromData] = useState<any[]>(ppfd)
   const [radioValue, setRadioValue] = useState("Matrix Pricing")
+  const [dgDropDown, setDgDropdown] = useState<string>('')
+  const { data: discountgroupData } = useDiscountGroups()
+  const discountgroupNames = discountgroupData?.map(({ name, _id, ...props }: any) => ({ desc: name, value: _id }))
+  console.log("data *** discountgroupData ---> ", discountgroupData, dgDropDown)
   const currentDate = new Date()
   const [date, setDate] = useState({ startDate: currentDate.toISOString().split('T').toString(), endDate: addDays(currentDate, 60).toISOString().split("T")[0] })
   const handleOpen = () => setOpen(true)
@@ -57,14 +63,12 @@ function AccountPrice({ }: Props): ReactElement {
   const handleProposedData = (e: React.ChangeEvent<HTMLInputElement>, id: number) => {
     const sd: any[] = [...proposedPriceFromData]
     if (e.target.value > data?.map((d: any) => d.price)[id]) {
-      console.log("from data ***", proposedPriceFromData[id])
       setProposedPriceFromData(proposedPriceFromData)
     } else {
       sd[id] = e.target.value;
       setProposedPriceFromData(sd)
     }
     setDiscountPriceUpdateFlag(!discountPriceUpdateFlag)
-    console.log("from data ***, proposed", proposedPriceFromData)
     // setDiscountPrice(dis)
   }
   useEffect(() => { calculateDiscountPrice() }, [discountPriceUpdateFlag])
@@ -80,6 +84,11 @@ function AccountPrice({ }: Props): ReactElement {
   };
   const disableAddButtonIfOneInPending = (): boolean => {
     return allAccountPricesCreated?.find((aacpc: any) => aacpc.status === "Pending")
+  }
+  // handle discount group discount 
+  const handleDiscountgroupDropdown = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    // [e.target.name]=e.target.value
+    setDgDropdown(e.target.value)
   }
   return (
     <div>
@@ -115,7 +124,7 @@ function AccountPrice({ }: Props): ReactElement {
             </div>
         }
       </Paper>
-      <CustomModal handleClose={handleClose} open={open} modalName='Account Price' footerButtonName='Submit for approval' styles={{ minWidth: 1000 }} onSubmit={handleAccountPriceSubmit}>
+      <CustomFullModal handleClose={handleClose} open={open} modalName='Account Price' footerButtonName='Submit for approval' styles={{ minWidth: 1000 }} onSubmit={handleAccountPriceSubmit}>
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', margin: 12 }}>
             <div style={{ display: 'flex' }}>
@@ -123,13 +132,14 @@ function AccountPrice({ }: Props): ReactElement {
               <CustomizedRadios radioValue={radioValue} handleChange={handleRadioChange} title="Price List" options={[{ label: "Matrix Pricing", value: "Matrix Pricing" }, { label: "Pre approved pricing (IDN contracts, 1124)", value: "Pre approved pricing (IDN contracts, 1124)" }]} />
             </div>
             <div style={{ width: '49%' }}>
-              <CustomInput value={priceTitle} handleChange={handleChange} name='priceTitle' type='text' placeholder='Price list title' style={{ width: '100%' }} />
+              <CustomInput value={priceTitle} handleChange={handleChange} name='priceTitle' type='text' placeholder='Price list title' style={{ width: '50%' }} />
               {
                 radioValue === 'Matrix Pricing' ? '' :
                   <CustomDropdown
-                    data={[{ desc: "occasion 1", value: "occasion_1_value" }, { desc: "occasion 2", value: "occasion_2_value" }]}
+                    handleChange={handleDiscountgroupDropdown}
+                    data={discountgroupNames}
                     name='discount-group'
-                    value='occasion_1_value'
+                    value={dgDropDown}
                   />
               }
             </div>
@@ -157,7 +167,7 @@ function AccountPrice({ }: Props): ReactElement {
           </div>
           {proposedPrice && proposedPriceFromData?.length > 0 ? <AccountPriceTable discountPrice={discountPrice} proposedPrice={proposedPrice} proposedPriceFromData={proposedPriceFromData} handleProposedData={handleProposedData} /> : 'loading account price table'}
         </div>
-      </CustomModal>
+      </CustomFullModal>
     </div>
   )
 }

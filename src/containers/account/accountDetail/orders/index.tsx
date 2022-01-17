@@ -86,10 +86,8 @@ function Orders({ }: Props): ReactElement {
     )
   }
   const selectedQuote = activeQuotes?.find((aq: any) => aq.title === dropdown.quote)
-  console.log("selected quote ---** --->", selectedQuote)
   const mutation = useMutation(createOrder)
   const handleCreateOrder = () => {
-    console.log("handle create order ----> ", handleCreateOrder)
     mutation.mutateAsync({
       accountId,
       quoteId: selectedQuote?.id,
@@ -198,11 +196,11 @@ function Orders({ }: Props): ReactElement {
             <div style={{ display: 'flex', backgroundColor: 'transparent', justifyContent: 'flex-start' }}>
               <div className={classes.flex_column}>
                 <label style={{ margin: '0 10px' }}>Select a Quote</label>
-                <CustomDropdown name='quote' placeholder='Select a quote' handleChange={handleDropdown} value={dropdown.quote} data={quoteDropdownData} classNames={classes.dropdown} />
+                <CustomDropdown style={{ marginLeft: 1, minWidth: 300 }} name='quote' placeholder='Select a quote' handleChange={handleDropdown} value={dropdown.quote} data={quoteDropdownData} classNames={classes.dropdown} />
               </div>
               <div className={classes.flex_column}>
                 <label style={{ margin: '0 10px' }}>Select Mode of transportation</label>
-                <CustomDropdown name='transportation' handleChange={handleDropdown} placeholder='Select Mode of transportation' value={dropdown.transportation} data={transportationDropdownData} classNames={classes.dropdown} />
+                <CustomDropdown style={{ marginLeft: 1, minWidth: 300 }} name='transportation' handleChange={handleDropdown} placeholder='Select Mode of transportation' value={dropdown.transportation} data={transportationDropdownData} classNames={classes.dropdown} />
               </div>
             </div>
             {selectedQuote && <QuoteOrderTable productWithPrice={selectedQuote?.productQuotes?.filter((pq: any) => pq.quantity > 0)} />}

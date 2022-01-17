@@ -12,7 +12,6 @@ import { theme } from '../../theme/customTheme';
 
 export default function DiscountGroupsAccordion({ row, id }: any) {
   const [expanded, setExpanded] = React.useState<boolean>(false);
-  const [activeRowId, setActiveRowId] = React.useState<number>(id)
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: '#942BA8',
@@ -45,22 +44,21 @@ export default function DiscountGroupsAccordion({ row, id }: any) {
     return { name, code, createdBy, startDate, endDate, status, actions };
   }
   const handleIconClick = (id: number) => {
-    setExpanded(!expanded)
-    setActiveRowId(id)
+    setExpanded(prevState => !prevState)
   }
   return (
-    <StyledTableRow key={row.name} >
+    <StyledTableRow key={row.name}>
       <TableCell scope="row">
-        <div style={{ display: 'flex', alignItems: 'center', minHeight: expanded ? 239 : 'auto' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
+          <div>
           {
             !expanded ?
-              <FiChevronRight style={{ marginRight: 4, padding: 4, backgroundColor: theme.color?.primary, color: 'white', borderRadius: '50%', height: 30, width: 30 }} size={24} onClick={() => handleIconClick(activeRowId)} />
-              : <FiChevronDown style={{ marginRight: 4, padding: 4, backgroundColor: theme.color?.secondary, color: 'white', borderRadius: '50%', height: 30, width: 30 }} size={24} onClick={() => handleIconClick(activeRowId)} />
-          }
-          <div>
-            {row.name}
-            <DiscountGroupDetailTable />
+                <FiChevronRight style={{ marginRight: 4, padding: 4, backgroundColor: theme.color?.primary, color: 'white', borderRadius: '50%', height: 30, width: 30 }} size={24} onClick={() => handleIconClick(id)} />
+                : <FiChevronDown style={{ marginRight: 4, padding: 4, backgroundColor: theme.color?.secondary, color: 'white', borderRadius: '50%', height: 30, width: 30 }} size={24} onClick={() => handleIconClick(id)} />
+            }
           </div>
+          <div>{row.name}</div>
+          {/* <div>{expanded ? <DiscountGroupDetailTable /> : ''}</div> */}
         </div>
       </TableCell>
       <StyledTableCell align="right">{row.code}</StyledTableCell>

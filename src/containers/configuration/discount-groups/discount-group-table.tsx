@@ -121,9 +121,6 @@ function DiscountGroupTable({ setHandleModalOpen }: Props): ReactElement {
             {data.map((row: any, id: number) => (
               <DiscountGroupsAccordion row={row} key={id} id={id} />
             ))}
-            <StyledTableRow>
-              <DiscountGroupDetailTable />
-            </StyledTableRow>
           </TableBody>}
           <TableFooter style={{ position: 'relative', right: 0 }}>
             <div
