@@ -34,10 +34,11 @@ function AccountPrice({ }: Props): ReactElement {
   const [discountPriceUpdateFlag, setDiscountPriceUpdateFlag] = useState(false)
   const [proposedPriceFromData, setProposedPriceFromData] = useState<any[]>(ppfd)
   const [radioValue, setRadioValue] = useState("Matrix Pricing")
-  const [dgDropDown, setDgDropdown] = useState<string>('')
+  const [dgDropdown, setDgDropdown] = useState<string>('')
+  const [selectedDG, setSelectedDG] = useState<string>('')
   const { data: discountgroupData } = useDiscountGroups()
   const discountgroupNames = discountgroupData?.map(({ name, _id, ...props }: any) => ({ desc: name, value: _id }))
-  console.log("data *** discountgroupData ---> ", discountgroupData, dgDropDown)
+  console.log("data *** discountgroupData ---> ", discountgroupData, dgDropdown)
   const currentDate = new Date()
   const [date, setDate] = useState({ startDate: currentDate.toISOString().split('T').toString(), endDate: addDays(currentDate, 60).toISOString().split("T")[0] })
   const handleOpen = () => setOpen(true)
@@ -89,7 +90,10 @@ function AccountPrice({ }: Props): ReactElement {
   // handle discount group discount 
   const handleDiscountgroupDropdown = (e: React.ChangeEvent<HTMLSelectElement>) => {
     // [e.target.name]=e.target.value
+    const { value } = discountgroupNames.find((dg: any) => dg.value == e.target.value)
+    setSelectedDG(value)
     setDgDropdown(e.target.value)
+    console.log("set dg dropdow  ---> ", selectedDG, e.target.value, discountgroupNames)
   }
   return (
     <div>
@@ -140,7 +144,7 @@ function AccountPrice({ }: Props): ReactElement {
                     handleChange={handleDiscountgroupDropdown}
                     data={discountgroupNames}
                     name='discount-group'
-                    value={dgDropDown}
+                    value={dgDropdown}
                   />
               }
             </div>

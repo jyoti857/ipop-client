@@ -23,7 +23,6 @@ function DisocuntGroupDetailTable({ discountProductWithPrices }: Props): ReactEl
   const products = productsData?.map(({ _id, name, catalog, price }: any) => ({
     _id, name, catalog, price
   }))
-  const discountPercentages = discountProductWithPrices.map((dp: any) => (((dp.proposedPrice - dp.discountPrice) / dp.proposedPrice) * 100).toFixed(2))
   console.log("modified data --->", discountProductWithPrices)
   return (
     <TableContainer component={Paper}>
@@ -51,8 +50,8 @@ function DisocuntGroupDetailTable({ discountProductWithPrices }: Props): ReactEl
                       </StyledTableCell>
                       <StyledTableCell align="left">{row.catalog}</StyledTableCell>
                       <StyledTableCell align="left">{row.price}</StyledTableCell>
-                      <StyledTableCell align="left">{discountPercentages[idx]}%</StyledTableCell>
-                      <StyledTableCell align="left">{discountProductWithPrices[idx].discountPrice}</StyledTableCell>
+                      <StyledTableCell align="left">{discountProductWithPrices[idx].discountPrice}%</StyledTableCell>
+                      <StyledTableCell align="left">{discountProductWithPrices[idx].proposedPrice}</StyledTableCell>
                     </StyledTableRow>
                   </>
                 )

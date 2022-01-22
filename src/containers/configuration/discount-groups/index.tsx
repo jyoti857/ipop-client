@@ -33,7 +33,7 @@ function DiscountGroups({ }: Props): ReactElement {
 
   useEffect(() => { calculateDiscountPrice(productsData) }, [discountPriceUpdateFlag])
   const calculateDiscountPrice = (data: any) => {
-    console.log("calculated --->", productsData)
+    console.log("calculated --->", productsData, proposedPriceFromData)
     const dis = data?.map((d: any, i: number) => (((d.price - proposedPriceFromData[i]) / d.price) * 100).toFixed(2))
     console.log("calculated price --->", dis)
     setDiscountPrice(dis)
@@ -57,7 +57,7 @@ function DiscountGroups({ }: Props): ReactElement {
     e.preventDefault();
     mutation.mutateAsync({
       name, startDate, endDate, desc,
-      discountPriceList: productsData ? productsData.map((pd: any, idx: number) => ({ productId: pd._id, proposedPrice: pd.price, discountPrice: discountPrice[idx] })) : ["dl;sd"]
+      discountPriceList: productsData?.map((pd: any, idx: number) => ({ productId: pd._id, proposedPrice: proposedPriceFromData[idx], discountPrice: discountPrice[idx] }))
     })
     setModalOpen(false)
   }
