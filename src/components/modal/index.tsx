@@ -35,7 +35,9 @@ function CustomModal({ open, handleClose, children, modalName, footerButtonName,
               <CloseOutlined />
             </IconButton>
           </div>
-          <div style={{ ...styles, overflow: 'scroll', minHeight: 100, maxHeight: 300, maxWidth: 800, padding: 10 }}>
+          <div style={{ ...styles }}>
+            {/* // overflow: 'scroll', minHeight: 100, maxHeight: 300, maxWidth: 800, padding: 10  */}
+            {/* this is the style was mentioned, I just removed so you can add the same in the respective component */}
             {children}
           </div>
           {

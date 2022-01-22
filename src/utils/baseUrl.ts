@@ -76,8 +76,8 @@ export const getAllDiscountPrices = () => {
   })
 }
 
-export const createDiscountPrice = ({name, startDate, endDate, desc}: any) => {
-  return api.post('/discount-price', {name, startDate, endDate, desc}).then((res: any) => {
+export const createDiscountPrice = ({name, startDate, endDate, desc, discountPriceList}: any) => {
+  return api.post('/discount-price', {name, startDate, endDate, desc, discountPriceList}).then((res: any) => {
     console.log("utils create discount price ---> ", res.data)
     return res.data || ''
   })

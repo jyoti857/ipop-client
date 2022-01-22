@@ -63,7 +63,7 @@ function DGAccordion({ panelProps, row, setEditDiscountPriceModal }: Props) {
                 color='primary' variant='contained'>Edit <FiEdit3 style={{ gap: 2 }} /></Button>
             </CardContent>
           </Card>
-          <DiscountGroupDetailTable />
+          <DiscountGroupDetailTable discountProductWithPrices={row.discountPriceList} />
         </AccordionDetails>
       </Accordion>
     }

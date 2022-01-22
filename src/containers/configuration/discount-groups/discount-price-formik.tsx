@@ -17,7 +17,7 @@ const CustomDiscountPriceFormik = ({ onSubmit }: CustomDiscountPriceFormType) =>
       startDate: '2021-11-23',
       endDate: '2021-11-29',
       desc: 'descsio',
-      discountPriceList: []
+      discountPriceList: [] 
     },
     onSubmit
   })

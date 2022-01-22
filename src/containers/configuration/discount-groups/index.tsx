@@ -31,9 +31,11 @@ function DiscountGroups({ }: Props): ReactElement {
     setIsDetailEnabled(!isDetailEnabled)
   }
 
-  useEffect(() => { calculateDiscountPrice() }, [discountPriceUpdateFlag])
-  const calculateDiscountPrice = () => {
+  useEffect(() => { calculateDiscountPrice(productsData) }, [discountPriceUpdateFlag])
+  const calculateDiscountPrice = (data: any) => {
+    console.log("calculated --->", productsData)
     const dis = data?.map((d: any, i: number) => (((d.price - proposedPriceFromData[i]) / d.price) * 100).toFixed(2))
+    console.log("calculated price --->", dis)
     setDiscountPrice(dis)
   }
   const mutation = useMutation(['create-discount=-price'], createDiscountPrice)
@@ -53,7 +55,10 @@ function DiscountGroups({ }: Props): ReactElement {
 
   const onCreateDiscountPrice = (e: any) => {
     e.preventDefault();
-    mutation.mutateAsync({ name, startDate, endDate, desc })
+    mutation.mutateAsync({
+      name, startDate, endDate, desc,
+      discountPriceList: productsData ? productsData.map((pd: any, idx: number) => ({ productId: pd._id, proposedPrice: pd.price, discountPrice: discountPrice[idx] })) : ["dl;sd"]
+    })
     setModalOpen(false)
   }
   const { handleChange, values: { name, startDate, desc, endDate } } = CustomDiscountPriceFormik({ onSubmit: onCreateDiscountPrice })
@@ -68,7 +73,7 @@ function DiscountGroups({ }: Props): ReactElement {
           handleClose={setHandleModalClose}
           modalName='New Discount Group'
           footerButtonName='Create'
-          styles={{ minWidth: 1000, height: 700 }}
+          styles={{ minWidth: 1000, overflow: 'scroll', minHeight: 100, maxHeight: 700, padding: 10 }}
           onSubmit={onCreateDiscountPrice}
         >
           <div>
@@ -104,10 +109,13 @@ function DiscountGroups({ }: Props): ReactElement {
         </CustomModal> : ''
       }
       <DiscountGroupTable setHandleModalOpen={setHandleModalOpen} setEditDiscountPriceModal={setEditDiscountPriceModal} />
-      <CustomModal modalName='Edit Product Price' footerButtonName='Save' open={editDiscountPriceModal}
-        handleClose={() => setEditDiscountPriceModal(false)}
+      <CustomModal styles={{ width: '103%', overFlow: 'hidden' }} modalName='Edit Product Price' footerButtonName='Save' open={editDiscountPriceModal}
+        handleClose={() => setEditDiscountPriceModal(false)
+        }
       >
-        <EditDiscountGroupPrice />
+        {/* <EditDiscountGroupPrice /> */}
+        <AccountPriceTable
+          discountPrice={discountPrice} proposedPrice={proposedPrice} proposedPriceFromData={proposedPriceFromData} handleProposedData={handleProposedData} />
       </CustomModal>
 
     </div>
