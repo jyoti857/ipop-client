@@ -33,7 +33,6 @@ export default function ChangeHistoryTable({ histories }: any) {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="caption table">
-        <caption>A basic table example with a caption</caption>
         <TableHead>
           <TableRow>
             <TableCell>Credit Limit</TableCell>

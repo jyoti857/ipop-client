@@ -5,6 +5,7 @@ export type UseDiscountPriceProps = {
   startDate: string;
   endDate?: string;
   desc?: string;
+  discountPriceList: any[]
 }
 type CustomDiscountPriceFormType = {
   onSubmit: any
@@ -12,10 +13,11 @@ type CustomDiscountPriceFormType = {
 const CustomDiscountPriceFormik = ({ onSubmit }: CustomDiscountPriceFormType) => {
   const { handleChange, handleBlur, handleSubmit, values } = useFormik<UseDiscountPriceProps>({
     initialValues: {
-      name: 'discount #n',
+      name: 'year sale',
       startDate: '2021-11-23',
       endDate: '2021-11-29',
-      desc: 'descsio'
+      desc: 'descsio',
+      discountPriceList: []
     },
     onSubmit
   })

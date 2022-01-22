@@ -24,6 +24,7 @@ export const getAccountList = async () => {
 
 export const getAccountById = (id: string) =>{
   return api.get(`/account/${id}`).then((res: any) => {
+    console.log("account fin 000> ", res.data)
     return res.data;
   })
 }

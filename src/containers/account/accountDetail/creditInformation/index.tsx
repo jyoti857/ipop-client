@@ -51,11 +51,9 @@ function CreaditInformation({ }: Props): ReactElement {
       <div>
         <Paper className={clsx(classes.paper, classes.flex)}>
           <div>
-            <Paper className={classes.nestedPaper}>
-              {/* <div style={{ display: 'flex' }}> */}
+                  <Paper className={classes.nestedPaper}>
                     <div>Credit Limit</div>
                     <div>{creditLimit}</div>
-              {/* </div> */}
             </Paper>
             <Paper className={classes.nestedPaper}>
               <div>D&B Maximum Credit Recommendation</div>
@@ -66,7 +64,7 @@ function CreaditInformation({ }: Props): ReactElement {
                     <div>{customScore}</div>
             </Paper>
           </div>
-          <Paper className={classes.paperField}>
+                <div className={classes.paperField}>
             <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 650 }} aria-label="caption table">
                 <TableHead>
@@ -87,9 +85,10 @@ function CreaditInformation({ }: Props): ReactElement {
                 </TableBody>
               </Table>
             </TableContainer>
-          </Paper>
+                </div>
         </Paper>
       </div>
+            <div style={{ fontSize: 24, fontWeight: 'bold', marginLeft: 12 }}>Track Credit Information History</div>
             <ChangeHistoryTable histories={financeDetailHistories || []} />
           </div>
         )}

@@ -19,6 +19,7 @@ import CustomDatePicker from '../../../../components/calendar';
 import { addDays } from '../../../../utils/dateFunctions';
 import { useDiscountGroups } from '../../../configuration/discount-groups/useDiscountGroups';
 import CustomFullModal from '../../../../components/modal/customFullModal';
+import Loading from '../../../../components/loading';
 interface Props {
 
 }
@@ -165,7 +166,7 @@ function AccountPrice({ }: Props): ReactElement {
               {/* <CustomInput value={endDate} handleChange={handleChange} name='endDate' type='text' placeholder='End Date' style={{ width: '100%' }} /> */}
             </div>
           </div>
-          {proposedPrice && proposedPriceFromData?.length > 0 ? <AccountPriceTable discountPrice={discountPrice} proposedPrice={proposedPrice} proposedPriceFromData={proposedPriceFromData} handleProposedData={handleProposedData} /> : 'loading account price table'}
+          {proposedPrice && proposedPriceFromData?.length > 0 ? <AccountPriceTable style={{ margin: 10, minHeight: 99 }} discountPrice={discountPrice} proposedPrice={proposedPrice} proposedPriceFromData={proposedPriceFromData} handleProposedData={handleProposedData} /> : <Loading />}
         </div>
       </CustomFullModal>
     </div>

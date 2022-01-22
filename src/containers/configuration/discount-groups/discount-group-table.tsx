@@ -16,6 +16,7 @@ import { getAllDiscountPrices } from '../../../utils/baseUrl';
 import CustomizedAccordions from '../../../components/accordion';
 import Loading from '../../../components/loading';
 import DiscountGroupDetailTable from './discount-groups-detail-table';
+import DGAccordion from '../../../components/accordion/dg_accordion';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -25,7 +26,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     // height: 10
   },
   [`&.${tableCellClasses.body}`]: {
-    fontSize: 12,
+    fontSize: 10,
   },
 }));
 
@@ -68,9 +69,6 @@ function DiscountGroupTable({ setHandleModalOpen }: Props): ReactElement {
   const [search, setSearch] = useState('');
 
   const { data, isLoading } = useQuery('getDiscountPrices', getAllDiscountPrices)
-  // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   const handleChangePage = (
     e: React.MouseEvent<HTMLButtonElement> | null,
@@ -83,11 +81,11 @@ function DiscountGroupTable({ setHandleModalOpen }: Props): ReactElement {
     setPage(0)
   }
   return (
-    <Paper elevation={9} style={{ maxWidth: '150%', position: 'relative', flexWrap: 'nowrap', display: 'flex' }}>
+    <Paper elevation={9} style={{ maxWidth: '150%', position: 'relative', flexWrap: 'nowrap', display: 'flex', flexDirection: 'column' }}>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead >
-            <TableRow style={{ width: '200%' }}>
+            <TableRow style={{ width: '100%' }}>
               <div style={{ margin: 6, display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'transparent', minWidth: '203%' }}>
                 <div style={{ fontWeight: 'bold' }}>Discount Groups</div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '32%' }}>
@@ -117,38 +115,18 @@ function DiscountGroupTable({ setHandleModalOpen }: Props): ReactElement {
               }
             </TableRow>
           </TableHead>
-          {isLoading ? <Loading /> : <TableBody>
-            {data.map((row: any, id: number) => (
-              <DiscountGroupsAccordion row={row} key={id} id={id} />
-            ))}
-          </TableBody>}
-          <TableFooter style={{ position: 'relative', right: 0 }}>
-            <div
-            // style={{ marginTop: 60, position: 'absolute', right: 10, bottom: 10 }}
-            >
-            <TableRow>
-              <TablePagination
-                rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                colSpan={3}
-                count={rows.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                SelectProps={{
-                  inputProps: {
-                    'aria-label': 'rows per page',
-                  },
-                  native: true,
-                }}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-                ActionsComponent={TablePaginationsActions}
-              />
-            </TableRow>
-            </div>
-          </TableFooter>
         </Table>
       </TableContainer>
-    </Paper >
+      <div>
+        {isLoading ? <Loading /> : <div>
+            {data.map((row: any, id: number) => (
+              // <DiscountGroupsAccordion row={row} key={id} id={id} />
+              <DGAccordion panelProps='s' row={row} key={id} id={id} />
+            ))}
+        </div>
+        }
+      </div>
+    </Paper>
   )
 }
 

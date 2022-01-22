@@ -43,8 +43,9 @@ interface Props {
   proposedPriceFromData?: any;
   proposedPriceType?: boolean;
   discountPrice?: any;
+  style?: any;
 }
-function AccountPriceTable({ discountPrice, proposedPrice, handleProposedData, proposedPriceFromData, proposedPriceType = false }: Props): any {
+function AccountPriceTable({ style, discountPrice, proposedPrice, handleProposedData, proposedPriceFromData, proposedPriceType = false }: Props): any {
   const { isLoading } = AccountPriceHook()
   const [flag, setFlag] = useState(false);
   const [proposedPrice_, setProposedPrice_] = useState(proposedPrice);
@@ -57,7 +58,7 @@ function AccountPriceTable({ discountPrice, proposedPrice, handleProposedData, p
     }
   }, [flag])
   return (
-    <div>
+    <div style={style}>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 780 }} size="small" aria-label="a dense table">
           <TableHead>
