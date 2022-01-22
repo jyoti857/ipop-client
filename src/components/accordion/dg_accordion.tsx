@@ -4,13 +4,17 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DiscountGroupDetailTable from '../../containers/configuration/discount-groups/discount-groups-detail-table';
+import { Card } from '@material-ui/core';
+import { FaCapsules } from 'react-icons/fa'
+import { FiEdit3 } from 'react-icons/fi'
+import { Button, CardContent, Typography } from '@mui/material';
 type Props = {
   panelProps: string;
   row: any;
-  id: any
+  setEditDiscountPriceModal: any
 };
 
-function DGAccordion({ panelProps, row, id }: Props) {
+function DGAccordion({ panelProps, row, setEditDiscountPriceModal }: Props) {
   const [expanded, setExpanded] = React.useState<string | false>(false);
 
   const handleChange =
@@ -48,6 +52,17 @@ function DGAccordion({ panelProps, row, id }: Props) {
           </div>
         </AccordionSummary>
         <AccordionDetails>
+          <Card style={{ display: 'flex', justifyContent: 'space-between', margin: 1 }}>
+            <CardContent style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              <FaCapsules size={24} color='green' />
+              <Typography variant="h5" component='h1'>Assigned Products</Typography>
+            </CardContent>
+            <CardContent>
+              <Button
+                onClick={() => setEditDiscountPriceModal(true)}
+                color='primary' variant='contained'>Edit <FiEdit3 style={{ gap: 2 }} /></Button>
+            </CardContent>
+          </Card>
           <DiscountGroupDetailTable />
         </AccordionDetails>
       </Accordion>

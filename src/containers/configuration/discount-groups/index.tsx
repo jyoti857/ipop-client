@@ -2,12 +2,14 @@ import React, { ReactElement, useEffect, useState } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import DGAccordion from '../../../components/accordion/dg_accordion'
 import CustomInput from '../../../components/input/CustomInput'
+import Loading from '../../../components/loading'
 import CustomModal from '../../../components/modal'
 import { createDiscountPrice, getAllProducts } from '../../../utils/baseUrl'
 import { AccountPriceHook } from '../../account/accountDetail/accountPrice/accountPriceHook'
 import AccountPriceTable from '../../account/accountDetail/accountPrice/accountPriceTable'
 import DiscountGroupTable from './discount-group-table'
 import CustomDiscountPriceFormik from './discount-price-formik'
+import EditDiscountGroupPrice from './edit-discountgroups_price'
 
 interface Props {
 
@@ -19,6 +21,7 @@ function DiscountGroups({ }: Props): ReactElement {
   const { data: productsData, isLoading } = useQuery('getProducts', getAllProducts);
   const [proposedPrice, setProposedPrice] = useState(pp ? pp : [])
   const [discountPrice, setDiscountPrice] = useState([])
+  const [editDiscountPriceModal, setEditDiscountPriceModal] = useState(false)
   const [discountPriceUpdateFlag, setDiscountPriceUpdateFlag] = useState(false)
   const [proposedPriceFromData, setProposedPriceFromData] = useState<any[]>(ppfd)
 
@@ -100,7 +103,13 @@ function DiscountGroups({ }: Props): ReactElement {
           </div>
         </CustomModal> : ''
       }
-      <DiscountGroupTable setHandleModalOpen={setHandleModalOpen} />
+      <DiscountGroupTable setHandleModalOpen={setHandleModalOpen} setEditDiscountPriceModal={setEditDiscountPriceModal} />
+      <CustomModal modalName='Edit Product Price' footerButtonName='Save' open={editDiscountPriceModal}
+        handleClose={() => setEditDiscountPriceModal(false)}
+      >
+        <EditDiscountGroupPrice />
+      </CustomModal>
+
     </div>
   )
 }

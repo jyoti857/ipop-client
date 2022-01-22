@@ -49,7 +49,7 @@ function DisocuntGroupDetailTable(): ReactElement {
                       <StyledTableCell align="left">{row.catalog}</StyledTableCell>
                       <StyledTableCell align="left">{row.price}</StyledTableCell>
                       <StyledTableCell align="left">{0}%</StyledTableCell>
-                      <StyledTableCell align="left">{0}</StyledTableCell>
+                      <StyledTableCell align="left">{row.price}</StyledTableCell>
                     </StyledTableRow>
                   </>
                 )

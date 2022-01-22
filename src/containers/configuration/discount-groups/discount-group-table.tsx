@@ -60,10 +60,11 @@ const tableHeaders = [
 ]
 
 interface Props {
-  setHandleModalOpen: () => void
+  setHandleModalOpen: () => void;
+  setEditDiscountPriceModal: any
 }
 
-function DiscountGroupTable({ setHandleModalOpen }: Props): ReactElement {
+function DiscountGroupTable({ setHandleModalOpen, setEditDiscountPriceModal }: Props): ReactElement {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(2);
   const [search, setSearch] = useState('');
@@ -121,7 +122,7 @@ function DiscountGroupTable({ setHandleModalOpen }: Props): ReactElement {
         {isLoading ? <Loading /> : <div>
             {data.map((row: any, id: number) => (
               // <DiscountGroupsAccordion row={row} key={id} id={id} />
-              <DGAccordion panelProps='s' row={row} key={id} id={id} />
+              <DGAccordion panelProps='s' key={id} row={row} setEditDiscountPriceModal={setEditDiscountPriceModal} />
             ))}
         </div>
         }
