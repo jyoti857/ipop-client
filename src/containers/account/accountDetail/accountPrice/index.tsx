@@ -20,6 +20,7 @@ import { addDays } from '../../../../utils/dateFunctions';
 import { useDiscountGroups } from '../../../configuration/discount-groups/useDiscountGroups';
 import CustomFullModal from '../../../../components/modal/customFullModal';
 import Loading from '../../../../components/loading';
+import DisocuntGroupDetailTable from '../../../configuration/discount-groups/discount-groups-detail-table';
 interface Props {
 
 }
@@ -38,7 +39,8 @@ function AccountPrice({ }: Props): ReactElement {
   const [selectedDG, setSelectedDG] = useState<string>('')
   const { data: discountgroupData } = useDiscountGroups()
   const discountgroupNames = discountgroupData?.map(({ name, _id, ...props }: any) => ({ desc: name, value: _id }))
-  console.log("data *** discountgroupData ---> ", discountgroupData, dgDropdown)
+  const discountPrices = discountgroupData?.find((a: any) => a._id === dgDropdown)?.discountPriceList
+  console.log("discount prices ** --> ", discountgroupData, discountPrices)
   const currentDate = new Date()
   const [date, setDate] = useState({ startDate: currentDate.toISOString().split('T').toString(), endDate: addDays(currentDate, 60).toISOString().split("T")[0] })
   const handleOpen = () => setOpen(true)
@@ -48,7 +50,14 @@ function AccountPrice({ }: Props): ReactElement {
   const mutation = useMutation(createAccountPrice)
   const handleAccountPriceSubmit = (event: any) => {
     console.log("account-price-quote ", typeof event, priceTitle, startDate, endDate, proposedPrice)
-    mutation.mutateAsync({ id: accountId, title: priceTitle, startDate, endDate, productWithPrice: accountPrices, accountPriceType: radioValue === 'Matrix Pricing' ? AccountPriceTypeEnum.MATRXPR : AccountPriceTypeEnum.PREAPPR })
+    mutation.mutateAsync({
+      id: accountId,
+      title: priceTitle,
+      startDate,
+      endDate,
+      productWithPrice: accountPrices,
+      accountPriceType: radioValue === 'Matrix Pricing' ? AccountPriceTypeEnum.MATRXPR : AccountPriceTypeEnum.PREAPPR
+    })
     priceTitle && handleClose()
   }
   useEffect(() => {
@@ -57,8 +66,8 @@ function AccountPrice({ }: Props): ReactElement {
   }, [ppfd])
   const accountPrices = proposedPrice.map((p: any, idx: number) => ({
     ...p,
-    proposedPrice: proposedPriceFromData[idx],
-    discountPrice: discountPrice[idx]
+    proposedPrice: radioValue === 'Matrix Pricing' ? proposedPriceFromData[idx] : discountPrices?.length > 0 && +discountPrices[idx]?.proposedPrice,
+    discountPrice: radioValue === 'Matrix Pricing' ? discountPrice[idx] : discountPrices?.length > 0 && +discountPrices[idx]?.discountPrice
   }))
 
   // here the e is given the type from being an any
@@ -170,7 +179,10 @@ function AccountPrice({ }: Props): ReactElement {
               {/* <CustomInput value={endDate} handleChange={handleChange} name='endDate' type='text' placeholder='End Date' style={{ width: '100%' }} /> */}
             </div>
           </div>
-          {proposedPrice && proposedPriceFromData?.length > 0 ? <AccountPriceTable style={{ margin: 10, minHeight: 99 }} discountPrice={discountPrice} proposedPrice={proposedPrice} proposedPriceFromData={proposedPriceFromData} handleProposedData={handleProposedData} /> : <Loading />}
+          {radioValue === 'Matrix Pricing' ? (
+            proposedPrice && proposedPriceFromData?.length > 0 ? <AccountPriceTable style={{ margin: 10, minHeight: 99 }} discountPrice={discountPrice} proposedPrice={proposedPrice} proposedPriceFromData={proposedPriceFromData} handleProposedData={handleProposedData} /> : <Loading />)
+            : dgDropdown && <DisocuntGroupDetailTable discountProductWithPrices={discountPrices} />
+          }
         </div>
       </CustomFullModal>
     </div>
