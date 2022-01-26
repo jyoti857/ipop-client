@@ -69,6 +69,7 @@ function AccountPrice({ }: Props): ReactElement {
     proposedPrice: radioValue === 'Matrix Pricing' ? proposedPriceFromData[idx] : discountPrices?.length > 0 && +discountPrices[idx]?.proposedPrice,
     discountPrice: radioValue === 'Matrix Pricing' ? discountPrice[idx] : discountPrices?.length > 0 && +discountPrices[idx]?.discountPrice
   }))
+  console.log("account prices ---> **", accountPrices)
 
   // here the e is given the type from being an any
   const handleProposedData = (e: React.ChangeEvent<HTMLInputElement>, id: number) => {

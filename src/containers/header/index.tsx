@@ -37,6 +37,10 @@ function Header({ children }: Props): ReactElement {
     console.log("handle account list userid ref ---> ", userId, userIdRef.current, localStorage.getItem('userid'))
     return history.push(`/app-account/${localStorage.getItem('userid')}`)
   }
+  const handleDashboard = () => {
+    handleHeaderIconClick("Dashboard")
+    return history.push(`/app-user/${localStorage.getItem('userid')}`)
+  }
   // const handleConfiguration = () => {
     //   history.push('/portal-configuration')
     // }
@@ -61,7 +65,10 @@ function Header({ children }: Props): ReactElement {
           className={classes.logo}
         />
         <div style={{ textAlign: 'center', margin: 10, marginRight: 20, width: 180, display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
-          <FaChartPie className={clsx(classes.icons, headerIconActive === 'Dashboard' && classes.active)} onClick={() => handlePageName('Dashboard')} />
+          <FaChartPie className={clsx(classes.icons, headerIconActive === 'Dashboard' && classes.active)}
+            //  onClick={() => handlePageName('Dashboard')} 
+            onClick={handleDashboard}
+          />
           <FaHospitalUser className={clsx(classes.icons, headerIconActive === 'Account' && classes.active)}
             // onClick={() => handlePageName('Account')} 
             onClick={handleAccountList}

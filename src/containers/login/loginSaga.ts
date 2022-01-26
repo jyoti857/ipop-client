@@ -26,6 +26,7 @@ function* loginApi({email, password}: any){
     localStorage.setItem('userid', _id)
     // added now 
     localStorage.setItem('username', username)
+    localStorage.setItem('userrole', userRole.isAdmin! )
     yield put(setTokenAction(access_token, userRole))
   }else {
     console.log("loading ----")

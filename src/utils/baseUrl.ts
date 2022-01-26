@@ -139,3 +139,13 @@ export const createOrder = async(body: any) => {
     console.log("err in create order ---> ", err)
   }
 }
+
+export const getAccountPriceInPendingStatus = async() => {
+  try{
+    const res = await api.get("/account-price/pending-all")
+    console.log("data arr arr **", res.data)
+    return res.data as any
+  }catch(err){  
+    console.log("err in account price in pending status")
+  }
+}
