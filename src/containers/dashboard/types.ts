@@ -8,9 +8,10 @@ export interface Data_ {
 }
 export interface Data {
   title: string;
-  accountId: string;
+  accountId?: string;
   accountPriceType: string;
   id: number;
+  accountName: string;
 }
 export type Sample_ = [string, number, number, number, number]
-export type Sample = [string, string, string]
+export type Sample = [string, string, string, string]

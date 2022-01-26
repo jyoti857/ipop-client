@@ -29,6 +29,7 @@ interface MuiVirtualizedTableProps extends WithStyles<typeof useStyles> {
   rowCount: number;
   rowGetter: (row: Row) => Data;
   rowHeight?: number;
+  navigateToAccount: any
 }
 class MuiVirtualizedTable extends React.PureComponent<MuiVirtualizedTableProps> {
   static defaultProps = {
@@ -58,7 +59,8 @@ class MuiVirtualizedTable extends React.PureComponent<MuiVirtualizedTableProps> 
     }
 
   cellRenderer: TableCellRenderer = ({ cellData, columnIndex }) => {
-    const { classes: { tableCell, flexContainer, noClick }, onRowClick, rowHeight, columns } = this.props;
+    const { classes: { tableCell, flexContainer, noClick }, onRowClick, rowHeight, columns, navigateToAccount } = this.props;
+    console.log("cell data ** -->", cellData)
     return (
       <TableCell
         component="div"
@@ -68,6 +70,7 @@ class MuiVirtualizedTable extends React.PureComponent<MuiVirtualizedTableProps> 
         variant="body"
         style={columnIndex === 0 ? { height: rowHeight, color: "blue", cursor: 'pointer' } : { height: rowHeight }}
         // onClick={history.push(`/app-account/${localStorage.getItem('userid')}`)}
+        onClick={navigateToAccount}
         align={
           (columnIndex != null && columns[columnIndex].numeric) || false
             ? 'right'
