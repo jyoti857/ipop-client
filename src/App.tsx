@@ -10,12 +10,14 @@ import Header from './containers/header';
 import Configuration from './containers/configuration';
 import { brandingDarkTheme } from './theme/brandingTheme';
 import Dashboard from './containers/dashboard';
+import { CssBaseline } from '@mui/material';
 if (window.location.pathname === '/') {
   window.location.pathname = '/app-login'
 }
 function App() {
   return (
     <ThemeProvider theme={brandingDarkTheme} >
+      <CssBaseline />
       <Provider store={store}>
         {
         <Router>

@@ -12,6 +12,8 @@ import AccountPriceTable from '../../containers/account/accountDetail/accountPri
 import { Button } from '@mui/material';
 import QuotesTable from '../../containers/account/accountDetail/quotes/quotesTable';
 import Loading from '../loading';
+import { useMutation } from 'react-query';
+import { approveAccountPrice } from '../../utils/baseUrl';
 
 const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={7} square {...props} />
@@ -62,13 +64,19 @@ export default function CustomizedAccordions(
   { discountPrice, proposedPrice, proposedPriceFromData, allAccountPricesCreated, footerButton, accordionType }: CustomizedAccordionsProps) {
   const [expanded, setExpanded] = React.useState<string | false>(false);
 
+  const mutation = useMutation(approveAccountPrice)
+  // approve pending account price
+  const handleApproveAccountPrice = (accountPriceId: string) => {
+    mutation.mutateAsync(accountPriceId)
+  }
+
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
     };
   console.log("acttt ", proposedPrice, allAccountPricesCreated[0])
   return (
-    <div style={{ display: 'block' }}>
+    <div style={{ display: 'block', padding: 20 }}>
       {
         allAccountPricesCreated?.map((aacpc: any, idx: number) => {
           const prices = aacpc.productWithPrice.map((a: any) => a.proposedPrice)
@@ -87,9 +95,11 @@ export default function CustomizedAccordions(
                   }
                 </AccordionDetails>
                 {
-                  footerButton &&
-                  <div>
-                      <Button>Approve</Button>
+                  aacpc.status === 'Pending' &&
+                  <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
+                    <Button variant='contained'
+                      onClick={() => handleApproveAccountPrice(aacpc._id)}
+                    >Approve</Button>
                       <Button>Reject</Button>
                   </div>
                 }

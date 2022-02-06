@@ -66,7 +66,7 @@ export default function QuoteAccordion(
   //quoteList?.map((aacpc: any, idx: number) => aacpc.productQuotes.filter((a: any) => a.quantity > 0))
   console.log("quote list in the quote accordions ---> ", quoteList)
   return (
-    <div style={{ display: 'block' }}>
+    <div style={{ display: 'block', padding: 20 }}>
       {
         quoteList?.map((aacpc: any, idx: number) => {
           const qtySet = aacpc?.productQuotes?.map((a: any) => { if (a.quantity > 0) return a.quantity }).filter((a: any) => a > 0)

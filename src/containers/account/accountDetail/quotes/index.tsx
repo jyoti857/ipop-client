@@ -95,7 +95,7 @@ function Quotes({ }: Props): ReactElement {
 
   return (
     <div>
-      <Paper className={classes.root} style={{ position: 'relative', minHeight: 300 }}>
+      <Paper className={classes.root} style={{ position: 'relative', minHeight: 300, display: 'block' }}>
         <div style={{ display: 'flex' }}>
           <Button
             color='primary'

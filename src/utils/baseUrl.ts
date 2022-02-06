@@ -90,6 +90,12 @@ export const getAccountPricesByAccountId = (accountId: string) => {
   })
 }
 
+export const approveAccountPrice = (accountPriceId: string) => {
+  return api.put(`/account-price/approve`, {accountPriceId} ).then((res: any) => {
+    return res.data
+  })
+}
+
 export const createQuote = async (payload: any) => {
   const {accountId, ...rest} = payload
   console.log("account id and rest ** ---> ", accountId, rest)
