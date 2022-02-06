@@ -123,7 +123,9 @@ function AccountPrice({ }: Props): ReactElement {
             color='secondary'
             variant='outlined'
           >Sync</Button>
-          <CustomInput value='search' name='search' type='text' placeholder='search' style={{ width: '20%', position: 'absolute', top: 8, right: 150 }} />
+          <div style={{ position: 'absolute', top: 0, right: 150 }}>
+            <CustomInput value='search' name='search' type='text' placeholder='Search' />
+          </div>
         </div>
         {
           isLoading ? <div>

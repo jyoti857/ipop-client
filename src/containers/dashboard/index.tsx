@@ -1,4 +1,4 @@
-import { Paper, Typography } from '@mui/material'
+import { Paper, Typography, Divider } from '@mui/material'
 import React, { ReactElement } from 'react'
 import { useHistory } from 'react-router-dom'
 import ReactVirtualizedTable from './dashboardTable'
@@ -24,7 +24,6 @@ function Dashboard({ }: Props): ReactElement {
     const randomSelection = sample[i];
     rows.push(createData(i, ...randomSelection));
   }
-  console.log("data Arr *** rows -->", dataArr, isLoading, sample, rows)
 
   const columns = ["Title", "Account", "Type"].map(label => ({
     width: 800,
@@ -39,8 +38,9 @@ function Dashboard({ }: Props): ReactElement {
   return (
     <Paper style={{ height: 400, width: '100%' }}>
       <div style={{ margin: 10 }}>
-        <Typography>Pending Quotes</Typography>
+        <Typography variant='h4'>Pending Quotes</Typography>
       </div>
+      <Divider />
       <DashboardTable
         rowCount={rows.length}
         rowGetter={({ index }) => rows[index]}

@@ -88,7 +88,7 @@ function AccountList({ }: Props): ReactElement {
           open={open}
           modalName="Create New Account"
           handleClose={handleClose}
-          styles={{ width: 700, marginTop: 40, minHeight: 1000 }}>
+          styles={{ width: 700, marginTop: 40, minHeight: 400 }}>
           <AccountModal handleClose={handleClose} />
         </CustomModal> : null
       }

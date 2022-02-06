@@ -16,16 +16,15 @@ interface Props {
   classNames?: any;
   placeholder?: string;
   style?: any;
+  label?: string
 }
 
-function CustomDropdown({ data, value, handleChange, name, classNames, placeholder, style }: Props): ReactElement {
+function CustomDropdown({ data, value, handleChange, name, label, classNames, placeholder, style }: Props): ReactElement {
   const classes = useStyles();
-  const handleDropdownChange = () => {
-
-  }
   return (
     <div className={classes.root}>
-      <FormControl sx={{ ...style, top: 4, maxWidth: 372 }} size='small' className={clsx(classes.formControl, classNames)}>
+      <label style={{ fontFamily: 'sans-serif', fontSize: 20 }}>{label}</label>
+      <FormControl sx={{ ...style, top: 4, minWidth: 200, maxWidth: 372 }} size='small' className={clsx(classes.formControl, classNames)}>
           <Select
             value={value}
             onChange={handleChange}
