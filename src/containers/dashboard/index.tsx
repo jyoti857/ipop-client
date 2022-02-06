@@ -15,22 +15,21 @@ function Dashboard({ }: Props): ReactElement {
   const history = useHistory()
   const { isLoading, dataArr } = useDashboardHook()
   const rows: Data[] = [];
-  const sample: Sample[] = dataArr && dataArr.length > 0 ? dataArr.map(({ title, accountName, accountId, accountPriceType }) => ([
+  const sample: Sample[] = dataArr && dataArr.length > 0 ? dataArr.map(({ title, accountName, accountPriceType }) => ([
     title,
-    accountName,
     accountPriceType,
-    accountId
+    accountName,
   ])) : []
   for (let i = 0; i < dataArr?.length; i += 1) {
     const randomSelection = sample[i];
     rows.push(createData(i, ...randomSelection));
   }
-  console.log("data Arr -->", dataArr, isLoading, sample)
+  console.log("data Arr *** rows -->", dataArr, isLoading, sample, rows)
 
   const columns = ["Title", "Account", "Type"].map(label => ({
     width: 800,
     label,
-    dataKey: label === 'Account' ? 'accountId' : label === "Type" ? 'accountPriceType' : label.toLowerCase()
+    dataKey: label === 'Account' ? 'accountName' : label === "Type" ? 'accountPriceType' : label.toLowerCase()
   }))
 
   const navigateToAccount = (accountId: string) => {
