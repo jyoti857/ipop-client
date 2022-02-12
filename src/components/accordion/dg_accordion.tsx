@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -8,6 +8,7 @@ import { Card } from '@material-ui/core';
 import { FaCapsules } from 'react-icons/fa'
 import { FiEdit3 } from 'react-icons/fi'
 import { Button, CardContent, Typography } from '@mui/material';
+import { DiscountPriceContext } from '../../contexts/discountPriceContext';
 type Props = {
   panelProps: string;
   row: any;
@@ -16,7 +17,12 @@ type Props = {
 
 function DGAccordion({ panelProps, row, setEditDiscountPriceModal }: Props) {
   const [expanded, setExpanded] = React.useState<string | false>(false);
-
+  const { state, dispatch } = useContext(DiscountPriceContext)
+  console.log("tulip ---> ", state)
+  const handleEditSave = () => {
+    dispatch({ type: 'SELECT_DISCOUNT_PRICE', payload: row })
+    setEditDiscountPriceModal(true)
+  }
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
@@ -59,7 +65,7 @@ function DGAccordion({ panelProps, row, setEditDiscountPriceModal }: Props) {
             </CardContent>
             <CardContent>
               <Button
-                onClick={() => setEditDiscountPriceModal(true)}
+                onClick={handleEditSave}
                 color='primary' variant='contained'>Edit <FiEdit3 style={{ gap: 2 }} /></Button>
             </CardContent>
           </Card>

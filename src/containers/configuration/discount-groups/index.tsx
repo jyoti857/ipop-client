@@ -1,9 +1,10 @@
-import React, { ReactElement, useEffect, useState } from 'react'
+import React, { ReactElement, useContext, useEffect, useState } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import DGAccordion from '../../../components/accordion/dg_accordion'
 import CustomInput from '../../../components/input/CustomInput'
 import Loading from '../../../components/loading'
 import CustomModal from '../../../components/modal'
+import { DiscountPriceContext } from '../../../contexts/discountPriceContext'
 import { createDiscountPrice, getAllProducts, updateDiscountProductPrice } from '../../../utils/baseUrl'
 import { AccountPriceHook } from '../../account/accountDetail/accountPrice/accountPriceHook'
 import AccountPriceTable from '../../account/accountDetail/accountPrice/accountPriceTable'
@@ -70,24 +71,30 @@ function DiscountGroups({ }: Props): ReactElement {
 
   console.log("13feb --->", discountPrice, proposedPrice)
 
+  const { state: { clickedDiscountPrice: { _id, discountPriceList } } } = useContext(DiscountPriceContext)
+
   const editDiscountProductPrice = (body: any) => {
-    console.log("13feb editer ")
-    updateDiscountPriceMutation.mutateAsync({
-      "_id": "61ed4d2728ffa18a472319fe",
-      "discountPriceList": [
-        {
-          "productId": "61ebbe383c31add5ff7c14de",
-          "proposedPrice": "1",
-          "discountPrice": "25.00"
-        },
-        {
-          "productId": "61ebef5e391439f627ecbd3a",
-          "proposedPrice": "22",
-          "discountPrice": "1122.70"
-        }
-      ]
+    console.log("13feb editer ", _id, discountPriceList, proposedPriceFromData)
+    // updateDiscountPriceMutation.mutateAsync({
+    //   "_id": "61ed4d2728ffa18a472319fe",
+    //   "discountPriceList": [
+    //     {
+    //       "productId": "61ebbe383c31add5ff7c14de",
+    //       "proposedPrice": "21",
+    //       "discountPrice": "25.00"
+    //     },
+    //     {
+    //       "productId": "61ebef5e391439f627ecbd3a",
+    //       "proposedPrice": "22",
+    //       "discountPrice": "1122.70"
+    //     }
+    //   ]
+    // })
+    updateDiscountPriceMutation.mutateAsync({ 
+      _id,
+      discountPriceList: productsData?.map((pd: any, idx: number) => ({ productId: pd._id, proposedPrice: proposedPriceFromData[idx], discountPrice: discountPrice[idx] })) 
     })
-    setModalOpen(false)
+    setEditDiscountPriceModal(false)
   }
   return (
     <div>

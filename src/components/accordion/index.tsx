@@ -74,7 +74,6 @@ export default function CustomizedAccordions(
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
     };
-  console.log("acttt ", proposedPrice, allAccountPricesCreated[0])
   return (
     <div style={{ display: 'block', padding: 20 }}>
       {
