@@ -16,7 +16,7 @@ if (window.location.pathname === '/') {
 }
 function App() {
   return (
-    <ThemeProvider theme={brandingDarkTheme} >
+    <ThemeProvider theme={brandingDarkTheme}>
       <CssBaseline />
       <Provider store={store}>
         {

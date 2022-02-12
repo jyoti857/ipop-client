@@ -10,6 +10,17 @@ const api = axios.create({
 // axios.defaults.headers.common = {'Authorization': s()}
 export default axios;
 
+// users 
+export const getUserList = async () => {
+  try{
+    const result = await api.get('/user/')
+    console.log("result user ---> ", result);
+    return result.data;
+  }catch(e){
+    throw new Error("user, error caught from baseUrl.ts file")
+  }
+}
+
 
 export const getAccountList = async () => {
   const result = await api.get('/user/currentUser', {

@@ -1,8 +1,7 @@
 import React, { ReactElement, useState } from 'react'
-import CustomTabs from '../../components/tab'
-import { useStyles } from './styles'
-import SwitchTabs from './switchTabs'
-import Users from './Users'
+import CustomTabs from '../../../components/tab'
+import { useStyles } from '../styles'
+import SwitchTabs from '../switchTabs'
 
 interface Props {
 
@@ -15,7 +14,7 @@ const tabs = [
   { label: "Communication", idx: 4 },
 ]
 function Configuration({ }: Props): ReactElement {
-  const [tabName, setTabName] = useState('Users');
+  const [tabName, setTabName] = useState('Products');
   const [value, setValue] = useState(1)
   const classes = useStyles()
   const handleChange = (e: React.SyntheticEvent, newValue: number) => {

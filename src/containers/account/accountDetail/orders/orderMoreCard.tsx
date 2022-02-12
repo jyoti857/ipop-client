@@ -13,7 +13,7 @@ function OrderMoreCard({ }: Props): ReactElement {
   const classes = useStyles()
   return (
     <div>
-      <Card sx={{ minWidth: 345, position: 'absolute', top: 40, right: 10, zIndex: 100, boxShadow: '6px 6px 6px #349034' }}>
+      <Card sx={{ minWidth: 345, position: 'absolute', top: 40, right: 10, zIndex: 200, boxShadow: '6px 6px 6px #349034' }}>
         <Divider style={{ marginTop: 10, marginBottom: 10 }} />
         <CardActionArea style={{ marginLeft: 12, display: 'flex', justifyContent: 'flex-start' }}>
           <IoArrowUndoOutline size={24} />
