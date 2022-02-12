@@ -44,8 +44,9 @@ interface Props {
   proposedPriceType?: boolean;
   discountPrice?: any;
   style?: any;
+  editDiscountProductPrice?: any
 }
-function AccountPriceTable({ style, discountPrice, proposedPrice, handleProposedData, proposedPriceFromData, proposedPriceType = false }: Props): any {
+function AccountPriceTable({ editDiscountProductPrice, style, discountPrice, proposedPrice, handleProposedData, proposedPriceFromData, proposedPriceType = false }: Props): any {
   const { isLoading } = AccountPriceHook()
   const [flag, setFlag] = useState(false);
   const [proposedPrice_, setProposedPrice_] = useState(proposedPrice);

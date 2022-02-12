@@ -4,7 +4,7 @@ import DGAccordion from '../../../components/accordion/dg_accordion'
 import CustomInput from '../../../components/input/CustomInput'
 import Loading from '../../../components/loading'
 import CustomModal from '../../../components/modal'
-import { createDiscountPrice, getAllProducts } from '../../../utils/baseUrl'
+import { createDiscountPrice, getAllProducts, updateDiscountProductPrice } from '../../../utils/baseUrl'
 import { AccountPriceHook } from '../../account/accountDetail/accountPrice/accountPriceHook'
 import AccountPriceTable from '../../account/accountDetail/accountPrice/accountPriceTable'
 import DiscountGroupTable from './discount-group-table'
@@ -25,6 +25,7 @@ function DiscountGroups({ }: Props): ReactElement {
   const [discountPriceUpdateFlag, setDiscountPriceUpdateFlag] = useState(false)
   const [proposedPriceFromData, setProposedPriceFromData] = useState<any[]>(ppfd)
 
+  const updateDiscountPriceMutation = useMutation("updateDicountPrice", updateDiscountProductPrice)
   // set the detail per discount table row 
   const [isDetailEnabled, setIsDetailEnabled] = useState(false)
   const handleDeatailEnabled = () => {
@@ -65,6 +66,29 @@ function DiscountGroups({ }: Props): ReactElement {
   const [modalOpen, setModalOpen] = useState(false)
   const setHandleModalClose = () => setModalOpen(false)
   const setHandleModalOpen = () => setModalOpen(true)
+
+
+  console.log("13feb --->", discountPrice, proposedPrice)
+
+  const editDiscountProductPrice = (body: any) => {
+    console.log("13feb editer ")
+    updateDiscountPriceMutation.mutateAsync({
+      "_id": "61ed4d2728ffa18a472319fe",
+      "discountPriceList": [
+        {
+          "productId": "61ebbe383c31add5ff7c14de",
+          "proposedPrice": "1",
+          "discountPrice": "25.00"
+        },
+        {
+          "productId": "61ebef5e391439f627ecbd3a",
+          "proposedPrice": "22",
+          "discountPrice": "1122.70"
+        }
+      ]
+    })
+    setModalOpen(false)
+  }
   return (
     <div>
       {
@@ -109,12 +133,16 @@ function DiscountGroups({ }: Props): ReactElement {
         </CustomModal> : ''
       }
       <DiscountGroupTable setHandleModalOpen={setHandleModalOpen} setEditDiscountPriceModal={setEditDiscountPriceModal} />
-      <CustomModal styles={{ width: '103%', overFlow: 'hidden' }} modalName='Edit Product Price' footerButtonName='Save' open={editDiscountPriceModal}
-        handleClose={() => setEditDiscountPriceModal(false)
-        }
+      <CustomModal
+        styles={{ width: '103%', overFlow: 'hidden' }}
+        modalName='Edit Product Price' footerButtonName='Save'
+        open={editDiscountPriceModal}
+        handleClose={() => setEditDiscountPriceModal(false)}
+        onSubmit={editDiscountProductPrice}
       >
         {/* <EditDiscountGroupPrice /> */}
         <AccountPriceTable
+          editDiscountProductPrice={editDiscountProductPrice}
           discountPrice={discountPrice} proposedPrice={proposedPrice} proposedPriceFromData={proposedPriceFromData} handleProposedData={handleProposedData} />
       </CustomModal>
 

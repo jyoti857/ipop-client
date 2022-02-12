@@ -166,3 +166,15 @@ export const getAccountPriceInPendingStatus = async() => {
     console.log("err in account price in pending status")
   }
 }
+
+export const updateDiscountProductPrice = async(body: any) => {
+  try{
+    // const {discountPriceId, payload} = body
+    console.log("13feb discountPrice fro -->", body);
+    const res = await api.put('/discount-price', body)
+    console.log("13feb discountPrice fro -->", res);
+    return res.data;
+  }catch(err){
+    console.log("13feb discountPrice ", err)
+  }
+}
