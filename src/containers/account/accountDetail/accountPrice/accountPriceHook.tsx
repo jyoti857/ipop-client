@@ -4,7 +4,7 @@ import { getAllProducts } from '../../../../utils/baseUrl';
 const { useState, useEffect } = React
 
 export const AccountPriceHook = () => {
-  const { data, isLoading } = useQuery('getProducts', getAllProducts);
+  const { data, isLoading } = useQuery('getProducts', getAllProducts, { enabled: true });
   console.log("sopw --->", data)
   const [proposedPrice, setProposedPrice] = useState(!isLoading ? data : [])
   const [proposedPriceFromData, setProposedPriceFromData] = useState(!isLoading ? data.map((d: any) => d.price) : [])
@@ -29,10 +29,12 @@ export const AccountPriceHook = () => {
     setDiscountPrice(dis)
   }
 
+  React.useEffect(() => { }, [data])
+
   React.useEffect(() => {
     setProposedPrice(data)
   }, [isLoading])
-  return {
+  return data ? {
     data, isLoading, discountPrice, handleProposedData, proposedPrice, proposedPriceFromData
-  }
+  } : {}
 }

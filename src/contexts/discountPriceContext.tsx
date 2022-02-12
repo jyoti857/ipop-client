@@ -7,12 +7,14 @@ export const DiscountPriceContext = createContext<any>('')
 
 const initialState = {
   clickedDiscountPrice: {},
+  editModal: true,
   flower: "tulip"
 }
 const discountPriceReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case 'SELECT_DISCOUNT_PRICE': {
-      return { ...state, clickedDiscountPrice: action.payload }
+      const { payload: { row, isModalOpen } } = action
+      return { ...state, clickedDiscountPrice: row, editModal: isModalOpen }
     }
     default: {
       return state;

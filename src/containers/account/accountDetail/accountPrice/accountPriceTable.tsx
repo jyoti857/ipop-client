@@ -12,6 +12,7 @@ import { getAllProducts } from '../../../../utils/baseUrl';
 import CustomInput from '../../../../components/input/CustomInput';
 import { useState } from 'react';
 import { AccountPriceHook } from './accountPriceHook';
+import Loading from '../../../../components/loading';
 
 export const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -44,13 +45,12 @@ interface Props {
   proposedPriceType?: boolean;
   discountPrice?: any;
   style?: any;
-  editDiscountProductPrice?: any
 }
-function AccountPriceTable({ editDiscountProductPrice, style, discountPrice, proposedPrice, handleProposedData, proposedPriceFromData, proposedPriceType = false }: Props): any {
-  const { isLoading } = AccountPriceHook()
+function AccountPriceTable({ style, discountPrice, proposedPrice, handleProposedData, proposedPriceFromData, proposedPriceType = false }: Props): any {
   const [flag, setFlag] = useState(false);
   const [proposedPrice_, setProposedPrice_] = useState(proposedPrice);
-  console.log("account price table 0000---> ", discountPrice, proposedPriceFromData)
+  const [proposedPriceFromData_, setProposedPriceFromData_] = useState(proposedPriceFromData);
+  console.log("account price table 0000---> ", proposedPriceFromData)
   React.useEffect(() => {
     if (proposedPrice.length > 0) {
       console.log("flag")
@@ -58,6 +58,9 @@ function AccountPriceTable({ editDiscountProductPrice, style, discountPrice, pro
       setFlag(true)
     }
   }, [flag])
+  React.useEffect(() => {
+    setProposedPriceFromData_(proposedPriceFromData)
+  }, [proposedPriceFromData])
   return (
     <div style={style}>
       <TableContainer component={Paper}>
@@ -72,15 +75,15 @@ function AccountPriceTable({ editDiscountProductPrice, style, discountPrice, pro
             </TableRow>
           </TableHead>
           <TableBody>
-            {proposedPrice_ && proposedPrice_.length > 0 && proposedPrice_.map((row: any, idx: number) => {
-              return proposedPriceFromData[idx] &&
+            {proposedPrice_ && proposedPrice_.length > 0 ? proposedPrice_.map((row: any, idx: number) => {
+              return proposedPriceFromData_[idx] &&
                 (
                   <StyledTableRow key={row.catalog}>
                     <StyledTableCell component="th" scope="row">
-                    {row.catalog}
+                    {row?.catalog}
                   </StyledTableCell>
-                  <StyledTableCell align="left">{row.name}</StyledTableCell>
-                  <StyledTableCell align="left">{row.price}</StyledTableCell>
+                  <StyledTableCell align="left">{row?.name}</StyledTableCell>
+                  <StyledTableCell align="left">{row?.price}</StyledTableCell>
                   <StyledTableCell align="left">
                     {proposedPriceType ? proposedPriceFromData[idx] : <CustomInput
                       value={proposedPriceFromData[idx]}
@@ -92,8 +95,8 @@ function AccountPriceTable({ editDiscountProductPrice, style, discountPrice, pro
                   </StyledTableCell>
                   <StyledTableCell align="center">{discountPrice && discountPrice[idx]}</StyledTableCell>
                 </StyledTableRow>
-                )
-            })}
+                ) 
+            }) : <div style={{ margin: 'auto', width: '300%' }}><Loading />keek </div>}
           </TableBody>
         </Table>
       </TableContainer>

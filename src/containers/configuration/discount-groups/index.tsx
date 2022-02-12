@@ -20,7 +20,7 @@ function DiscountGroups({ }: Props): ReactElement {
 
   const { data, proposedPrice: pp, proposedPriceFromData: ppfd } = AccountPriceHook()
   const { data: productsData, isLoading } = useQuery('getProducts', getAllProducts);
-  const [proposedPrice, setProposedPrice] = useState(pp ? pp : [])
+  const [proposedPrice, setProposedPrice] = useState(pp?.length > 0 ? pp : [])
   const [discountPrice, setDiscountPrice] = useState([])
   const [editDiscountPriceModal, setEditDiscountPriceModal] = useState(false)
   const [discountPriceUpdateFlag, setDiscountPriceUpdateFlag] = useState(false)
@@ -32,6 +32,10 @@ function DiscountGroups({ }: Props): ReactElement {
   const handleDeatailEnabled = () => {
     setIsDetailEnabled(!isDetailEnabled)
   }
+
+  console.log("&$ -->", pp, proposedPrice)
+
+  useEffect(() => { setProposedPrice(pp); setProposedPriceFromData(ppfd); console.log("ds") }, [pp, ppfd])
 
   useEffect(() => { calculateDiscountPrice(productsData) }, [discountPriceUpdateFlag])
   const calculateDiscountPrice = (data: any) => {
@@ -51,9 +55,9 @@ function DiscountGroups({ }: Props): ReactElement {
       setProposedPriceFromData(sd)
     }
     setDiscountPriceUpdateFlag(!discountPriceUpdateFlag)
-    console.log("from data ***, proposed", proposedPriceFromData)
     // setDiscountPrice(dis)
   }
+  console.log("from data ***, proposed", proposedPriceFromData)
 
   const onCreateDiscountPrice = (e: any) => {
     e.preventDefault();
@@ -68,28 +72,9 @@ function DiscountGroups({ }: Props): ReactElement {
   const setHandleModalClose = () => setModalOpen(false)
   const setHandleModalOpen = () => setModalOpen(true)
 
-
-  console.log("13feb --->", discountPrice, proposedPrice)
-
-  const { state: { clickedDiscountPrice: { _id, discountPriceList } } } = useContext(DiscountPriceContext)
+  const { state: { clickedDiscountPrice: { _id } } } = useContext(DiscountPriceContext)
 
   const editDiscountProductPrice = (body: any) => {
-    console.log("13feb editer ", _id, discountPriceList, proposedPriceFromData)
-    // updateDiscountPriceMutation.mutateAsync({
-    //   "_id": "61ed4d2728ffa18a472319fe",
-    //   "discountPriceList": [
-    //     {
-    //       "productId": "61ebbe383c31add5ff7c14de",
-    //       "proposedPrice": "21",
-    //       "discountPrice": "25.00"
-    //     },
-    //     {
-    //       "productId": "61ebef5e391439f627ecbd3a",
-    //       "proposedPrice": "22",
-    //       "discountPrice": "1122.70"
-    //     }
-    //   ]
-    // })
     updateDiscountPriceMutation.mutateAsync({ 
       _id,
       discountPriceList: productsData?.map((pd: any, idx: number) => ({ productId: pd._id, proposedPrice: proposedPriceFromData[idx], discountPrice: discountPrice[idx] })) 
@@ -147,10 +132,14 @@ function DiscountGroups({ }: Props): ReactElement {
         handleClose={() => setEditDiscountPriceModal(false)}
         onSubmit={editDiscountProductPrice}
       >
-        {/* <EditDiscountGroupPrice /> */}
+        {
+          proposedPrice?.length > 0 ?
         <AccountPriceTable
-          editDiscountProductPrice={editDiscountProductPrice}
-          discountPrice={discountPrice} proposedPrice={proposedPrice} proposedPriceFromData={proposedPriceFromData} handleProposedData={handleProposedData} />
+              discountPrice={discountPrice} proposedPrice={proposedPrice}
+              proposedPriceFromData={proposedPriceFromData} handleProposedData={handleProposedData}
+            />
+            : <Loading />
+        }
       </CustomModal>
 
     </div>

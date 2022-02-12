@@ -20,8 +20,8 @@ function DGAccordion({ panelProps, row, setEditDiscountPriceModal }: Props) {
   const { state, dispatch } = useContext(DiscountPriceContext)
   console.log("tulip ---> ", state)
   const handleEditSave = () => {
-    dispatch({ type: 'SELECT_DISCOUNT_PRICE', payload: row })
-    setEditDiscountPriceModal(true)
+    dispatch({ type: 'SELECT_DISCOUNT_PRICE', payload: { row, isModalOpen: true } })
+    setEditDiscountPriceModal(state.editModal)
   }
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
