@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react'
 import { forEachChild } from 'typescript';
 import CustomizedTables from '../../components/table'
 import { useUsersHook } from './users/useUsersHook'
-// import check from '../../assets/svg/check-svg'
+import Check from '../../assets/svg/tick-svg.svg'
 function createData(
   username: string,
   firstName: string,
@@ -10,7 +10,7 @@ function createData(
   email: string,
   gender: number,
   role: string,
-  isAdmin: boolean
+  isAdmin: any
 ) {
   return { username, firstName, lastName, email, gender, role, isAdmin };
 }
@@ -20,10 +20,9 @@ function Users(): ReactElement {
   console.log("result **", users)
   let rows: any = []
   users?.forEach(({ username, firstName, lastName, email, role, gender, isAdmin }: any) => {
-    if (isAdmin) {
-        // isAdmin = <Check />
-
-      }
+    // if (isAdmin) {
+    //   isAdmin = <Check />
+    //   }
       rows.push(createData(username, firstName, lastName, email, gender, role, isAdmin,))
     })
 

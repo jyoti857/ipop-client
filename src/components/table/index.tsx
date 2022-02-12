@@ -10,6 +10,9 @@ import Paper from '@mui/material/Paper';
 import { Button, TableFooter, TablePagination } from '@mui/material';
 import TablePaginationsActions from './tablePaginationsActions';
 import CustomInput from '../input/CustomInput';
+import Check from '../../assets/svg/tick-svg.svg'
+import Close from '../../assets/svg/close-svg.svg'
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -54,7 +57,7 @@ export default function CustomizedTables({ headers, rows }: CustomizedTableProps
   }
   return (
     <TableContainer component={Paper} >
-      <Table sx={{ minWidth: 700, lineHeight: .12, margin: 'dense' }} aria-label="dense table">
+      <Table sx={{ minWidth: 200, lineHeight: .12, margin: 'dense' }} aria-label="dense table">
         <TableHead>
           <TableRow>
             <div style={{ margin: 6, display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'transparent', width: '178%' }}>
@@ -79,11 +82,6 @@ export default function CustomizedTables({ headers, rows }: CustomizedTableProps
                 //align={index !== 1 ? 'right' : 'justify'}
               })
             }
-            {/* <StyledTableCell>Dessert (100g serving)</StyledTableCell>
-            <StyledTableCell align="right">Calories</StyledTableCell>
-            <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell> */}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -92,12 +90,15 @@ export default function CustomizedTables({ headers, rows }: CustomizedTableProps
               <StyledTableCell component="th" scope="row">
                 {row.username}
               </StyledTableCell>
-              <StyledTableCell align="right">{row.firstName}</StyledTableCell>
-              <StyledTableCell align="right">{row.lastName}</StyledTableCell>
-              <StyledTableCell align="right">{row.email}</StyledTableCell>
-              <StyledTableCell align="right">{row.email}</StyledTableCell>
-              <StyledTableCell align="right">{row.role}</StyledTableCell>
-              <StyledTableCell align="right">{row.isAdmin}</StyledTableCell>
+              <StyledTableCell align="left">{row.firstName}</StyledTableCell>
+              <StyledTableCell align="left">{row.lastName}</StyledTableCell>
+              <StyledTableCell align="left">{row.email}</StyledTableCell>
+              <StyledTableCell align="left">M</StyledTableCell>
+              <StyledTableCell align="left">{row.role}</StyledTableCell>
+              <StyledTableCell align="left">{
+                <img src={row.isAdmin ? Check : Close} alt='' />
+              }
+              </StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
