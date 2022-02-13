@@ -16,7 +16,7 @@ const tabs = [
 ]
 function Configuration({ }: Props): ReactElement {
   const [tabName, setTabName] = useState('Users');
-  const [value, setValue] = useState(1)
+  const [value, setValue] = useState(0)
   const classes = useStyles()
   const handleChange = (e: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
