@@ -50,9 +50,8 @@ function AccountPriceTable({ style, discountPrice, proposedPrice, handleProposed
   const [flag, setFlag] = useState(false);
   const [proposedPrice_, setProposedPrice_] = useState(proposedPrice);
   const [proposedPriceFromData_, setProposedPriceFromData_] = useState(proposedPriceFromData);
-  console.log("account price table 0000---> ", proposedPriceFromData)
   React.useEffect(() => {
-    if (proposedPrice.length > 0) {
+    if (proposedPrice?.length > 0) {
       console.log("flag")
       setProposedPrice_(proposedPrice)
       setFlag(true)

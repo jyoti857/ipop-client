@@ -1,5 +1,5 @@
 import { Button, Container, Divider, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
-import React, { ReactElement, useState } from 'react'
+import React, { ReactElement, useEffect, useRef, useState } from 'react'
 import CustomInput from '../../../../components/input/CustomInput'
 import { theme } from '../../../../theme/customTheme'
 import { VscInfo } from "react-icons/vsc";
@@ -11,15 +11,30 @@ import CustomFullModal from '../../../../components/modal/customFullModal';
 import CustomDropdown from '../../../../components/dropdown';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import QuoteOrderTable from './quoteOrderTable'
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { createOrder } from '../../../../utils/baseUrl';
 import { useParams } from 'react-router-dom';
 import { FaRegShareSquare } from "react-icons/fa";
 import OrderMoreCard from './orderMoreCard';
+import { useOutSideModalClick } from './utils/useOutsideModalClick'
 
 interface Props {
 
 }
+const transportationDropdownData = [
+  {
+    desc: 'Overnight 08:30PM',
+    value: 'OVRNT0830',
+  },
+  {
+    desc: 'Overnight 10:30PM',
+    value: 'OVRNT1030',
+  },
+  {
+    desc: 'Free delivery',
+    value: 'FREEDEL0000',
+  }
+]
 function Orders({ }: Props): ReactElement {
   const [isOrderDisplayed, setIsOrderDisplayed] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState("")
@@ -28,12 +43,19 @@ function Orders({ }: Props): ReactElement {
   const [isMore, setIsMore] = useState(false)
   const [search, setSearch] = useState('')
   const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
+  const handleClose = () => {
+    queryClient.invalidateQueries('orders')
+    setOpen(false)
+  }
   const handleMore = (id: string) => {
     setIsMore(!isMore)
     setSelectedOrderId(id)
   }
-  const handleOrderDisplayed = () => setIsOrderDisplayed(true)
+  const ref = useRef<any>();
+  useOutSideModalClick(ref, () => setIsMore(false))
+
+
+
   const navigateOrderDetailPage = (order_id: string) => {
     setIsOrderDisplayed(true)
     setSelectedOrderId(order_id)
@@ -42,20 +64,7 @@ function Orders({ }: Props): ReactElement {
   const { data, quotes } = useOrderHook()
   const activeQuotes = quotes?.filter((quote: any) => quote.status === 'ACTV').map(({ title, productQuotes, id }: any) => ({ title, productQuotes, id }))
   const quoteDropdownData = activeQuotes?.map((aq: any) => ({ desc: aq.title, value: aq.title }))
-  const transportationDropdownData = [
-    {
-      desc: 'OVRNT0830',
-      value: 'OVRNT0830',
-    },
-    {
-      desc: 'OVRNT0855',
-      value: 'OVRNT0855',
-    },
-    {
-      desc: 'OVRNT0855',
-      value: 'OVRNT0855',
-    }
-  ]
+
   const ds = data?.find((d: any) => d.id === selectedOrderId)
   const selectedOrderDetail = ds && {
     ...ds,
@@ -66,14 +75,13 @@ function Orders({ }: Props): ReactElement {
   const orderExtracted = data?.map((a: any) => ({
     id: a.id,
     orderNumber: a.orderNumber,
-    createdAt: '2021-2-2',
-    updatedAt: "2021-2-3",
-    placedBy: 'John',
+    createdAt: new Date().toISOString().split('T')[0],
+    updatedAt: new Date().toISOString().split('T')[0],
+    placedBy: a?.createdBy,
     status: orderStatusMap[a.currentOrderStatus][0],
     color: orderStatusMap[a.currentOrderStatus][1],     
     statusColor: orderStatusMap[a.currentOrderStatus][2],
   }))
-  console.log("&& from order page order u", quotes)
   const [ponumber, setPonumber] = useState()
   const [attentionTo, setAttentionTo] = useState()
   const [dropdown, setDropdown] = useState({ quote: '', transportation: '' })
@@ -86,29 +94,33 @@ function Orders({ }: Props): ReactElement {
     )
   }
   const selectedQuote = activeQuotes?.find((aq: any) => aq.title === dropdown.quote)
+  console.log("select quote *** ", selectedQuote)
   const mutation = useMutation(createOrder)
-  const handleCreateOrder = () => {
-    mutation.mutateAsync({
+  const queryClient = useQueryClient()
+  const handleCreateOrder = async () => {
+    await mutation.mutateAsync({
       accountId,
       quoteId: selectedQuote?.id,
-      poNumber: ponumber, attentionTo,
+      poNumber: ponumber,
+      attentionTo,
       deliveryCost: '55',
       mot: "OVRNT0830",
       status: "ACTV",
       createdFrom3pl: false,
       orderType: "SO",
       orderFormType: "ORDFREE",
-      createdBy: "3860BBBF-77FE-EB11-B562-C896653B4413",
+      // createdBy: "3860BBBF-77FE-EB11-B562-C896653B4413",
       updatedBy: "3860BBBF-77FE-EB11-B562-C896653B4413",
       deletedBy: null,
       orderStatus: "10",
       totalAmount: 2929
     })
     handleClose()
+    queryClient.invalidateQueries("orders")
   }
   return (
     <div className={classes.root}>
-      <Paper style={{ margin: theme.size?.margin.secondary }}>
+      <Paper style={{ margin: theme.size?.margin.secondary, padding: 10 }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', margin: 12, gap: 12 }}>
           <CustomInput name='search' placeholder='Search order' type='text' value='Search' />
           <Button
@@ -159,12 +171,13 @@ function Orders({ }: Props): ReactElement {
                       variant='outlined'
                       onClick={() => handleMore(a.id)}
                       disabled={a.status === 'Order completed' ? false : true}
+                      ref={ref}
                     >
                       More
                       <FaRegShareSquare size={18} style={{ marginLeft: 4 }} />
                     </Button>
                     {
-                      isMore && selectedOrderId === a.id ? <OrderMoreCard /> : ''
+                      isMore && selectedOrderId === a.id ? <OrderMoreCard orderNumber={a.orderNumber} selectedOrderDetail={selectedOrderDetail} /> : ''
                     }
                   </div>
                 </TableCell>

@@ -1,6 +1,5 @@
 import React, { ReactElement, useContext, useEffect, useState } from 'react'
-import { useMutation, useQuery } from 'react-query'
-import DGAccordion from '../../../components/accordion/dg_accordion'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import CustomInput from '../../../components/input/CustomInput'
 import Loading from '../../../components/loading'
 import CustomModal from '../../../components/modal'
@@ -8,9 +7,9 @@ import { DiscountPriceContext } from '../../../contexts/discountPriceContext'
 import { createDiscountPrice, getAllProducts, updateDiscountProductPrice } from '../../../utils/baseUrl'
 import { AccountPriceHook } from '../../account/accountDetail/accountPrice/accountPriceHook'
 import AccountPriceTable from '../../account/accountDetail/accountPrice/accountPriceTable'
+import TableTop from '../common/tableTop'
 import DiscountGroupTable from './discount-group-table'
 import CustomDiscountPriceFormik from './discount-price-formik'
-import EditDiscountGroupPrice from './edit-discountgroups_price'
 
 interface Props {
 
@@ -19,6 +18,7 @@ interface Props {
 function DiscountGroups({ }: Props): ReactElement {
 
   const { data, proposedPrice: pp, proposedPriceFromData: ppfd } = AccountPriceHook()
+  const { mutateAsync, isSuccess, isLoading: createDiscountPriceLoading } = useMutation(['create-discount=-price'], createDiscountPrice)
   const { data: productsData, isLoading } = useQuery('getProducts', getAllProducts);
   const [proposedPrice, setProposedPrice] = useState(pp?.length > 0 ? pp : [])
   const [discountPrice, setDiscountPrice] = useState([])
@@ -29,9 +29,7 @@ function DiscountGroups({ }: Props): ReactElement {
   const updateDiscountPriceMutation = useMutation("updateDicountPrice", updateDiscountProductPrice)
   // set the detail per discount table row 
   const [isDetailEnabled, setIsDetailEnabled] = useState(false)
-  const handleDeatailEnabled = () => {
-    setIsDetailEnabled(!isDetailEnabled)
-  }
+
 
   console.log("&$ -->", pp, proposedPrice)
 
@@ -44,7 +42,6 @@ function DiscountGroups({ }: Props): ReactElement {
     console.log("calculated price --->", dis)
     setDiscountPrice(dis)
   }
-  const mutation = useMutation(['create-discount=-price'], createDiscountPrice)
   const handleProposedData = (e: any, id: number) => {
     const sd: any[] = [...proposedPriceFromData]
     if (e.target.value > data?.map((d: any) => d.price)[id]) {
@@ -61,12 +58,14 @@ function DiscountGroups({ }: Props): ReactElement {
 
   const onCreateDiscountPrice = (e: any) => {
     e.preventDefault();
-    mutation.mutateAsync({
+    mutateAsync({
       name, startDate, endDate, desc,
       discountPriceList: productsData?.map((pd: any, idx: number) => ({ productId: pd._id, proposedPrice: proposedPriceFromData[idx], discountPrice: discountPrice[idx] }))
     })
     setModalOpen(false)
   }
+  const queryClient = useQueryClient()
+  queryClient.invalidateQueries('getDiscountPrices')
   const { handleChange, values: { name, startDate, desc, endDate } } = CustomDiscountPriceFormik({ onSubmit: onCreateDiscountPrice })
   const [modalOpen, setModalOpen] = useState(false)
   const setHandleModalClose = () => setModalOpen(false)
@@ -124,6 +123,7 @@ function DiscountGroups({ }: Props): ReactElement {
           </div>
         </CustomModal> : ''
       }
+      <TableTop tableName='Discount Groups' onClick={setHandleModalOpen} />
       <DiscountGroupTable setHandleModalOpen={setHandleModalOpen} setEditDiscountPriceModal={setEditDiscountPriceModal} />
       <CustomModal
         styles={{ width: '103%', overFlow: 'hidden' }}

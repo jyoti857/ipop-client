@@ -13,6 +13,7 @@ import AccountTabs from '../accountTabs';
 import { AccountInformationType_ } from './accountInformation_';
 import { PaymentTermsEnum } from '../../UseAccountFormik';
 import AccountInfoComponent from './account-info-component';
+import Loading from '../../../../components/loading';
 interface Props {
   // accountName: string;
   // ein: string;
@@ -32,7 +33,7 @@ function AccountInformation({ }: Props): ReactElement {
     { enabled: Boolean(params.accountId) }
   )
   return (
-    isLoading ? <div>Loading,,,,from account info component render method </div> :
+    isLoading ? <Loading /> :
       <div><AccountInfoComponent data={data} isLoading={isLoading} /></div>
   )
 }

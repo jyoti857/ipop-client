@@ -167,6 +167,14 @@ export const getAccountPriceInPendingStatus = async() => {
   }
 }
 
+export const updateAccountPricesToInactive = async() => {
+  try{
+    await api.put("/account-price/updateStatusToInactive")
+  }catch(err){
+    console.log(err)
+  }
+}
+
 export const updateDiscountProductPrice = async(body: any) => {
   try{
     // const {discountPriceId, payload} = body

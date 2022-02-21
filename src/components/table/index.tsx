@@ -16,7 +16,7 @@ import Close from '../../assets/svg/close-svg.svg'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: '#942BA8',
     color: theme.palette.common.white,
   },
   [`&.${tableCellClasses.body}`]: {
@@ -25,9 +25,9 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.action.hover,
-  },
+  // '&:nth-of-type(odd)': {
+  //   backgroundColor: theme.palette.action.hover,
+  // },
   // hide last border
   '&:last-child td, &:last-child th': {
     border: 0,
@@ -39,9 +39,11 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 type CustomizedTableProps = {
   headers: any;
-  rows: any
+  rows: any;
+  isCloseIcon?: boolean;
+  isFooter?: boolean;
 }
-export default function CustomizedTables({ headers, rows }: CustomizedTableProps) {
+export default function CustomizedTables({ headers, rows, isCloseIcon = false, isFooter = true }: CustomizedTableProps) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(2);
   const [search, setSearch] = useState('');
@@ -60,22 +62,6 @@ export default function CustomizedTables({ headers, rows }: CustomizedTableProps
       <Table sx={{ minWidth: 200, lineHeight: .12, margin: 'dense' }} aria-label="dense table">
         <TableHead>
           <TableRow>
-            <div style={{ margin: 6, display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'transparent', width: '178%' }}>
-              <div>Products</div>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around', backgroundColor: 'transparent' }}>
-                <CustomInput name='Search' type='text' value='search' placeholder='Search' />
-                <Button
-                  variant='contained'
-                  color='primary'
-                >Add +</Button>
-                <Button
-                  variant='outlined'
-                  color='primary'
-                >Sync</Button>
-              </div>
-            </div>
-          </TableRow>
-          <TableRow>
             {
               headers?.map((header: any, index: number) => {
                 return <StyledTableCell >{header}</StyledTableCell>
@@ -85,43 +71,66 @@ export default function CustomizedTables({ headers, rows }: CustomizedTableProps
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row: any) => (
-            <StyledTableRow key={row.username}>
-              <StyledTableCell component="th" scope="row">
-                {row.username}
-              </StyledTableCell>
-              <StyledTableCell align="left">{row.firstName}</StyledTableCell>
-              <StyledTableCell align="left">{row.lastName}</StyledTableCell>
-              <StyledTableCell align="left">{row.email}</StyledTableCell>
-              <StyledTableCell align="left">M</StyledTableCell>
-              <StyledTableCell align="left">{row.role}</StyledTableCell>
-              <StyledTableCell align="left">{
-                <img src={row.isAdmin ? Check : Close} alt='' />
-              }
-              </StyledTableCell>
+          {rows.map((row: any) => {
+            const keys = Object.keys(row);
+            return (
+              <StyledTableRow key={keys[0]}>
+                {/* <StyledTableCell component="th" scope="row">
+                  {row[keys[0]]}
+              </StyledTableCell> */}
+                {/* <StyledTableCell align="left">{row[keys[1]]}</StyledTableCell>
+                <StyledTableCell align="left">{row[keys[2]]}</StyledTableCell>
+                <StyledTableCell align="left">{row[keys[3]]}</StyledTableCell> */}
+                {/* <StyledTableCell align="left">M</StyledTableCell> */}
+                {/* <StyledTableCell align="left">{row[keys[4]]}</StyledTableCell>
+                <StyledTableCell align="left">{row[keys[5]]}</StyledTableCell>  */}
+                {
+                  keys.map((a, idx) => {
+                    if (isCloseIcon) {
+                      return (
+                        idx != keys.length - 1 && <StyledTableCell align="left">{row[keys[idx]]}</StyledTableCell>
+                      )
+                    } else {
+                      return <StyledTableCell align="left">{row[keys[isCloseIcon && idx === keys.length - 1 ? idx - 1 : idx]]}</StyledTableCell>
+                    }
+                  })
+                }
+                {
+                  isCloseIcon &&
+                  <StyledTableCell align="left">
+                    {
+                      <img src={row.isAdmin ? Check : Close} alt='isAdmin' />
+                    }
+                  </StyledTableCell>
+                }
             </StyledTableRow>
-          ))}
+            )
+          }
+          )}
         </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-              colSpan={3}
-              count={rows.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              SelectProps={{
-                inputProps: {
-                  'aria-label': 'rows per page',
-                },
-                native: true,
-              }}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-              ActionsComponent={TablePaginationsActions}
-            />
-          </TableRow>
-        </TableFooter>
+        {
+          isFooter &&
+          <TableFooter>
+            <TableRow>
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                colSpan={3}
+                count={rows.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                SelectProps={{
+                  inputProps: {
+                    'aria-label': 'rows per page',
+                  },
+                  native: true,
+                }}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                ActionsComponent={TablePaginationsActions}
+              />
+            </TableRow>
+          </TableFooter>
+        }
       </Table>
     </TableContainer>
   );

@@ -18,9 +18,6 @@ function createData(
   return { catalog, name, qty, proposedPrice, qty_p };
 }
 
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-];
 
 interface IQuoteOrderTableProps {
   handleChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -29,7 +26,6 @@ interface IQuoteOrderTableProps {
 }
 export default function QuoteOrderTable({ productWithPrice }: IQuoteOrderTableProps) {
   const [quoteDetails, setQuoteDetails] = React.useState<any>(productWithPrice)
-  console.log("sss ---> ", quoteDetails);
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 750, width: '98%', margin: 'auto' }} size='small' aria-label="a table">

@@ -110,7 +110,7 @@ function Quotes({ }: Props): ReactElement {
             color='secondary'
             variant='outlined'
           >Sync</Button>
-          <div style={{ position: 'absolute', top: 0, right: 150 }}>
+          <div style={{ position: 'absolute', top: 10, right: 154 }}>
             <CustomInput value='search' name='search' type='text' placeholder='Search' />
           </div>
       </div>
@@ -123,7 +123,7 @@ function Quotes({ }: Props): ReactElement {
         <div className={classes.centerLine}>No quotes found for this account!</div>
       </div>
             :
-            <div style={{ marginTop: 12, left: 60, top: 40, position: 'absolute', paddingBottom: 60 }}>
+            <div style={{ marginTop: 60, marginRight: 700, top: 40, paddingBottom: 60 }}>
           <QuoteAccordion quoteList={data} footerButton={false} />
         </div>
         }

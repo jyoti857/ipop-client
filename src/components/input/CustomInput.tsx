@@ -18,7 +18,7 @@ function CustomInput({ placeholder, label, name, type, handleChange, value, styl
   const classes = useStyles();
   return (
     <div style={{ display: 'flex', flexDirection: 'column', marginTop: label ? 8 : 0 }}>
-      <label style={{ fontFamily: 'sans-serif', marginBottom: 8, fontSize: 20 }}>{label}</label>
+      <label style={{ fontFamily: 'sans-serif', fontSize: 20 }}>{label}</label>
       <TextField
         size='small'
         name={name}

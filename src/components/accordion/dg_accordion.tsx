@@ -35,30 +35,34 @@ function DGAccordion({ panelProps, row, setEditDiscountPriceModal }: Props) {
           aria-controls="panel1bh-content"
           id="panel1bh-header"
         >
-          <div style={{ width: '52%', flexShrink: 0 }}>
+          <div
+            style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}
+          >
+            <div style={{ width: '9%' }}>
             {row.name}
           </div>
-          <div style={{ width: '9%', flexShrink: 0 }}>
+            <div>
             {row.code}
           </div>
-          <div style={{ width: '20%', flexShrink: 1, color: 'text.secondary' }}>
+            <div style={{ color: 'text.secondary', width: '10%' }}>
             {row.createdBy}
           </div>
-          <div style={{ width: '22%', color: 'text.secondary' }}>
+            <div style={{ color: 'text.secondary' }}>
             {row.startDate}
           </div>
-          <div style={{ width: '20%', color: 'text.secondary' }}>
+            <div style={{ color: 'text.secondary' }}>
             {row.endDate}
           </div>
-          <div style={{ width: '11%', color: 'text.secondary' }}>
+            <div style={{ color: 'text.secondary' }}>
             {row.status}
           </div>
-          <div style={{ width: '10%', color: 'text.secondary' }}>
+            <div style={{ color: 'text.secondary' }}>
             {row.actions}
+          </div>
           </div>
         </AccordionSummary>
         <AccordionDetails>
-          <Card style={{ display: 'flex', justifyContent: 'space-between', margin: 1 }}>
+          <Card style={{ display: 'flex', justifyContent: 'space-between', margin: 1, marginBottom: 12, boxShadow: '0px 48px 100px 0px #110c2e' }}>
             <CardContent style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
               <FaCapsules size={24} color='green' />
               <Typography variant="h5" component='h1'>Assigned Products</Typography>

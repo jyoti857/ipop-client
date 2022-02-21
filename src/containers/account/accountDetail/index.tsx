@@ -102,7 +102,10 @@ function AccountDetail(): ReactElement {
   console.log("use selector ***", account, data)
   return (
     <div style={{ marginTop: 23 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+      <Paper style={{
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '99%',
+        boxShadow: '0px 48px 100px 0px #110c2e', margin: 8, padding: 10
+      }}>
         <div style={{ width: '40%' }}>
           <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
             <div style={{ display: 'flex' }}>
@@ -157,7 +160,7 @@ function AccountDetail(): ReactElement {
             >Submit for approval</Button> : ''
           }
         </div>
-      </div>
+      </Paper>
       <AccountTabs tabs={accountTabs} tab={tabName} value={value} handleChange={handleChange} />
       {showTabPage(tabName)}
     </div>

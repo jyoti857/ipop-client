@@ -19,7 +19,7 @@ interface OrderDetailsType {
 export const useOrderHook = () => {
 
   const { accountId } = useParams<{ accountId: string }>()
-  const { data, isLoading, isError }: { data: any, isLoading: boolean, isError: boolean } = useQuery(['order, `${accountId}`'], () => getOrdersByAccountId(accountId))
+  const { data, isLoading, isError }: { data: any, isLoading: boolean, isError: boolean } = useQuery('orders', () => getOrdersByAccountId(accountId))
   console.log("order id ***  data ---> ", data);
 
   // fetch the all the quotes created 
@@ -29,6 +29,7 @@ export const useOrderHook = () => {
     return {
       id: d._id,
       orderId: d.orderId,
+      createdBy: d.createdBy,
       orderNumber: d.external3plOrderId,
       currentOrderStatus: d.orderStatus,
       poNumber: d.poNumber,

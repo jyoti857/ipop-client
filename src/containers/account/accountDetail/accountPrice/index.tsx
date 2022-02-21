@@ -6,8 +6,8 @@ import CustomModal from '../../../../components/modal';
 import { useStyles } from './styles';
 import AccountPriceTable from './accountPriceTable'
 import CustomAccountPriceQuoteFormik from '../accountPriceQuoteFormik';
-import { useMutation, useQuery } from 'react-query'
-import { createAccountPrice, getAllAccountPricesByAccountId } from '../../../../utils/baseUrl';
+import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { createAccountPrice, getAllAccountPricesByAccountId, updateAccountPricesToInactive } from '../../../../utils/baseUrl';
 import { useParams } from 'react-router-dom'
 import CustomizedRadios from '../../../../components/radio-button';
 import { AccountPriceHook } from './accountPriceHook';
@@ -41,6 +41,7 @@ function AccountPrice({ }: Props): ReactElement {
   const discountgroupNames = discountgroupData?.map(({ name, _id, ...props }: any) => ({ desc: name, value: _id }))
   const discountPrices = discountgroupData?.find((a: any) => a._id === dgDropdown)?.discountPriceList
   console.log("discount prices ** --> ", discountgroupData, discountPrices)
+  const queryClient = useQueryClient()
   const currentDate = new Date()
   const [date, setDate] = useState({ startDate: currentDate.toISOString().split('T').toString(), endDate: addDays(currentDate, 60).toISOString().split("T")[0] })
   const handleOpen = () => setOpen(true)
@@ -48,9 +49,11 @@ function AccountPrice({ }: Props): ReactElement {
   const { accountId } = useParams<{ accountId: string }>();
   const { data: allAccountPricesCreated, isLoading } = useQuery('getAllAccountPrices', () => getAllAccountPricesByAccountId(accountId))
   const mutation = useMutation(createAccountPrice)
-  const handleAccountPriceSubmit = (event: any) => {
+  const updateStatusInactiveMutation = useMutation(updateAccountPricesToInactive)
+  const handleAccountPriceSubmit = async (event: any) => {
     console.log("account-price-quote ", typeof event, priceTitle, startDate, endDate, proposedPrice)
-    mutation.mutateAsync({
+    await updateStatusInactiveMutation.mutateAsync()
+    await mutation.mutateAsync({
       id: accountId,
       title: priceTitle,
       startDate,
@@ -58,13 +61,16 @@ function AccountPrice({ }: Props): ReactElement {
       productWithPrice: accountPrices,
       accountPriceType: radioValue === 'Matrix Pricing' ? AccountPriceTypeEnum.MATRXPR : AccountPriceTypeEnum.PREAPPR
     })
+    queryClient.invalidateQueries('getAllAccountPrices')
     priceTitle && handleClose()
   }
+  // const queryClient = useQueryClient()
+  // queryClient.invalidateQueries('getAllAccountPrices')
   useEffect(() => {
     setProposedPrice(pp)
     setProposedPriceFromData(ppfd)
   }, [ppfd])
-  const accountPrices = proposedPrice.map((p: any, idx: number) => ({
+  const accountPrices = proposedPrice?.map((p: any, idx: number) => ({
     ...p,
     proposedPrice: radioValue === 'Matrix Pricing' ? proposedPriceFromData[idx] : discountPrices?.length > 0 && +discountPrices[idx]?.proposedPrice,
     discountPrice: radioValue === 'Matrix Pricing' ? discountPrice[idx] : discountPrices?.length > 0 && +discountPrices[idx]?.discountPrice
@@ -123,7 +129,7 @@ function AccountPrice({ }: Props): ReactElement {
             color='secondary'
             variant='outlined'
           >Sync</Button>
-          <div style={{ position: 'absolute', top: 0, right: 150 }}>
+          <div style={{ position: 'absolute', top: 10, right: 154 }}>
             <CustomInput value='search' name='search' type='text' placeholder='Search' />
           </div>
         </div>
@@ -136,8 +142,7 @@ function AccountPrice({ }: Props): ReactElement {
           </div>
           <div className={classes.centerLine}>No price list found for this account!</div>
           </div> :
-            // <div style={{ marginTop: 12, left: -260, top: 40, position: 'relative', paddingBottom: 60 }}>
-            <div style={{ marginTop: 12, left: 60, top: 40, position: 'absolute', paddingBottom: 60 }}>
+            <div style={{ marginTop: 22, marginRight: 700, top: 40, paddingBottom: 60 }}>
               <CustomizedAccordions accordionType='account-price' discountPrice={discountPrice} proposedPrice={proposedPrice} allAccountPricesCreated={allAccountPricesCreated} proposedPriceFromData={proposedPriceFromData} />
             </div>
         }

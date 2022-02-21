@@ -74,6 +74,7 @@ export default function CustomizedAccordions(
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
     };
+
   return (
     <div style={{ display: 'block', padding: 20 }}>
       {

@@ -1,21 +1,16 @@
 import React, { ReactElement, useState } from 'react'
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Button, Divider, TableFooter, TablePagination } from '@mui/material';
-import TablePaginationsActions from '../../../components/table/tablePaginationsActions';
 import CustomInput from '../../../components/input/CustomInput';
-import DiscountGroupsAccordion from '../../../components/accordion/discount-group-accordions';
 import { useQuery } from 'react-query';
 import { getAllDiscountPrices } from '../../../utils/baseUrl';
-import CustomizedAccordions from '../../../components/accordion';
 import Loading from '../../../components/loading';
-import DiscountGroupDetailTable from './discount-groups-detail-table';
 import DGAccordion from '../../../components/accordion/dg_accordion';
 
 
@@ -61,7 +56,7 @@ const tableHeaders = [
 
 interface Props {
   setHandleModalOpen: () => void;
-  setEditDiscountPriceModal: any
+  setEditDiscountPriceModal: any;
 }
 
 function DiscountGroupTable({ setHandleModalOpen, setEditDiscountPriceModal }: Props): ReactElement {
@@ -82,29 +77,10 @@ function DiscountGroupTable({ setHandleModalOpen, setEditDiscountPriceModal }: P
     setPage(0)
   }
   return (
-    <Paper elevation={9} style={{ maxWidth: '150%', position: 'relative', flexWrap: 'nowrap', display: 'flex', flexDirection: 'column' }}>
+    <Paper elevation={9} >
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead >
-            <TableRow style={{ width: '100%' }}>
-              <div style={{ margin: 6, display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'transparent', minWidth: '203%' }}>
-                <div style={{ fontWeight: 'bold' }}>Discount Groups</div>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '32%' }}>
-                  <CustomInput name='Search' type='text' value='search' placeholder='Search' />
-                  <div style={{ display: 'flex', gap: 3 }}>
-                    <Button
-                      variant='contained'
-                      color='primary'
-                      onClick={setHandleModalOpen}
-                    >Add +</Button>
-                    <Button
-                      variant='outlined'
-                      color='primary'
-                    >Sync</Button>
-                  </div>
-                </div>
-              </div>
-            </TableRow>
             <TableRow>
               <StyledTableCell>Name</StyledTableCell>
               {

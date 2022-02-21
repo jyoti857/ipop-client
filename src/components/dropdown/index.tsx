@@ -37,7 +37,7 @@ function CustomDropdown({ data, value, handleChange, name, label, classNames, pl
             <em>{placeholder}</em>
           </MenuItem>
             {
-              data.map((item: DropdownType, idx: number) => {
+            data?.map((item: DropdownType, idx: number) => {
                 return (
                   <MenuItem key={idx} value={item.value}>{item.desc}</MenuItem>
                 )

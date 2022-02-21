@@ -5,7 +5,8 @@ import { theme } from "../../../../theme/customTheme";
 export const useStyles = makeStyles({
   root: {
     width: '90%',
-    minHeight: 300,
+    minHeight: 200,
+    paddingBottom: 20,
     margin: '20px auto',
     position: 'relative',
     boxShadow: '5px 5px 20px  #151254',

@@ -1,4 +1,4 @@
-import { Divider } from '@mui/material'
+import { Divider, Paper } from '@mui/material'
 import { ReactElement, useEffect, useRef, useState } from 'react'
 import { useStyles } from './styles'
 import { FaHospitalUser, FaChartPie } from 'react-icons/fa';
@@ -58,13 +58,14 @@ function Header({ children }: Props): ReactElement {
   }, [localStorage.getItem('username'), userId])
   const classes = useStyles()
   return (
-    <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+    <Paper className={classes.hederBorder}
+      style={{ boxShadow: '0px 5px 15px 0px #000000', margin: 6, padding: 6, width: '99%', height: 71, display: 'flex', justifyContent: "space-between", alignItems: 'center' }}>
+      {/* <div style={{ display: 'flex', justifyContent: 'space-between' }}> */}
         <img src={logo}
           alt='pacira logo'
           className={classes.logo}
         />
-        <div style={{ textAlign: 'center', margin: 10, marginRight: 20, width: 180, display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
+      <div style={{ textAlign: 'center', margin: 10, marginRight: 20, width: 200, display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
           <FaChartPie className={clsx(classes.icons, headerIconActive === 'Dashboard' && classes.active)}
             //  onClick={() => handlePageName('Dashboard')} 
             onClick={handleDashboard}
@@ -82,12 +83,11 @@ function Header({ children }: Props): ReactElement {
             cardOpen ? <CustomCard loggedUser={loggedUser} setCardOpen={setCardOpen} /> : null
           }
         </div>
-      </div>
-      <Divider style={{ borderWidth: 1, backgroundColor: '#C54BC4' }} />
+      {/* </div> */}
       {/* <Pages pageName={pageName} /> */}
       {/* {switchPages(pageName)} */}
       {/* {children} */}
-    </div>
+    </Paper>
   )
 }
 

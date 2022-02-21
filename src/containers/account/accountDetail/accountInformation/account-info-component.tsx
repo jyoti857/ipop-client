@@ -1,5 +1,6 @@
 import { Button, Divider, Paper } from '@mui/material'
 import React, { ReactElement, useEffect, useState } from 'react'
+import { useQueryClient } from 'react-query';
 import { useDispatch } from 'react-redux';
 import CustomInput from '../../../../components/input/CustomInput';
 import CustomizedRadios from '../../../../components/radio-button';
@@ -45,18 +46,20 @@ function AccountInfoComponent({ data, isLoading }: Props): ReactElement {
 
   console.log("data1 *& --> ", data)
   const [updateFlag] = useState(false);
+  const queryClient = useQueryClient();
 
   const dispatch = useDispatch()
 
-  const onSubmit = () => {
+  const onSubmit = async() => {
     console.log("submit from update account!")
-    dispatch(updateOneAccountAction({
+    await dispatch(updateOneAccountAction({
       ...acc,
       hcpName,
       hcpNpi,
       addressLine2,
       accountId: data._id
     }))
+    queryClient.invalidateQueries('accountList')
   }
 
   useEffect(() => {
@@ -356,7 +359,7 @@ function AccountInfoComponent({ data, isLoading }: Props): ReactElement {
             </div>
           </div>
         </Paper>
-        : <div>loading</div>
+            : <div>Loading ,,,</div>
       }
     </div>
   )
