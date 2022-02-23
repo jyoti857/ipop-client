@@ -46,7 +46,7 @@ export function createData_(
   return { id, dessert, calories, fat, carbs, protein }
 }
 export function createData(
-  id: number, title: string, accountPriceType: string, accountName: string
+  title: string, accountPriceType: string, accountName: string, accountId: string
 ) {
-  return { id, title, accountPriceType, accountName }
+  return { title, accountPriceType, accountName, accountId }
 }

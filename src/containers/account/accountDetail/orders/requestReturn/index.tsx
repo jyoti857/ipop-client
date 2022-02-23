@@ -1,7 +1,10 @@
+import { TableCell, TableHead, TableRow } from '@mui/material'
 import React from 'react'
+import CustomAccordion from '../../../../../components/accordion/customAccordion'
 import Checkboxes from '../../../../../components/checkbox'
 import CustomizedTables from '../../../../../components/table'
 import TableTop from '../../../../configuration/common/tableTop'
+import { StyledTableCell, StyledTableRow } from '../../../../configuration/products'
 import ReturnInputs from '../utils/returnInputs'
 
 type Props = {
@@ -14,9 +17,9 @@ function RequestReturn({ orderNumber, rows }: Props) {
   console.log("rows**  ---> ", rows)
   const [checked, setChecked] = React.useState(false);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked(event.target.checked);
-  };
+  // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setChecked(event.target.checked);
+  // };
 
   const ro = rows.map((r: any) => {
     return {
@@ -28,22 +31,35 @@ function RequestReturn({ orderNumber, rows }: Props) {
       qty: r.quantity,
       price: r.proposedPrice,
       qtyTimesProduct: r.proposedPrice * r.quantity,
-      checkbox: <Checkboxes checked={checked} handleChange={handleChange} />
+      checkbox: <Checkboxes catalog={r.catalog} />
     }
   })
+  const headers = ["Catalog No.", 'Product', 'Actual Price', "Discount %", "Discount Amount", "Qty", "Price", "Qty * Price", "Request Return"]
   return (
     <div>
-      <div>
-        <div style={{ margin: 10 }}>
-          <CustomizedTables
-            headers={["Catalog No.", 'Product', 'Actual Price', "Discount %", "Discount Amount", "Qty", "Price", "Qty * Price", "Request Return"]}
-            rows={ro}
-            isFooter={false}
-          />
-        </div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', width: '98%', margin: '10px 12px', fontWeight: 'bold' }}>
+        {
+          headers.map((header, idx) => <div
+            style={{
+              width: idx == 0 || idx == 1 ? 250 : 150,
+              backgroundColor: '#942BA8',
+              color: 'white'
+            }}>
+            {header}
+          </div>)
+        }
       </div>
       {
-        checked ? <ReturnInputs serialNumber='320931' quantity='12' /> : ''
+        ro.map(r => (
+          <CustomAccordion
+            row={r}
+            isFooter={false}
+          >
+            {
+              <ReturnInputs serialNumber='320931' quantity={r.qty} />
+            }
+          </CustomAccordion>
+        ))
       }
     </div>
   )

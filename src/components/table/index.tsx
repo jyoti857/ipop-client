@@ -39,7 +39,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 type CustomizedTableProps = {
   headers: any;
-  rows: any;
+  rows?: any;
   isCloseIcon?: boolean;
   isFooter?: boolean;
 }
@@ -71,7 +71,7 @@ export default function CustomizedTables({ headers, rows, isCloseIcon = false, i
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row: any) => {
+          {rows?.map((row: any) => {
             const keys = Object.keys(row);
             return (
               <StyledTableRow key={keys[0]}>

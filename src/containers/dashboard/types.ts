@@ -7,7 +7,7 @@ export interface Data_ {
   protein: number;
 }
 export interface Data {
-  id: number;
+  // id: number;
   title: string;
   // accountId?: string;
   accountName: string;
@@ -15,4 +15,4 @@ export interface Data {
 }
 export type Sample_ = [string, number, number, number, number]
 // export type Sample = [string, string, string, string]
-export type Sample = [string, string, string]
+export type Sample = [string, string, string, string]

@@ -45,11 +45,12 @@ function DiscountGroups({ }: Props): ReactElement {
   const handleProposedData = (e: any, id: number) => {
     const sd: any[] = [...proposedPriceFromData]
     if (e.target.value > data?.map((d: any) => d.price)[id]) {
-      console.log("from data ***", proposedPriceFromData[id])
       setProposedPriceFromData(proposedPriceFromData)
-    } else {
-      sd[id] = e.target.value;
+    } else if (+e.target.value > 0) {
+      sd[id] = +e.target.value;
       setProposedPriceFromData(sd)
+    } else {
+      setProposedPriceFromData(proposedPriceFromData)
     }
     setDiscountPriceUpdateFlag(!discountPriceUpdateFlag)
     // setDiscountPrice(dis)
