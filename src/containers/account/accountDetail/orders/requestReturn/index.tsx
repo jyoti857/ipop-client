@@ -5,13 +5,13 @@ import Checkboxes from '../../../../../components/checkbox'
 import CustomizedTables from '../../../../../components/table'
 import TableTop from '../../../../configuration/common/tableTop'
 import { StyledTableCell, StyledTableRow } from '../../../../configuration/products'
-import ChildOrderType, { C } from '../utils/childOrderType'
+import ChildOrders, { C, ChildOrderType } from '../utils/childOrderType'
 import ReturnInputs from '../utils/returnInputs'
 
 type Props = {
   orderNumber: string
   rows: [];
-  orderType: string;
+  orderType: ChildOrderType<C>[C];
 }
 const headers = []
 
@@ -61,7 +61,8 @@ function RequestReturn({ orderNumber, rows, orderType }: Props) {
             isFooter={false}
           >
             {
-              <ChildOrderType serialNumber='320931' quantity={r.qty} orderType={orderType.split('').splice(-2).join('') as C} />
+              // orderType.split('').splice(-2).join('') as C
+              <ChildOrders serialNumber='320931' quantity={r.qty} orderType={orderType} />
             }
           </CustomAccordion>
         ))

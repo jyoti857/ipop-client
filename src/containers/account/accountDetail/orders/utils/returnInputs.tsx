@@ -6,9 +6,11 @@ import useInputForm from '../../../../../utils/useInputForm'
 type Props = {
   serialNumber: string;
   quantity: string;
+  quantityPlaceholder: string;
+  reasonPlaceholder: string;
 }
 
-function ReturnInputs({ quantity, serialNumber }: Props) {
+function ReturnInputs({ quantity, serialNumber, quantityPlaceholder, reasonPlaceholder }: Props) {
   const [inputForm, handleInputChangeForm] = useInputForm({ quantity, serialNumber, reason: "" });
   return (
     <Paper elevation={3} style={{ display: 'flex', justifyContent: 'space-between', margin: 10, padding: 20 }}>
@@ -19,12 +21,12 @@ function ReturnInputs({ quantity, serialNumber }: Props) {
         />
       </div>
       <div style={{ width: '28%' }}>
-        <CustomInput name='quantity' placeholder={'Quantity'} type='number' value={inputForm.quantity} label='Quantity'
+        <CustomInput name='quantity' placeholder={quantityPlaceholder} type='number' value={inputForm.quantity} label={quantityPlaceholder}
           handleChange={handleInputChangeForm}
         />
       </div>
       <div style={{ width: '40%' }}>
-        <CustomInput name='reason' placeholder={'Serial Number'} type='text' value={inputForm.reason} label="Reason"
+        <CustomInput name='reason' placeholder={reasonPlaceholder} type='text' value={inputForm.reason} label={reasonPlaceholder}
           handleChange={handleInputChangeForm}
         />
       </div>

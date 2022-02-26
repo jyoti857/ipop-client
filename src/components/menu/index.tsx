@@ -12,6 +12,7 @@ import { orderMenuData } from '../../containers/account/accountDetail/orders/uti
 import useDropdown from '../../containers/account/accountDetail/orders/utils/useDropdown'
 import { transportationDropdownData } from '../../containers/account/accountDetail/orders';
 import CustomDropdown from '../dropdown';
+import { C, ChildOrderType } from '../../containers/account/accountDetail/orders/utils/childOrderType';
 
 interface Props {
   orderNumber: string;
@@ -27,11 +28,13 @@ export default function CustomMenu({ orderNumber, selectedOrderDetail, menuName,
   const [orderCardOpen, setOrderOpen] = useState(false)
   const [orderTypeModalName, setOrderTypeModalName] = useState('')
   const [orderTypeCode, setOrderTypeCode] = useState('')
+  const [orderType, setOrderType] = useState<any>()
   const handleClose = () => setOrderOpen(false)
-  const handleOpen = (orderType: { code: string; desc: string }) => {
-    setOrderTypeModalName(orderType?.desc)
-    setOrderTypeCode(orderType?.code)
+  const handleOpen = (orderType_: ChildOrderType<C>[C]) => {
+    setOrderTypeModalName(orderType_?.desc)
+    setOrderTypeCode(orderType_?.code)
     setOrderOpen(true);
+    setOrderType(orderType_)
     handleMenuClose();
   }
   const open = Boolean(anchorEl);
@@ -99,7 +102,7 @@ export default function CustomMenu({ orderNumber, selectedOrderDetail, menuName,
                   />
                 </div>
               }
-              <RequestReturn orderNumber={orderNumber} rows={selectedOrderDetail?.quote?.productQuotes} orderType={orderTypeCode} />
+              <RequestReturn orderNumber={orderNumber} rows={selectedOrderDetail?.quote?.productQuotes} orderType={orderType} />
             </div>
           </CustomFullModal>
           : ''
