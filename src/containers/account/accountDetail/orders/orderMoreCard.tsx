@@ -5,7 +5,7 @@ import { VscGoToFile } from "react-icons/vsc";
 import { HiOutlineCash } from "react-icons/hi";
 import { HiOutlineReply } from 'react-icons/hi'
 import { useStyles } from './styles';
-import RequestReturn from './requestReturn';
+import RequestReturn from './requestReturn'
 import CustomFullModal from '../../../../components/modal/customFullModal';
 interface Props {
   orderNumber: string;
@@ -52,7 +52,8 @@ function OrderMoreCard({ orderNumber, selectedOrderDetail }: Props): ReactElemen
       {
         orderCardOpen ?
           <CustomFullModal open={orderCardOpen} handleClose={handleClose} modalName={`Request Return - ${orderNumber}`}>
-            <RequestReturn orderNumber={orderNumber} rows={selectedOrderDetail.quote.productQuotes} />
+            {/* <RequestReturn orderNumber={orderNumber} rows={selectedOrderDetail.quote.productQuotes} /> */}
+            <div>It was removed and moved to the Menu type component.</div>
           </CustomFullModal>
           : ''
       }

@@ -5,15 +5,17 @@ import Checkboxes from '../../../../../components/checkbox'
 import CustomizedTables from '../../../../../components/table'
 import TableTop from '../../../../configuration/common/tableTop'
 import { StyledTableCell, StyledTableRow } from '../../../../configuration/products'
+import ChildOrderType, { C } from '../utils/childOrderType'
 import ReturnInputs from '../utils/returnInputs'
 
 type Props = {
   orderNumber: string
-  rows: []
+  rows: [];
+  orderType: string;
 }
 const headers = []
 
-function RequestReturn({ orderNumber, rows }: Props) {
+function RequestReturn({ orderNumber, rows, orderType }: Props) {
   console.log("rows**  ---> ", rows)
   const [checked, setChecked] = React.useState(false);
 
@@ -21,7 +23,7 @@ function RequestReturn({ orderNumber, rows }: Props) {
   //   setChecked(event.target.checked);
   // };
 
-  const ro = rows.map((r: any) => {
+  const ro = rows?.map((r: any) => {
     return {
       catalog: r.catalog,
       product: r.name,
@@ -34,15 +36,18 @@ function RequestReturn({ orderNumber, rows }: Props) {
       checkbox: <Checkboxes catalog={r.catalog} />
     }
   })
+
   const headers = ["Catalog No.", 'Product', 'Actual Price', "Discount %", "Discount Amount", "Qty", "Price", "Qty * Price", "Request Return"]
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', width: '98%', margin: '10px 12px', fontWeight: 'bold' }}>
+      <div style={{
+        display: 'flex', justifyContent: 'space-between', width: '98%', margin: '10px 12px', fontWeight: 'bold',
+        backgroundColor: '#942BA8',
+      }}>
         {
           headers.map((header, idx) => <div
             style={{
               width: idx == 0 || idx == 1 ? 250 : 150,
-              backgroundColor: '#942BA8',
               color: 'white'
             }}>
             {header}
@@ -50,13 +55,13 @@ function RequestReturn({ orderNumber, rows }: Props) {
         }
       </div>
       {
-        ro.map(r => (
-          <CustomAccordion
+        ro?.map(r => (
+          <CustomAccordion  
             row={r}
             isFooter={false}
           >
             {
-              <ReturnInputs serialNumber='320931' quantity={r.qty} />
+              <ChildOrderType serialNumber='320931' quantity={r.qty} orderType={orderType.split('').splice(-2).join('') as C} />
             }
           </CustomAccordion>
         ))

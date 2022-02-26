@@ -17,11 +17,12 @@ import { useParams } from 'react-router-dom';
 import { FaRegShareSquare } from "react-icons/fa";
 import OrderMoreCard from './orderMoreCard';
 import { useOutSideModalClick } from './utils/useOutsideModalClick'
+import CustomMenu from '../../../../components/menu';
 
 interface Props {
 
 }
-const transportationDropdownData = [
+export const transportationDropdownData = [
   {
     desc: 'Overnight 08:30PM',
     value: 'OVRNT0830',
@@ -166,19 +167,26 @@ function Orders({ }: Props): ReactElement {
                       View
                       <VscInfo size={18} style={{ marginLeft: 4 }} />
                     </Button>
-                    <Button
+                    {/* <Button
                       color='primary'
                       variant='outlined'
                       onClick={() => handleMore(a.id)}
-                      disabled={a.status === 'Order completed' ? false : true}
+                      disabled={a.status !== 'Order completed'}
                       ref={ref}
                     >
                       More
                       <FaRegShareSquare size={18} style={{ marginLeft: 4 }} />
                     </Button>
                     {
-                      isMore && selectedOrderId === a.id ? <OrderMoreCard orderNumber={a.orderNumber} selectedOrderDetail={selectedOrderDetail} /> : ''
-                    }
+                      isMore && selectedOrderId === a.id ?
+                        // <OrderMoreCard orderNumber={a.orderNumber} selectedOrderDetail={selectedOrderDetail} /> :
+                        <CustomMenu orderNumber={a.orderNumber} selectedOrderDetail={selectedOrderDetail} /> : ''
+                    } */}
+                    <CustomMenu
+                      menuName='More' orderNumber={a.orderNumber} selectedOrderDetail={selectedOrderDetail}
+                      thisOrder={a}
+                      setSelectedOrderId={setSelectedOrderId}
+                    />
                   </div>
                 </TableCell>
               </TableRow>
