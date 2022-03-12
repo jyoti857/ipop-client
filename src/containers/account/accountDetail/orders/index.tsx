@@ -26,14 +26,17 @@ export const transportationDropdownData = [
   {
     desc: 'Overnight 08:30PM',
     value: 'OVRNT0830',
+    cost: 55, 
   },
   {
     desc: 'Overnight 10:30PM',
     value: 'OVRNT1030',
+    cost: 25, 
   },
   {
     desc: 'Free delivery',
     value: 'FREEDEL0000',
+    cost: 0, 
   }
 ]
 function Orders({ }: Props): ReactElement {
@@ -41,6 +44,8 @@ function Orders({ }: Props): ReactElement {
   const [selectedOrderId, setSelectedOrderId] = useState("")
   const { accountId } = useParams<{ accountId: string }>()
   const [open, setOpen] = useState(false)
+  const [deli_cost, setDeli_cost] = useState<number>(0)
+  const [mot, setMot] = useState<string>('')
   const [isMore, setIsMore] = useState(false)
   const [search, setSearch] = useState('')
   const handleOpen = () => setOpen(true)
@@ -54,7 +59,6 @@ function Orders({ }: Props): ReactElement {
   }
   const ref = useRef<any>();
   useOutSideModalClick(ref, () => setIsMore(false))
-
 
 
   const navigateOrderDetailPage = (order_id: string) => {
@@ -73,6 +77,7 @@ function Orders({ }: Props): ReactElement {
     statusColor: orderStatusMap[ds!.currentOrderStatus][2],
     color: orderStatusMap[ds!.currentOrderStatus][1]
   }
+  console.log("order data** ---> ", data)
   const orderExtracted = data?.map((a: any) => ({
     id: a.id,
     orderNumber: a.orderNumber,
@@ -83,7 +88,7 @@ function Orders({ }: Props): ReactElement {
     color: orderStatusMap[a.currentOrderStatus][1],     
     statusColor: orderStatusMap[a.currentOrderStatus][2],
   }))
-  const [ponumber, setPonumber] = useState()
+  const [ponumber, setPonumber] = useState<string>('')
   const [attentionTo, setAttentionTo] = useState()
   const [dropdown, setDropdown] = useState({ quote: '', transportation: '' })
   const handleDropdown = (e: SelectChangeEvent) => {
@@ -93,6 +98,12 @@ function Orders({ }: Props): ReactElement {
         [e.target.name]: e.target.value
       }
     )
+    const ifDropdowndata = transportationDropdownData.find(f => f.value === e.target.value);
+    if (ifDropdowndata) {
+      console.log("e.target.value ----", e.target.value, ifDropdowndata)
+      setDeli_cost(ifDropdowndata.cost)
+      setMot(ifDropdowndata.desc)
+    }
   }
   const selectedQuote = activeQuotes?.find((aq: any) => aq.title === dropdown.quote)
   console.log("select quote *** ", selectedQuote)
@@ -104,17 +115,16 @@ function Orders({ }: Props): ReactElement {
       quoteId: selectedQuote?.id,
       poNumber: ponumber,
       attentionTo,
-      deliveryCost: '55',
-      mot: "OVRNT0830",
+      deliveryCost: deli_cost,//'55',
+      mot, //"OVRNT0830",
       status: "ACTV",
       createdFrom3pl: false,
       orderType: "SO",
       orderFormType: "ORDFREE",
-      // createdBy: "3860BBBF-77FE-EB11-B562-C896653B4413",
-      updatedBy: "3860BBBF-77FE-EB11-B562-C896653B4413",
+      // updatedBy: "3860BBBF-77FE-EB11-B562-C896653B4413",
       deletedBy: null,
       orderStatus: "10",
-      totalAmount: 2929
+      totalAmount: 2929 // just for sake, actual amount is calculated based on the quote selected
     })
     handleClose()
     queryClient.invalidateQueries("orders")
@@ -141,7 +151,7 @@ function Orders({ }: Props): ReactElement {
                 <TableCell>Order Number</TableCell>
                 <TableCell align="right">Created At</TableCell>
                 <TableCell align="right">Updated At</TableCell>
-                <TableCell align="center">Placed By</TableCell>
+                <TableCell align="center">Placedw By</TableCell>
                 <TableCell align="center">Status</TableCell>
                 <TableCell align="center">Action</TableCell>
               </TableRow>
@@ -206,7 +216,7 @@ function Orders({ }: Props): ReactElement {
             <div className={classes.flex_gen} style={{ width: '34.2%', margin: 10 }}>
               <div className={classes.flex_column}>
                 <label>Po Number</label>
-                <CustomInput style={{ width: '140%' }} name='po_number' handleChange={(e: any) => setPonumber(e.target.value)} value={ponumber} type='text' placeholder='Enter po number' />
+                <CustomInput style={{ width: '140%' }} name='po_number' handleChange={(e: any) => setPonumber(e.target.value)} value={ponumber} type='text' placeholder='Enter PO number' />
               </div>
               <div className={classes.flex_column}>
                 <label>Attention To</label>

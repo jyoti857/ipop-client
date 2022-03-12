@@ -56,7 +56,9 @@ function RequestReturn({ orderNumber, rows, orderType }: Props) {
       </div>
       {
         ro?.map(r => (
-          <CustomAccordion  
+          <CustomAccordion 
+            isTableRowDisplayed={true}
+            panel={"sd"} // this line is added because of dependancy is required for another module 
             row={r}
             isFooter={false}
           >

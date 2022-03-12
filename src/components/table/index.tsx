@@ -42,8 +42,9 @@ type CustomizedTableProps = {
   rows?: any;
   isCloseIcon?: boolean;
   isFooter?: boolean;
+  isCustomInput?: boolean;
 }
-export default function CustomizedTables({ headers, rows, isCloseIcon = false, isFooter = true }: CustomizedTableProps) {
+export default function CustomizedTables({ headers, rows, isCloseIcon = false, isFooter = true, isCustomInput = false }: CustomizedTableProps) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(2);
   const [search, setSearch] = useState('');
@@ -103,6 +104,15 @@ export default function CustomizedTables({ headers, rows, isCloseIcon = false, i
                     }
                   </StyledTableCell>
                 }
+                {/* {
+                  isCustomInput && <StyledTableCell>
+                    <CustomInput placeholder='' label=''
+                      name='price_edit'
+                      type='number'
+                      value={0}
+                    />
+                  </StyledTableCell>
+                } */}
             </StyledTableRow>
             )
           }
@@ -115,7 +125,7 @@ export default function CustomizedTables({ headers, rows, isCloseIcon = false, i
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
                 colSpan={3}
-                count={rows.length}
+                  count={rows?.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 SelectProps={{

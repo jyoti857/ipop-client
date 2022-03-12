@@ -12,7 +12,7 @@ import { DiscountPriceContext } from '../../contexts/discountPriceContext';
 type Props = {
   panelProps: string;
   row: any;
-  setEditDiscountPriceModal: any
+  setEditDiscountPriceModal?: any
 };
 
 function DGAccordion({ panelProps, row, setEditDiscountPriceModal }: Props) {
