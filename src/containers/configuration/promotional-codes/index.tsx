@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import CustomAccordion from '../../../components/accordion/customAccordion';
 import DGAccordion from '../../../components/accordion/dg_accordion';
 import CustomInput from '../../../components/input/CustomInput';
+import Loading from '../../../components/loading';
 import CustomModal from '../../../components/modal';
 import CustomizedTables from '../../../components/table'
 import { createPromotionalCode, getAllProducts } from '../../../utils/baseUrl';
@@ -45,6 +46,8 @@ function PromotionalCodes({ }: Props) {
       setProductData(product)
     }
   }
+  //  get the promotional codes
+  const { data: promotionalCodesData, isLoading: isPromotionalCodesLoading } = useQuery('getAllPromotionalCodes')
   // create promotionalcode onSubmit
   const [isTriggerOnSubmit, setIsTriggerOnSubmit] = useState(false)
   const onPromotionalCodeSubmit = async () => {
@@ -88,11 +91,14 @@ function PromotionalCodes({ }: Props) {
     <div>
       <TableTop tableName='Promotional Code' onClick={hanldeCreateProductModalOpen} />
       <div>
-        <CustomizedTables
-          headers={[" ", "Code", 'Start Date', 'End Date', "Email", "Created By", "Total Products", "Status"]}
-          rows={[{ but, code: 'STRD', startDate: '02-14-2022', endDate: '02-15-2022', email: "devdealdesk@cnxsi.com", createdBy: 'Dev DealDesk', totalProducts: 4, status: "Active" }]}
-          isFooter={false}
-        />
+        {
+          isPromotionalCodesLoading ?
+            <CustomizedTables
+              headers={[" ", "Code", 'Start Date', 'End Date', "Email", "Created By", "Total Products", "Status"]}
+              rows={[{ but, code: 'STRD', startDate: '02-14-2022', endDate: '02-15-2022', email: "devdealdesk@cnxsi.com", createdBy: 'Dev DealDesk', totalProducts: 4, status: "Active" }]}
+              isFooter={false}
+            /> : <Loading />
+        }
         {
           arrowClick ? details("043") : ''
         }
@@ -109,7 +115,7 @@ function PromotionalCodes({ }: Props) {
       </CustomModal>
       <CustomModal
         styles={{ width: 800, overFlow: 'hidden' }}
-        modalName='Create Promotional Code' footerButtonName='Create1' open={createProductModal} handleClose={hanldeCreateProductModalClose}
+        modalName='Create Promotional Code' footerButtonName='Create' open={createProductModal} handleClose={hanldeCreateProductModalClose}
         onSubmit={onPromotionalCodeSubmit}
       >
         <AddPromotionalCodeModalDetails triggerOnSubmit={isTriggerOnSubmit} products={product} />

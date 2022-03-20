@@ -187,6 +187,7 @@ export const updateDiscountProductPrice = async(body: any) => {
   }
 }
 
+// promotional codes 
 export const createPromotionalCode = async( body: any) => {
   try{
     console.log("create promotional code from base url utils ");
@@ -195,5 +196,14 @@ export const createPromotionalCode = async( body: any) => {
     return res.data
   }catch(err){
     console.log("promotional codes catch error ")
+  }
+}
+
+export const getAllPromotionalCodes = async() => {
+  try{
+    const res = await api.get('/promotional-codes')
+    return res.data;
+  }catch(err){
+    console.log('Promotional codes while fetching all the promotinal codes. ', err)
   }
 }
