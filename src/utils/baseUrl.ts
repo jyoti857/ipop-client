@@ -202,6 +202,7 @@ export const createPromotionalCode = async( body: any) => {
 export const getAllPromotionalCodes = async() => {
   try{
     const res = await api.get('/promotional-codes')
+    console.log("promi ** codes", res.data)
     return res.data;
   }catch(err){
     console.log('Promotional codes while fetching all the promotinal codes. ', err)

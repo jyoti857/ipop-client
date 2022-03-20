@@ -74,6 +74,7 @@ export default function CustomizedTables({ headers, rows, isCloseIcon = false, i
         <TableBody>
           {rows?.map((row: any) => {
             const keys = Object.keys(row);
+            // console.log("keys *****", rows[keys[3]], row)
             return (
               <StyledTableRow key={keys[0]}>
                 {/* <StyledTableCell component="th" scope="row">
@@ -87,10 +88,18 @@ export default function CustomizedTables({ headers, rows, isCloseIcon = false, i
                 <StyledTableCell align="left">{row[keys[5]]}</StyledTableCell>  */}
                 {
                   keys.map((a, idx) => {
+                    console.log("keys ****", a, typeof row[a])
                     if (isCloseIcon) {
                       return (
                         idx != keys.length - 1 && <StyledTableCell align="left">{row[keys[idx]]}</StyledTableCell>
                       )
+                    } else if (typeof row[a] === "boolean") {
+                      return <StyledTableCell align="left" >
+                        {
+                          < img src={row[a] ? Check : Close} alt='isAdmin' />
+                        }
+                      </StyledTableCell>
+
                     } else {
                       return <StyledTableCell align="left">{row[keys[isCloseIcon && idx === keys.length - 1 ? idx - 1 : idx]]}</StyledTableCell>
                     }

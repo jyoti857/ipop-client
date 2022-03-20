@@ -1,5 +1,5 @@
 import { Button } from '@mui/material';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import CustomAccordion from '../../../components/accordion/customAccordion';
 import DGAccordion from '../../../components/accordion/dg_accordion';
@@ -7,7 +7,7 @@ import CustomInput from '../../../components/input/CustomInput';
 import Loading from '../../../components/loading';
 import CustomModal from '../../../components/modal';
 import CustomizedTables from '../../../components/table'
-import { createPromotionalCode, getAllProducts } from '../../../utils/baseUrl';
+import { createPromotionalCode, getAllProducts, getAllPromotionalCodes } from '../../../utils/baseUrl';
 import TableTop from '../common/tableTop'
 import { AccordCard } from './accordCard';
 import AddPromotionalCodeModalDetails from './addPromotionalCodeModalDetails';
@@ -19,10 +19,14 @@ function createData(
   endDate: string,
   email: string,  
   createdBy: number,
+  defaultCode: boolean,
+  adminOrderOnly: boolean,
+  canEditPrice: boolean,
+  isCustom: boolean,
   totalProducts: any,
-  status: any
+  status: any,
 ) {
-  return { code, startDate, endDate, email, createdBy, totalProducts, status };
+  return { code, startDate, endDate, email, createdBy, defaultCode, adminOrderOnly, canEditPrice, isCustom, totalProducts, status };
 }
 type Props = {}
 function PromotionalCodes({ }: Props) {
@@ -47,7 +51,19 @@ function PromotionalCodes({ }: Props) {
     }
   }
   //  get the promotional codes
-  const { data: promotionalCodesData, isLoading: isPromotionalCodesLoading } = useQuery('getAllPromotionalCodes')
+  const { data: promotionalCodesData, isLoading: isPromotionalCodesLoading }: { data: any, isLoading: boolean } = useQuery('getAllPromotionalCodes', getAllPromotionalCodes)
+  const [fetchedPromtionalData, setFetchedPromotionalData] = useState<any[]>([])
+  useEffect(() => {
+    if (promotionalCodesData as any) {
+      console.log('pRomi **', promotionalCodesData)
+      const { code, startDate, endDate } = promotionalCodesData as unknown as any;
+      const s = promotionalCodesData?.map(({ code, createdAt, updatedAt, defaultCode, adminOrderOnly, canEditPrice, isCustom }: any) => ({
+        but, code, startDate: createdAt, endDate: updatedAt, email: "devdealdesk@cnxsi.com", createdBy: "Deal Desk",
+        defaultCode, adminOrderOnly, canEditPrice, isCustom, totalProducts: 4, status: "active",
+      }))
+      setFetchedPromotionalData(s);
+    }
+  }, [promotionalCodesData, isPromotionalCodesLoading])
   // create promotionalcode onSubmit
   const [isTriggerOnSubmit, setIsTriggerOnSubmit] = useState(false)
   const onPromotionalCodeSubmit = async () => {
@@ -73,7 +89,11 @@ function PromotionalCodes({ }: Props) {
     <CustomAccordion
       isTableRowDisplayed={false}
       panel={panel}
-      row={{ code: 'STRD', startDate: '02-14-2022', endDate: '02-15-2022', email: "devdealdesk@cnxsi.com", createdBy: 'Dev DealDesk', totalProducts: 4, status: "Active" }}
+      row={{
+        code: 'STRD', startDate: '02-14-2022', endDate: '02-15-2022',
+        email: "devdealdesk@cnxsi.com", createdBy: 'Dev DealDesk', totalProducts: 4,
+        status: "Active"
+      }}
       children={<CustomizedTables
         headers={["Name", "Catalog", "Price"]}
         rows={extractedProductData}
@@ -86,16 +106,20 @@ function PromotionalCodes({ }: Props) {
     setPanel(panel ? false : panel)
     // c();
   }
+
+  console.log("promi get data --->", promotionalCodesData);
+
   const but = <Button onClick={() => customClick(details)}>ARROW</Button>
   return (
     <div>
       <TableTop tableName='Promotional Code' onClick={hanldeCreateProductModalOpen} />
       <div>
         {
-          isPromotionalCodesLoading ?
+          fetchedPromtionalData.length > 0 ?
             <CustomizedTables
-              headers={[" ", "Code", 'Start Date', 'End Date', "Email", "Created By", "Total Products", "Status"]}
-              rows={[{ but, code: 'STRD', startDate: '02-14-2022', endDate: '02-15-2022', email: "devdealdesk@cnxsi.com", createdBy: 'Dev DealDesk', totalProducts: 4, status: "Active" }]}
+              headers={[" ", "Code", 'Start Date', 'End Date', "Email", "Created By", "Defult Code", "Admin Order", "Can Edit Price", "Is Custom", "Total Products", "Status"]}
+              rows={fetchedPromtionalData}
+              // rows={[{ but, code: 'STRD', startDate: '02-14-2022', endDate: '02-15-2022', email: "devdealdesk@cnxsi.com", createdBy: 'Dev DealDesk', totalProducts: 4, status: "Active" }]}
               isFooter={false}
             /> : <Loading />
         }
