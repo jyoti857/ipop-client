@@ -3,6 +3,7 @@ import TextField from '@mui/material/TextField';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
+import { MobileDatePicker } from '@mui/lab';
 
 interface CustomDatePickerProps {
   label: string;
@@ -14,7 +15,13 @@ const CustomDatePicker = ({ label, handleDateChange, value, name }: CustomDatePi
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <DatePicker
+      {/* <DatePicker
+        label={label}
+        value={value}
+        onChange={handleDateChange}
+        renderInput={(params) => <TextField {...params} />}
+      /> */}
+      <MobileDatePicker
         label={label}
         value={value}
         onChange={handleDateChange}

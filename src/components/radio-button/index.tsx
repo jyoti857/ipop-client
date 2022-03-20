@@ -67,17 +67,18 @@ function BpRadio(props: RadioProps) {
 }
 interface OptionType {
   label: string;
-  value: string;
+  value: string | boolean;
 }
 export interface CustomRadiosType {
   title: string;
   options?: OptionType[];
-  defaultValue?: string;
-  radioValue: string;
+  defaultValue?: string | boolean;
+  radioValue: string | boolean;
   handleChange: any;
-  isDisabled?: boolean
+  isDisabled?: boolean;
+  name?: string;
 }
-export default function CustomizedRadios({ radioValue, handleChange, title, options, defaultValue, isDisabled }: CustomRadiosType) {
+export default function CustomizedRadios({ name, radioValue, handleChange, title, options, defaultValue, isDisabled }: CustomRadiosType) {
 
   return (
     <FormControl component="fieldset" disabled={isDisabled}>
@@ -85,7 +86,7 @@ export default function CustomizedRadios({ radioValue, handleChange, title, opti
       <RadioGroup
         // defaultValue="female"
         value={radioValue}
-        name="customized-radios"
+        name={name || "customized-radios"}
         onChange={handleChange}
         style={{ display: 'flex' }}
       >

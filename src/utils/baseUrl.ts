@@ -186,3 +186,14 @@ export const updateDiscountProductPrice = async(body: any) => {
     console.log("13feb discountPrice ", err)
   }
 }
+
+export const createPromotionalCode = async( body: any) => {
+  try{
+    console.log("create promotional code from base url utils ");
+    const res = await api.post('/promotional-codes', body)
+    console.log("create promotional res ", res);
+    return res.data
+  }catch(err){
+    console.log("promotional codes catch error ")
+  }
+}
