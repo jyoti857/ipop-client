@@ -68,7 +68,7 @@ function Orders({ }: Props): ReactElement {
   const classes = useStyles()
   const { data, quotes } = useOrderHook()
   const activeQuotes = quotes?.filter((quote: any) => quote.status === 'ACTV').map(({ title, productQuotes, id }: any) => ({ title, productQuotes, id }))
-  const quoteDropdownData = activeQuotes?.map((aq: any) => ({ desc: aq.title, value: aq.title }))
+  const quoteDropdownData = activeQuotes?.map((aq: any) => ({ desc: aq.title, value: aq.id }))
 
   const ds = data?.find((d: any) => d.id === selectedOrderId)
   const selectedOrderDetail = ds && {
@@ -105,7 +105,7 @@ function Orders({ }: Props): ReactElement {
       setMot(ifDropdowndata.desc)
     }
   }
-  const selectedQuote = activeQuotes?.find((aq: any) => aq.title === dropdown.quote)
+  const selectedQuote = activeQuotes?.find((aq: any) => aq.id === dropdown.quote)
   console.log("select quote *** ", selectedQuote)
   const mutation = useMutation(createOrder)
   const queryClient = useQueryClient()
@@ -151,7 +151,7 @@ function Orders({ }: Props): ReactElement {
                 <TableCell>Order Number</TableCell>
                 <TableCell align="right">Created At</TableCell>
                 <TableCell align="right">Updated At</TableCell>
-                <TableCell align="center">Placedw By</TableCell>
+                <TableCell align="center">Placed By</TableCell>
                 <TableCell align="center">Status</TableCell>
                 <TableCell align="center">Action</TableCell>
               </TableRow>
