@@ -19,6 +19,7 @@ import QuoteAccordion from './QuoteAccordion';
 import QuotesTable from './quotesTable';
 import { useStyles } from './styles'
 import useQuotesHook from './useQuotesHook';
+import { QuoteDropdown } from './dropdowns/quoteDropdown'
 
 interface Props {
 
@@ -92,7 +93,10 @@ function Quotes({ }: Props): ReactElement {
     pwp[idx] = +e.target.value
     setQtySet(pwp)
   }
-
+  // ----------------------
+  const { quoteSubTypeData, quoteTypeData, quoteDropdown, handleQuoteDropdown } = QuoteDropdown();
+  const qsdProducts = quoteSubTypeData?.find((qsd: any) => qsd.value === quoteDropdown.quote_sub_type)?.products?.map((p: any) => ({ name: p.name, proposedPrice: p.price, catalog: p.catalog }))
+  console.log("e903 -->", qsdProducts, productWithPrice, 'qtyset', qtySet)
   return (
     <div>
       <Paper className={classes.root} style={{ position: 'relative', minHeight: 300, display: 'block' }}>
@@ -141,10 +145,17 @@ function Quotes({ }: Props): ReactElement {
               handleChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
             />
             <div style={{ marginLeft: 18, width: '20%', }}>
-              <CustomDropdown data={[{ desc: "dasd", value: "23" }]} name='quote-type' value='23' classNames={classes.dropdown} />
+              <CustomDropdown data={quoteTypeData} name='quote_type' value={quoteDropdown.quote_type}
+                handleChange={handleQuoteDropdown}
+                label="Quote Type"
+                classNames={classes.dropdown} />
             </div>
             <div style={{ marginLeft: 18, width: '20%', }}>
-              <CustomDropdown data={[{ desc: "dasd", value: "23" }]} name='quote-sub-type' value='23' classNames={classes.dropdown} />
+              <CustomDropdown data={quoteSubTypeData}
+                name='quote_sub_type' value={quoteDropdown.quote_sub_type}
+                handleChange={handleQuoteDropdown}
+                label='Sub Quote Type'
+                classNames={classes.dropdown} />
             </div>
             <CustomDatePicker label='Start Date' name='startDate' value={date.startDate}
               handleDateChange={
@@ -161,8 +172,9 @@ function Quotes({ }: Props): ReactElement {
             />
           </div>
           {
-            isLoading ? <Loading /> :
-              <QuotesTable editable={true} productWithPrice={productWithPrice} handleChange={handleChange} handleQuoteQuantity={handleQuoteQuantity} qtySet={qtySet} />
+            isLoading ? <Loading /> : quoteDropdown.quote_type === "Promotional" ?
+              <QuotesTable editable={false} productWithPrice={productWithPrice} qtySet={qtySet} /> :
+              <QuotesTable editable={true} productWithPrice={qsdProducts} handleChange={handleChange} handleQuoteQuantity={handleQuoteQuantity} qtySet={qtySet} />
           }
         </div>
       </CustomFullModal>
