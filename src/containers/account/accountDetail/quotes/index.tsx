@@ -173,7 +173,7 @@ function Quotes({ }: Props): ReactElement {
           </div>
           {
             isLoading ? <Loading /> : quoteDropdown.quote_type === "Promotional" ?
-              <QuotesTable editable={false} productWithPrice={productWithPrice} qtySet={qtySet} /> :
+              <QuotesTable editable={false} productWithPrice={productWithPrice} qtySet={qtySet} handleChange={handleChange} handleQuoteQuantity={handleQuoteQuantity} /> :
               <QuotesTable editable={true} productWithPrice={qsdProducts} handleChange={handleChange} handleQuoteQuantity={handleQuoteQuantity} qtySet={qtySet} />
           }
         </div>
