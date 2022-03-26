@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -43,8 +43,11 @@ type CustomizedTableProps = {
   isCloseIcon?: boolean;
   isFooter?: boolean;
   isCustomInput?: boolean;
+  isChildren?: boolean;
+  promocodeId?: string;
+  productDetails?: any;
 }
-export default function CustomizedTables({ headers, rows, isCloseIcon = false, isFooter = true, isCustomInput = false }: CustomizedTableProps) {
+export default function CustomizedTables({ productDetails, promocodeId, isChildren, headers, rows, isCloseIcon = false, isFooter = true, isCustomInput = false }: CustomizedTableProps) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(2);
   const [search, setSearch] = useState('');
@@ -74,55 +77,48 @@ export default function CustomizedTables({ headers, rows, isCloseIcon = false, i
         <TableBody>
           {rows?.map((row: any) => {
             const keys = Object.keys(row);
-            // console.log("keys *****", rows[keys[3]], row)
+            console.log("check *****", rows[keys[3]], row)
             return (
-              <StyledTableRow key={keys[0]}>
-                {/* <StyledTableCell component="th" scope="row">
-                  {row[keys[0]]}
-              </StyledTableCell> */}
-                {/* <StyledTableCell align="left">{row[keys[1]]}</StyledTableCell>
-                <StyledTableCell align="left">{row[keys[2]]}</StyledTableCell>
-                <StyledTableCell align="left">{row[keys[3]]}</StyledTableCell> */}
-                {/* <StyledTableCell align="left">M</StyledTableCell> */}
-                {/* <StyledTableCell align="left">{row[keys[4]]}</StyledTableCell>
-                <StyledTableCell align="left">{row[keys[5]]}</StyledTableCell>  */}
-                {
-                  keys.map((a, idx) => {
-                    console.log("keys ****", a, typeof row[a])
-                    if (isCloseIcon) {
-                      return (
-                        idx != keys.length - 1 && <StyledTableCell align="left">{row[keys[idx]]}</StyledTableCell>
-                      )
-                    } else if (typeof row[a] === "boolean") {
-                      return <StyledTableCell align="left" >
-                        {
-                          < img src={row[a] ? Check : Close} alt='isAdmin' />
-                        }
-                      </StyledTableCell>
+              <Fragment>
+                <StyledTableRow key={keys[0]}>
+                  {
+                    keys.map((a, idx) => {
+                      console.log("keys ****", a, typeof row[a])
+                      if (isCloseIcon) {
+                        return (
+                          idx != keys.length - 1 && <StyledTableCell align="left">{row[keys[idx]]}</StyledTableCell>
+                        )
+                      } else if (typeof row[a] === "boolean") {
+                        return <StyledTableCell align="left" >
+                          {
+                            < img src={row[a] ? Check : Close} alt='isAdmin' />
+                          }
+                        </StyledTableCell>
 
-                    } else {
-                      return <StyledTableCell align="left">{row[keys[isCloseIcon && idx === keys.length - 1 ? idx - 1 : idx]]}</StyledTableCell>
-                    }
-                  })
-                }
+                      }
+                      else {
+                        return <StyledTableCell align="left">{row[keys[isCloseIcon && idx === keys.length - 1 ? idx - 1 : idx]]}</StyledTableCell>
+                      }
+                    })
+                  }
+                  {
+                    isCloseIcon &&
+                    <StyledTableCell align="left">
+                      {
+                        <img src={row.isAdmin ? Check : Close} alt='isAdmin' />
+                      }
+                    </StyledTableCell>
+                  }
+                </StyledTableRow>
+                <StyledTableRow>
                 {
-                  isCloseIcon &&
-                  <StyledTableCell align="left">
-                    {
-                      <img src={row.isAdmin ? Check : Close} alt='isAdmin' />
-                    }
-                  </StyledTableCell>
+                    promocodeId === row._id && isChildren &&
+                    productDetails(row._id)
+
                 }
-                {/* {
-                  isCustomInput && <StyledTableCell>
-                    <CustomInput placeholder='' label=''
-                      name='price_edit'
-                      type='number'
-                      value={0}
-                    />
-                  </StyledTableCell>
-                } */}
-            </StyledTableRow>
+                </StyledTableRow>
+              </Fragment>
+
             )
           }
           )}

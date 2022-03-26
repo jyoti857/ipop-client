@@ -35,11 +35,9 @@ function PromotionalCodes({ }: Props) {
   const { mutateAsync } = useMutation(createPromotionalCode)
 
   const extractedProductData = data?.map(({ name, catalog, price }: any) => ({ name, catalog, price }))
-  console.log('promotional product data ** ---> ext', extractedProductData)
   const [product, setProductData] = useState<{ name: string, catalog: string, price: number }[]>(extractedProductData);
   const handleProductPriceEdit = (e: React.ChangeEvent<HTMLInputElement>, idx: number) => {
     queryClient.invalidateQueries('getProducts');
-    console.log("product(**) ", product, e.target, idx)
     if (product && product.length > 0) {
       const selectedProduct = product[idx]
       const up = {
@@ -50,20 +48,24 @@ function PromotionalCodes({ }: Props) {
       setProductData(product)
     }
   }
+  const [arrowClick, setArrowClick] = useState(false)
+  const [arrowClickId, setArrowClickId] = useState("")
   //  get the promotional codes
   const { data: promotionalCodesData, isLoading: isPromotionalCodesLoading }: { data: any, isLoading: boolean } = useQuery('getAllPromotionalCodes', getAllPromotionalCodes)
   const [fetchedPromtionalData, setFetchedPromotionalData] = useState<any[]>([])
+  const but = <Button onClick={() => customClick(details)}>ARROW</Button>
+  const but_ = (id: any) => <Button onClick={() => setArrowClickId((prevId: any) => prevId != id ? id : "")}>ARROW</Button>
   useEffect(() => {
     if (promotionalCodesData as any) {
-      console.log('pRomi **', promotionalCodesData)
       const { code, startDate, endDate } = promotionalCodesData as unknown as any;
-      const s = promotionalCodesData?.map(({ code, createdAt, updatedAt, defaultCode, adminOrderOnly, canEditPrice, isCustom }: any) => ({
-        but, code, startDate: createdAt, endDate: updatedAt, email: "devdealdesk@cnxsi.com", createdBy: "Deal Desk",
-        defaultCode, adminOrderOnly, canEditPrice, isCustom, totalProducts: 4, status: "active",
+      const s = promotionalCodesData?.map(({ _id, code, createdAt, updatedAt, defaultCode, adminOrderOnly, canEditPrice, isCustom }: any) => ({
+        but: but_(_id)
+        , _id, code, startDate: createdAt, endDate: updatedAt, email: "devdealdesk@cnxsi.com", createdBy: "Deal Desk",
+        defaultCode, adminOrderOnly, canEditPrice, isCustom, totalProducts: 4, status: "active" //{ status: "active", _id }
       }))
       setFetchedPromotionalData(s);
     }
-  }, [promotionalCodesData, isPromotionalCodesLoading])
+  }, [!!promotionalCodesData, isPromotionalCodesLoading])
   // create promotionalcode onSubmit
   const [isTriggerOnSubmit, setIsTriggerOnSubmit] = useState(false)
   const onPromotionalCodeSubmit = async () => {
@@ -74,7 +76,6 @@ function PromotionalCodes({ }: Props) {
     <CustomInput value={product ? product[index]?.price : ''} handleChange={(e: any) => handleProductPriceEdit(e, index)} name='price' placeholder={''} type='number' />
 
   const editProductForPromotionalCodes = extractedProductData?.map(({ name, catalog }: any, index: number) => ({ name, catalog, price: productPriceEditInput(index) }))
-  const [arrowClick, setArrowClick] = useState(false)
   const [panel, setPanel] = useState<string | false>(false)
   // edit modal handle close 
   const [editProductModal, setEditProductModal] = useState(false)
@@ -84,11 +85,13 @@ function PromotionalCodes({ }: Props) {
   const [createProductModal, setCreateProductModal] = useState(false)
   const hanldeCreateProductModalOpen = () => setCreateProductModal(true)
   const hanldeCreateProductModalClose = () => setCreateProductModal(false)
-  const details = (panel: string) => <div>
+  const ser = promotionalCodesData?.find((d: any) => d._id == "623701e0ba368ed0d12aa2d1").products
+  console.log("4545 00<", arrowClickId,)
+  const details = (promoId: string) => <div style={{ width: 800, }}>
     <AccordCard handleModalOpen={hanldeEditProductModalOpen} />
     <CustomAccordion
       isTableRowDisplayed={false}
-      panel={panel}
+      panel={"panel"} // panel is just made like this not this way it should be 
       row={{
         code: 'STRD', startDate: '02-14-2022', endDate: '02-15-2022',
         email: "devdealdesk@cnxsi.com", createdBy: 'Dev DealDesk', totalProducts: 4,
@@ -96,7 +99,7 @@ function PromotionalCodes({ }: Props) {
       }}
       children={<CustomizedTables
         headers={["Name", "Catalog", "Price"]}
-        rows={extractedProductData}
+        rows={promotionalCodesData?.find((d: any) => d._id == promoId).products}
       />}
     />
   </div>
@@ -109,7 +112,6 @@ function PromotionalCodes({ }: Props) {
 
   console.log("promi get data --->", promotionalCodesData);
 
-  const but = <Button onClick={() => customClick(details)}>ARROW</Button>
   return (
     <div>
       <TableTop tableName='Promotional Code' onClick={hanldeCreateProductModalOpen} />
@@ -117,15 +119,18 @@ function PromotionalCodes({ }: Props) {
         {
           fetchedPromtionalData.length > 0 ?
             <CustomizedTables
-              headers={[" ", "Code", 'Start Date', 'End Date', "Email", "Created By", "Defult Code", "Admin Order", "Can Edit Price", "Is Custom", "Total Products", "Status"]}
+              headers={[" ", "id", "Code", 'Start Date', 'End Date', "Email", "Created By", "Defult Code", "Admin Order", "Can Edit Price", "Is Custom", "Total Products", "Status"]}
               rows={fetchedPromtionalData}
               // rows={[{ but, code: 'STRD', startDate: '02-14-2022', endDate: '02-15-2022', email: "devdealdesk@cnxsi.com", createdBy: 'Dev DealDesk', totalProducts: 4, status: "Active" }]}
               isFooter={false}
+              isChildren={true}
+              promocodeId={arrowClickId}
+              productDetails={details}
             /> : <Loading />
         }
-        {
+        {/* {
           arrowClick ? details("043") : ''
-        }
+        } */}
       </div>
       <CustomModal
         styles={{ width: 800, overFlow: 'hidden' }}

@@ -7,6 +7,7 @@ import { useQuery, useMutation } from 'react-query'
 import { createPromotionalCode } from '../../../utils/baseUrl';
 import CustomPromotionalCodesFormik from './customPromotionalCodesFormik';
 import CustomizedRadios from '../../../components/radio-button';
+import { radioBoolean } from '../common/radioData';
 type Props = {
   triggerOnSubmit: boolean;
   products: any[]
@@ -27,11 +28,12 @@ function AddPromotionalCodeModalDetails({ triggerOnSubmit, products }: Props) {
     console.log("e handle radio ----->", e.target)
     setRadioValue({
       ...radioValue,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value === 'true' ? true : false
     })
   }
-  // const { defaultCode, canEditPrice, adminOrderOnly, isCustom } = radioValue
+  console.log("e handle ", radioValue)
   const onHandleCreatePromotionalCodesSubmit = async () => {
+    const { defaultCode, canEditPrice, adminOrderOnly, isCustom } = radioValue
     await mutation.mutateAsync({ code, startDate, endDate, description, defaultCode, canEditPrice, adminOrderOnly, isCustom, products })
   }
 
@@ -41,7 +43,6 @@ function AddPromotionalCodeModalDetails({ triggerOnSubmit, products }: Props) {
     if (triggerOnSubmit) {
       handleSubmit();
     }
-
   }, [triggerOnSubmit])
   return (
     <div style={{ padding: 23, }}>
@@ -64,10 +65,10 @@ function AddPromotionalCodeModalDetails({ triggerOnSubmit, products }: Props) {
         />
       </div>
       <div style={{ margin: 12, display: 'flex', justifyContent: 'space-between' }}>
-        <CustomizedRadios name='defaultCode' title='Default Code' radioValue={radioValue.defaultCode} options={[{ label: 'Yes', value: true }, { label: 'No', value: false }]} handleChange={handleRadioChange} />
-        <CustomizedRadios name='canEditPrice' title='Can Edit Price' radioValue={radioValue.canEditPrice} options={[{ label: 'Yes', value: true }, { label: 'No', value: false }]} handleChange={handleRadioChange} />
-        <CustomizedRadios name='adminOrderOnly' title='Admin Order Only' radioValue={radioValue.adminOrderOnly} options={[{ label: 'Yes', value: true }, { label: 'No', value: false }]} handleChange={handleRadioChange} />
-        <CustomizedRadios name='isCustom' title='Is Custom' radioValue={radioValue.isCustom} options={[{ label: 'Yes', value: true }, { label: 'No', value: false }]} handleChange={handleRadioChange} />
+        <CustomizedRadios name='defaultCode' title='Default Code' radioValue={radioValue.defaultCode} options={radioBoolean} handleChange={handleRadioChange} />
+        <CustomizedRadios name='canEditPrice' title='Can Edit Price' radioValue={radioValue.canEditPrice} options={radioBoolean} handleChange={handleRadioChange} />
+        <CustomizedRadios name='adminOrderOnly' title='Admin Order Only' radioValue={radioValue.adminOrderOnly} options={radioBoolean} handleChange={handleRadioChange} />
+        <CustomizedRadios name='isCustom' title='Is Custom' radioValue={radioValue.isCustom} options={radioBoolean} handleChange={handleRadioChange} />
       </div>
       <CustomInput name='description' placeholder={''} label='Description' type='text' value={description} handleChange={handleChange} />
     </div>
