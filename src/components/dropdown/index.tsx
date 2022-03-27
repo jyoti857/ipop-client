@@ -16,10 +16,11 @@ interface Props {
   classNames?: any;
   placeholder?: string;
   style?: any;
-  label?: string
+  label?: string;
+  isDisable?: boolean;
 }
 
-function CustomDropdown({ data, value, handleChange, name, label, classNames, placeholder, style }: Props): ReactElement {
+function CustomDropdown({ isDisable, data, value, handleChange, name, label, classNames, placeholder, style }: Props): ReactElement {
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -29,6 +30,7 @@ function CustomDropdown({ data, value, handleChange, name, label, classNames, pl
             value={value}
             onChange={handleChange}
             name={name}
+          disabled={isDisable}
           placeholder={placeholder}
           inputProps={{ 'aria-label': 'Without label' }}
             fullWidth

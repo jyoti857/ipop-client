@@ -46,8 +46,9 @@ type CustomizedTableProps = {
   isChildren?: boolean;
   promocodeId?: string;
   productDetails?: any;
+  handleInputChange?: any;
 }
-export default function CustomizedTables({ productDetails, promocodeId, isChildren, headers, rows, isCloseIcon = false, isFooter = true, isCustomInput = false }: CustomizedTableProps) {
+export default function CustomizedTables({ handleInputChange, productDetails, promocodeId, isChildren, headers, rows, isCloseIcon = false, isFooter = true, isCustomInput = false }: CustomizedTableProps) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(2);
   const [search, setSearch] = useState('');
@@ -83,7 +84,7 @@ export default function CustomizedTables({ productDetails, promocodeId, isChildr
                 <StyledTableRow key={keys[0]}>
                   {
                     keys.map((a, idx) => {
-                      console.log("keys ****", a, typeof row[a])
+                      console.log("keys smith odean****", a, typeof row[a])
                       if (isCloseIcon) {
                         return (
                           idx != keys.length - 1 && <StyledTableCell align="left">{row[keys[idx]]}</StyledTableCell>
@@ -95,6 +96,9 @@ export default function CustomizedTables({ productDetails, promocodeId, isChildr
                           }
                         </StyledTableCell>
 
+                      } else if (typeof row[a] === 'number' && isCustomInput) {
+                        console.log("doasdioasdoaid ", a, typeof row[a], row[a], row, rows)
+                        return <CustomInput value={row[a]} name={row?.catalog || a} type='number' placeholder={'sd'} handleChange={(e: any) => handleInputChange(e, rows.indexOf(a))} />//rows[idx <= rows.length ? idx : 0])} />
                       }
                       else {
                         return <StyledTableCell align="left">{row[keys[isCloseIcon && idx === keys.length - 1 ? idx - 1 : idx]]}</StyledTableCell>

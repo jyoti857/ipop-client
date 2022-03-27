@@ -96,7 +96,7 @@ function Quotes({ }: Props): ReactElement {
   // ----------------------
   const { quoteSubTypeData, quoteTypeData, quoteDropdown, handleQuoteDropdown } = QuoteDropdown();
   const qsdProducts = quoteSubTypeData?.find((qsd: any) => qsd.value === quoteDropdown.quote_sub_type)?.products?.map((p: any) => ({ name: p.name, proposedPrice: p.price, catalog: p.catalog }))
-  console.log("e903 -->", qsdProducts, productWithPrice, 'qtyset', qtySet)
+  console.log("e903 -->", qsdProducts, productWithPrice, 'qtyset', qtySet, quoteDropdown)
   return (
     <div>
       <Paper className={classes.root} style={{ position: 'relative', minHeight: 300, display: 'block' }}>
@@ -140,6 +140,7 @@ function Quotes({ }: Props): ReactElement {
               value={title}
               name='title'
               type='text'
+              label='Title'
               placeholder='Quote Title'
               style={{ marginLeft: 18, width: '20%', }}
               handleChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
@@ -155,6 +156,7 @@ function Quotes({ }: Props): ReactElement {
                 name='quote_sub_type' value={quoteDropdown.quote_sub_type}
                 handleChange={handleQuoteDropdown}
                 label='Sub Quote Type'
+                isDisable={quoteDropdown.quote_type === "std"}
                 classNames={classes.dropdown} />
             </div>
             <CustomDatePicker label='Start Date' name='startDate' value={date.startDate}
@@ -172,10 +174,14 @@ function Quotes({ }: Props): ReactElement {
             />
           </div>
           {
-            isLoading ? <Loading /> : quoteDropdown.quote_type === "Promotional" ?
-              <QuotesTable editable={false} productWithPrice={productWithPrice} qtySet={qtySet} handleChange={handleChange} handleQuoteQuantity={handleQuoteQuantity} /> :
-              <QuotesTable editable={true} productWithPrice={qsdProducts} handleChange={handleChange} handleQuoteQuantity={handleQuoteQuantity} qtySet={qtySet} />
+            isLoading ? <Loading /> : quoteDropdown.quote_type === "std"
+              ? <QuotesTable editable={true} productWithPrice={productWithPrice} qtySet={qtySet} handleChange={handleChange} handleQuoteQuantity={handleQuoteQuantity} />
+              : <QuotesTable editable={true} productWithPrice={qsdProducts} handleChange={handleChange} handleQuoteQuantity={handleQuoteQuantity} qtySet={qtySet} />
           }
+          {/* {
+            isLoading ? <Loading /> :
+              <QuotesTable editable={true} productWithPrice={productWithPrice} qtySet={qtySet} handleChange={handleChange} handleQuoteQuantity={handleQuoteQuantity} />
+          } */}
         </div>
       </CustomFullModal>
     </div>

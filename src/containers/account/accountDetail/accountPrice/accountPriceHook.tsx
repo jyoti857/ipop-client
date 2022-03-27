@@ -23,15 +23,15 @@ export const AccountPriceHook = () => {
     console.log("from data ***, proposed", proposedPriceFromData)
     // setDiscountPrice(dis)
   }
-  React.useEffect(() => { calculateDiscountPrice() }, [discountPriceUpdateFlag])
+  useEffect(() => { calculateDiscountPrice() }, [discountPriceUpdateFlag])
   const calculateDiscountPrice = () => {
     const dis = data?.map((d: any, i: number) => (((d.price - proposedPriceFromData[i]) / d.price) * 100).toFixed(2))
     setDiscountPrice(dis)
   }
 
-  React.useEffect(() => { }, [data])
+  useEffect(() => { }, [data])
 
-  React.useEffect(() => {
+  useEffect(() => {
     setProposedPrice(data)
   }, [isLoading])
   return data ? {

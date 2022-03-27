@@ -40,7 +40,6 @@ function AccountPrice({ }: Props): ReactElement {
   const { data: discountgroupData } = useDiscountGroups()
   const discountgroupNames = discountgroupData?.map(({ name, _id, ...props }: any) => ({ desc: name, value: _id }))
   const discountPrices = discountgroupData?.find((a: any) => a._id === dgDropdown)?.discountPriceList
-  console.log("discount prices ** --> ", discountgroupData, discountPrices)
   const queryClient = useQueryClient()
   const currentDate = new Date()
   const [date, setDate] = useState({ startDate: currentDate.toISOString().split('T').toString(), endDate: addDays(currentDate, 60).toISOString().split("T")[0] })
@@ -51,7 +50,6 @@ function AccountPrice({ }: Props): ReactElement {
   const mutation = useMutation(createAccountPrice)
   const updateStatusInactiveMutation = useMutation(updateAccountPricesToInactive)
   const handleAccountPriceSubmit = async (event: any) => {
-    console.log("account-price-quote ", typeof event, priceTitle, startDate, endDate, proposedPrice)
     await updateStatusInactiveMutation.mutateAsync()
     await mutation.mutateAsync({
       id: accountId,
@@ -75,9 +73,8 @@ function AccountPrice({ }: Props): ReactElement {
     proposedPrice: radioValue === 'Matrix Pricing' ? proposedPriceFromData[idx] : discountPrices?.length > 0 && +discountPrices[idx]?.proposedPrice,
     discountPrice: radioValue === 'Matrix Pricing' ? discountPrice[idx] : discountPrices?.length > 0 && +discountPrices[idx]?.discountPrice
   }))
-  console.log("account prices ---> **", accountPrices)
 
-  // here the e is given the type from being an any
+  // here the e is given the type from being a any
   const handleProposedData = (e: React.ChangeEvent<HTMLInputElement>, id: number) => {
     const sd: any[] = [...proposedPriceFromData]
     if (e.target.value > data?.map((d: any) => d.price)[id]) {
@@ -109,7 +106,6 @@ function AccountPrice({ }: Props): ReactElement {
     const { value } = discountgroupNames.find((dg: any) => dg.value == e.target.value)
     setSelectedDG(value)
     setDgDropdown(e.target.value)
-    console.log("set dg dropdow  ---> ", selectedDG, e.target.value, discountgroupNames)
   }
   return (
     <div>

@@ -53,7 +53,6 @@ function PromotionalCodes({ }: Props) {
   //  get the promotional codes
   const { data: promotionalCodesData, isLoading: isPromotionalCodesLoading }: { data: any, isLoading: boolean } = useQuery('getAllPromotionalCodes', getAllPromotionalCodes)
   const [fetchedPromtionalData, setFetchedPromotionalData] = useState<any[]>([])
-  const but = <Button onClick={() => customClick(details)}>ARROW</Button>
   const but_ = (id: any) => <Button onClick={() => setArrowClickId((prevId: any) => prevId != id ? id : "")}>ARROW</Button>
   useEffect(() => {
     if (promotionalCodesData as any) {
@@ -75,7 +74,11 @@ function PromotionalCodes({ }: Props) {
   const productPriceEditInput = (index: number) =>
     <CustomInput value={product ? product[index]?.price : ''} handleChange={(e: any) => handleProductPriceEdit(e, index)} name='price' placeholder={''} type='number' />
 
-  const editProductForPromotionalCodes = extractedProductData?.map(({ name, catalog }: any, index: number) => ({ name, catalog, price: productPriceEditInput(index) }))
+  // const editProductForPromotionalCodes = extractedProductData?.map(({ name, catalog }: any, index: number) => ({ name, catalog, price: productPriceEditInput(index) }))
+  const editProductForPromotionalCodes = promotionalCodesData?.map(({ products, code, _id }: { products: any, code: string, _id: string }, index: number) => ({ products, _id }))
+    ?.map(({ products, _id }: any, index: number) => ({ products, _id }))
+  //?.map(({ name, catalog, price }: any, index: number) => ({ name, catalog, price }))
+  console.log("0r9 **8  ---> ", editProductForPromotionalCodes, promotionalCodesData)
   const [panel, setPanel] = useState<string | false>(false)
   // edit modal handle close 
   const [editProductModal, setEditProductModal] = useState(false)
@@ -86,9 +89,30 @@ function PromotionalCodes({ }: Props) {
   const hanldeCreateProductModalOpen = () => setCreateProductModal(true)
   const hanldeCreateProductModalClose = () => setCreateProductModal(false)
   const ser = promotionalCodesData?.find((d: any) => d._id == "623701e0ba368ed0d12aa2d1").products
-  console.log("4545 00<", arrowClickId,)
-  const details = (promoId: string) => <div style={{ width: 800, }}>
-    <AccordCard handleModalOpen={hanldeEditProductModalOpen} />
+  const getSelectedPromocodePriceDetails = (promoId: string) => {
+    return promotionalCodesData?.find((d: any) => d._id == promoId).products
+  }
+
+  // ----------- for promotional product edit
+  const [clickedProductToEdit, setClickedProductToEdit] = useState<[{}]>([{}])
+  const handleProductPriceEdit_ = (e: React.ChangeEvent<HTMLInputElement>, idx: number) => {
+    const s = [...clickedProductToEdit]
+    const o = s[idx]
+    console.log("e 8892348932432 ", e.target, s, o, idx)
+    const swe = {
+      ...o,
+      [e.target.name]: e.target.value
+    }
+    clickedProductToEdit.splice(idx, 1, swe)
+
+    setClickedProductToEdit(clickedProductToEdit)
+
+  }
+  const details = (promoId: string) => {
+    setClickedProductToEdit(getSelectedPromocodePriceDetails(promoId))
+    // ?.map(({ name, catalog }: any, index: number) => ({ name, catalog, price: productPriceEditInput(index) })))
+    return <div style={{ width: 800, }}>
+      <AccordCard handleModalOpen={hanldeEditProductModalOpen} buttonName='Edit' />
     <CustomAccordion
       isTableRowDisplayed={false}
       panel={"panel"} // panel is just made like this not this way it should be 
@@ -99,19 +123,11 @@ function PromotionalCodes({ }: Props) {
       }}
       children={<CustomizedTables
         headers={["Name", "Catalog", "Price"]}
-        rows={promotionalCodesData?.find((d: any) => d._id == promoId).products}
+        rows={getSelectedPromocodePriceDetails(promoId)}
       />}
     />
-  </div>
-
-  const customClick = (c: any) => {
-    setArrowClick(!arrowClick)
-    setPanel(panel ? false : panel)
-    // c();
+    </div>
   }
-
-  console.log("promi get data --->", promotionalCodesData);
-
   return (
     <div>
       <TableTop tableName='Promotional Code' onClick={hanldeCreateProductModalOpen} />
@@ -137,9 +153,11 @@ function PromotionalCodes({ }: Props) {
         modalName='Edit Products' footerButtonName='Save' open={editProductModal} handleClose={hanldeEditProductModalClose}>
         <CustomizedTables
           headers={["Name", "Catalog", "Price"]}
-          rows={editProductForPromotionalCodes}
+          // rows={editProductForPromotionalCodes}
+          rows={clickedProductToEdit}
           isFooter={false}
           isCustomInput={true}
+          handleInputChange={handleProductPriceEdit_}
         />
       </CustomModal>
       <CustomModal
