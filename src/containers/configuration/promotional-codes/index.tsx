@@ -106,7 +106,6 @@ function PromotionalCodes({ }: Props) {
     clickedProductToEdit.splice(idx, 1, swe)
 
     setClickedProductToEdit(clickedProductToEdit)
-
   }
   const details = (promoId: string) => {
     setClickedProductToEdit(getSelectedPromocodePriceDetails(promoId))

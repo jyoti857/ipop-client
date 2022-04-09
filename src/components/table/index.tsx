@@ -98,7 +98,7 @@ export default function CustomizedTables({ handleInputChange, productDetails, pr
 
                       } else if (typeof row[a] === 'number' && isCustomInput) {
                         console.log("doasdioasdoaid ", a, typeof row[a], row[a], row, rows)
-                        return <CustomInput value={row[a]} name={row?.catalog || a} type='number' placeholder={'sd'} handleChange={(e: any) => handleInputChange(e, rows.indexOf(a))} />//rows[idx <= rows.length ? idx : 0])} />
+                        return <CustomInput value={row[a]} name={row?.name || a} type='number' placeholder={'sd'} handleChange={(e: any) => handleInputChange(e, 0)} />//rows[idx <= rows.length ? idx : 0])} />
                       }
                       else {
                         return <StyledTableCell align="left">{row[keys[isCloseIcon && idx === keys.length - 1 ? idx - 1 : idx]]}</StyledTableCell>
