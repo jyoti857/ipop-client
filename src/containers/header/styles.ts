@@ -7,8 +7,8 @@ export const useStyles = makeStyles({
     flex: 1,
   },
   logo: {
-    height: '5vh',
-    width: 100,
+    height: '6vh',
+    width: 160,
     marginTop: 23,
     scale: 1.1,
     margin: theme.size?.margin.secondary,
@@ -19,13 +19,19 @@ export const useStyles = makeStyles({
     width: 1, 
   },
   icons: {
-    fontSize: 20, 
+    fontSize: 40, 
     outline: 'none',
     // backgroundColor: '#F1C3F1',
     padding: 8,
     borderRadius: 4,
     cursor: 'pointer',
-    "&:hover,&.Mui-focusVisible": { backgroundColor: "#F1C3F1" },
+    "&:hover,&.Mui-focusVisible": { backgroundColor: "#E9E6EC" },
     "&:focus": { backgroundColor: "yellow" }
   },
+  active: {
+    backgroundColor: '#F1C3F1',
+  },
+  hederBorder: {
+    boxShadow: 'rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;'
+  }
 });

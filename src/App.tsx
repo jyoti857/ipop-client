@@ -3,31 +3,37 @@ import Login from './containers/login';
 import { Provider } from 'react-redux'
 import store from './store';
 import { ThemeProvider } from '@mui/system';
-import { theme } from './theme/customTheme';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import AccountList from './containers/account/AccountList';
 import AccountDetail from './containers/account/accountDetail';
 import Header from './containers/header';
 import Configuration from './containers/configuration';
+import { brandingDarkTheme } from './theme/brandingTheme';
 import Dashboard from './containers/dashboard';
-import Pages from './containers/header/pages';
-// import { Dashboard } from '@mui/icons-material';
+import { CssBaseline } from '@mui/material';
+import DiscountPriceProvider from './contexts/discountPriceContext';
+if (window.location.pathname === '/') {
+  window.location.pathname = '/app-login'
+}
 function App() {
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={brandingDarkTheme}>
+      <CssBaseline />
       <Provider store={store}>
-        <Router>
-          <Route exact path='/' render={() => <Login email='macina@1.com' password='123' />} />
+        <DiscountPriceProvider>
+        {
+            <Router>
+            {window.location.pathname === '/app-login' && <Route exact path='/app-login' render={() => <Login email='john@1.com' password='123' />} />}
+              <Route path='/' component={Header} />
+            <Route exact path='/portal-configuration' component={Configuration} />
+            <Route exact path='/app-user/:userId' component={Dashboard} />
             <Switch>
-            {/* <Route path='/account/:id' component={AccountList} /> */}
-            {/* <Header> */}
-            <Route path='/account/app-dashboard/:id' component={Header} />
-              <Route path='/app-account/:accountId' component={AccountDetail} />
-            <Route path='/app-account/:accountId/configuration' component={Configuration} />
-            {/* </Header> */}
-          </Switch>
-        </Router>
-        {/* <Login email='macina@1.com' password='123' />  */}
+              <Route exact path='/app-account/:userId' component={AccountList} />
+              <Route exact path='/app-account/:userId/individual-account/:accountId' component={AccountDetail} />
+            </Switch>
+            </Router>
+        }
+        </DiscountPriceProvider>
       </Provider>
     </ThemeProvider>
   );

@@ -40,6 +40,7 @@ export const theme: ThemeOptions = createTheme({
     },
   },
   palette: {
+    mode: 'light',  // change the theme type
     primary: {
       main: '#151254',
     },

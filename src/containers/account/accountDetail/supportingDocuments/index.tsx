@@ -5,6 +5,9 @@ import { excel, FileDropZone } from 'mui-dropzone';
 import { AiFillFile } from 'react-icons/ai';
 import CustomModal from '../../../../components/modal';
 import CustomDropdown from '../../../../components/dropdown';
+import { useDispatch } from 'react-redux';
+import { uploadFileAction } from '../../actions';
+import DocumentUploads from './fileUploadAllType';
 
 interface Props {
 
@@ -21,6 +24,8 @@ function SupportingDocuments({ }: Props): ReactElement {
   const [open, setOpen] = useState<boolean>(false)
   const [selectFile, setSelectFile] = useState('AGS')
   const [fileObjects, setFileObjects] = useState([])
+  const [fileInput, setFileInput] = useState<any>();
+  const dispatch = useDispatch()
   const handleClose = () => {
     setOpen(false)
   }
@@ -28,6 +33,22 @@ function SupportingDocuments({ }: Props): ReactElement {
   const handleChange = (event: any) => {
     setSelectFile(event.target.value)
   }
+  const onFilesAdded = (files: any) => {
+    console.log("on files added ---> ", files)
+    setFileInput(files)
+  }
+  const handleFileUpload = async () => {
+    console.log("file input -->", fileInput[0])
+    const formData = new FormData();
+    formData.append('firstCSV', fileInput[0])
+    fetch('http://localhost:3000/account/upload', {
+      method: 'POST',
+      body: formData
+    }).then((data) => data.json()).then(s => console.log("file is uploaded --->", s))
+    // dispatch(uploadFileAction(formData))
+    setOpen(false)
+  }
+  console.log("file selected -->", selectFile);
   // const dialogTitle = () => {
   //   return(
   //     <span>Upload file</span>
@@ -67,12 +88,19 @@ function SupportingDocuments({ }: Props): ReactElement {
                 onChange={handleChange}
               /> */}
               <FileDropZone
-                acceptedMimeTypes={excel.excelMimeTypes}
-                // onFilesAdded={this.onFilesAdded}
+                // acceptedMimeTypes={excel.`excelMimeTypes}
+                onFilesAdded={onFilesAdded}
+
                 // onFilesRejected={this.onFilesRejected}
                 elevation={2}
                 dragOverElevation={10} />
+              {/* <DocumentUploads fileObject={fileInput} classes={classes} /> */}
             </div>
+            <Button
+              color='primary'
+              variant='contained'
+              onClick={handleFileUpload}
+            >Upload</Button>
           </div>
         </CustomModal>
       </Paper>

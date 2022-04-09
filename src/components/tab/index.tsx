@@ -1,4 +1,4 @@
-import { Tab, Tabs } from '@mui/material'
+import { Paper, Tab, Tabs } from '@mui/material'
 import { Box } from '@mui/system'
 import React, { ReactElement, useState } from 'react'
 import { useStyles } from './styles'
@@ -25,7 +25,7 @@ function CustomTabs({ tabs, value, handleChange, tab }: Props): ReactElement {
   const classes = useStyles();
 
   return (
-    <Box>
+    <Paper style={{ boxShadow: '0px 48px 100px 0px #110c2e', margin: 10 }}>
       <Tabs className={classes.root} value={value} onChange={handleChange}>
         {
           tabs.map((tab) => {
@@ -37,7 +37,7 @@ function CustomTabs({ tabs, value, handleChange, tab }: Props): ReactElement {
         {/* <Tab label="Supporting Documents" {...a11yProps(1)} />
         <Tab label="Purchaser" {...a11yProps(2)} /> */}
       </Tabs>
-    </Box>
+    </Paper>
   )
 }
 

@@ -11,14 +11,15 @@ interface Props {
   children: ReactElement;
   modalName?: string;
   styles?: any;
-  footerButtonName?: string
+  footerButtonName?: string;
+  onSubmit?: any;
 }
 
-function CustomModal({ open, handleClose, children, modalName, footerButtonName, styles }: Props): ReactElement {
+function CustomModal({ open, handleClose, children, modalName, footerButtonName, styles, onSubmit }: Props): ReactElement {
   const classes = useStyles(theme);
   return (
     <div
-      style={{ ...styles, position: 'relative', }}
+      style={{ position: 'relative' }}
     >
       <Modal
         open={open}
@@ -26,7 +27,7 @@ function CustomModal({ open, handleClose, children, modalName, footerButtonName,
       >
         <Box sx={classes}>
           <div style={{ position: 'fixed', display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', top: 0, left: 0 }}>
-            <div style={{ height: 20, fontWeight: 600, top: 20, marginLeft: 20 }}>{modalName}</div>
+            <div style={{ maxHeight: 20, fontWeight: 600, top: 20, marginLeft: 20 }}>{modalName}</div>
             <IconButton
               onClick={() => handleClose(false)}
             // style={{ position: 'absolute', top: 6, right: 10 }}
@@ -34,11 +35,18 @@ function CustomModal({ open, handleClose, children, modalName, footerButtonName,
               <CloseOutlined />
             </IconButton>
           </div>
-          <div style={{ overflow: 'scroll', maxHeight: 300, maxWidth: 800, padding: 10 }}>
+          <div style={{ ...styles }}>
+            {/* // overflow: 'scroll', minHeight: 100, maxHeight: 300, maxWidth: 800, padding: 10  */}
+            {/* this is the style was mentioned, I just removed so you can add the same in the respective component */}
             {children}
           </div>
           {
-            footerButtonName && <Button color='primary' variant='outlined' style={{ position: 'absolute', bottom: 10, right: 10 }}>{footerButtonName}</Button>
+            footerButtonName && <Button
+              onClick={onSubmit}
+              color='primary'
+              type='submit'
+              variant='outlined'
+              style={{ position: 'absolute', bottom: 10, right: 10 }}>{footerButtonName}</Button>
           }
         </Box>
         {/* <div className={classes.footer}> </div> */}

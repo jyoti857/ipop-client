@@ -11,38 +11,42 @@ type DropdownType = {
 interface Props {
   data: DropdownType[];
   value: string;
-  handleChange: any;
+  handleChange?: any;
   name: string;
   classNames?: any;
+  placeholder?: string;
+  style?: any;
+  label?: string;
+  isDisable?: boolean;
 }
 
-function CustomDropdown({ data, value, handleChange, name, classNames }: Props): ReactElement {
+function CustomDropdown({ isDisable, data, value, handleChange, name, label, classNames, placeholder, style }: Props): ReactElement {
   const classes = useStyles();
-  const [age, setAge] = useState(value);
-  const handleChange_ = (event: any) => {
-    setAge(event.target.value);
-  };
   return (
     <div className={classes.root}>
-      <Box>
-        <FormControl size='small' className={clsx(classes.formControl, classNames)} >
+      <label style={{ fontFamily: 'sans-serif', fontSize: 20 }}>{label}</label>
+      <FormControl sx={{ ...style, top: 4, minWidth: 200, maxWidth: 372 }} size='small' className={clsx(classes.formControl, classNames)}>
           <Select
             value={value}
             onChange={handleChange}
             name={name}
+          disabled={isDisable}
+          placeholder={placeholder}
+          inputProps={{ 'aria-label': 'Without label' }}
             fullWidth
           >
+          <MenuItem disabled value="">
+            <em>{placeholder}</em>
+          </MenuItem>
             {
-              data.map((item: DropdownType, idx: number) => {
+            data?.map((item: DropdownType, idx: number) => {
                 return (
                   <MenuItem key={idx} value={item.value}>{item.desc}</MenuItem>
                 )
               })
             }
           </Select>
-        </FormControl>
-      </Box>
-
+      </FormControl>
     </div >
   )
 }

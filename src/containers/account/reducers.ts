@@ -1,7 +1,7 @@
-import { CREATE_ACCOUNT_ACTION, SAVE_ACCOUNTS_FROM_SAGA, SAVE_ONE_ACCOUNT_FROM_SAGA } from "./constants"
-import { AccountActionType } from "./types/accountTypes"
+import { CREATE_ACCOUNT_ACTION, GET_FINANCE_DETAIL_FROM_SAGA, SAVE_ACCOUNTS_FROM_SAGA, SAVE_ONE_ACCOUNT_FROM_SAGA, UPDATE_ONE_ACCOUNT_FROM_SAGA, UPDATE_TO_AWAITING_ICS_FROM_SAGA } from "./constants"
+import { AccountActionType, CreateAccountPayload } from "./types/accountTypes"
 
-export const initialState = {
+export const initialState: CreateAccountPayload = {
   accountName: "",
   ein: '',
   subtype: '',
@@ -15,8 +15,11 @@ export const initialState = {
   attention: "",
   phone: '',
   email: '',
-  affiliated_hcp_name: "", 
-  accounts: []
+  hcpName: "",
+  hcpNpi: "", 
+  accounts: [],
+  financeDetails: {},
+  accountStatus: ""
 }
 
 export const AccountReducers = (state_ = initialState, action: AccountActionType) => {
@@ -50,6 +53,28 @@ export const AccountReducers = (state_ = initialState, action: AccountActionType
       return {
         ...state_,
         ...action.payload
+      }
+    }
+    case UPDATE_ONE_ACCOUNT_FROM_SAGA: {
+      console.log("*** reducer ", action.payload )
+      return {
+        ...state_, 
+        ...action.payload
+      }
+    }
+    case GET_FINANCE_DETAIL_FROM_SAGA: {
+      console.log("finance details reducers --> ", action.payload)
+      return {
+        ...state_,
+        financeDetails: action.payload
+      }
+    }
+    case UPDATE_TO_AWAITING_ICS_FROM_SAGA: {
+      console.log("state_ from reducers ---> ", state_)
+      return {
+        ...state_,
+        // ...action.payload
+        accountStattus: action.payload.accountStatus
       }
     }
     default: return state_;

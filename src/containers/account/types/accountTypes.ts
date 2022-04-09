@@ -13,6 +13,12 @@ export type CreateAccountPayload = {
   addressLine3: string;
   email: string;
   phone: string;
+  attention: string;
+  hcpName: string;
+  hcpNpi: string;
+  accounts: any[];
+  financeDetails: {},
+  accountStatus: string;
 }
 export type AccountActionType = {
   type: string;

@@ -2,24 +2,25 @@ import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePag
 import { ReactElement, useEffect, useState } from 'react'
 import CustomModal from '../../components/modal';
 import AccountModal from './AccountModal';
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Data } from './AccountTable';
 import { useQuery } from 'react-query'
 import { useStyles } from './styles'
-import { getAccountsAction } from './actions';
 import { Link } from 'react-router-dom';
 import { getAccountList } from '../../utils/baseUrl';
-import Header from '../header';
+import { AccountStatusColorMapper, AccountStatusColorType } from './accountDetail';
+import { FaHospitalUser } from 'react-icons/fa';
+import Loading from '../../components/loading';
 interface Props {
 
 }
 const columns: any = [
-  { id: 'name', label: 'Name', minWidth: 170 },
-  { id: 'status', label: 'Status', minWidth: 100 },
+  { id: 'name', label: 'Name', maxWidth: 150 },
+  { id: 'status', label: 'Status', maxWidth: 30, align: 'center' },
   { id: 'address', label: 'Address', minWidth: 100 },
   { id: 'city', label: 'City', minWidth: 100 },
   { id: 'state', label: 'State', minWidth: 100 },
-  { id: 'country', label: 'Country', minWidth: 100 },
+  { id: 'country', label: 'Country', minWidth: 100, },
   { id: 'zip', label: 'Zip', minWidth: 100 }
 ]
 function createData(
@@ -40,38 +41,42 @@ const rows: any = [
 ];
 function AccountList({ }: Props): ReactElement {
   const classes = useStyles();
-  const result = useSelector(({ accountReducers }: any) => accountReducers)
-  const { data, isLoading, isError } = useQuery('accountList', getAccountList)
   const dispatch = useDispatch();
   const [open, setOpen] = useState<boolean>(false)
+  const [userId, setUserId] = useState<string | null>(localStorage.getItem('userid'))
+  const { data, isLoading, isError, isFetching, isFetched } = useQuery('accountList', getAccountList)
   const handleOpen = (open: boolean) => setOpen(open)
   const handleClose = (close: boolean) => setOpen(close)
-  console.log("account result ---> ", result.accounts)
-  console.log("data query ---> ", data, isLoading, isError)
-  // const accounts: any = result.accounts.length > 0 && result.accounts.map(({ name, status, city, state, addressLine1, zip, country, _id }: any) => {
+
+  console.log("data query ---> ", data, isLoading, isError, "user id ", userId,
+    "isFethcing ", isFetching, "isFetched ", isFetched
+  )
 
   // get the account list using react query above line is commented that is data we are getting using the 
   // redux saga with triggering the action
-  const accounts: any = data?.length > 0 && data.map(({ name, status, city, state, addressLine1, zip, country, _id }: any) => {
+  const accounts: any = data && data?.map(({ name, accountStatus, city, state, addressLine1, zip, country, _id }: any) => {
     return (
-      createData(name, status, addressLine1, city, state, country, zip, _id)
+      createData(name, accountStatus, addressLine1, city, state, country, zip, _id)
     )
   })
   useEffect(() => {
-    // dispatch(getAccountsAction())
+    const s = async () => {
+      const _id = await localStorage.getItem('userid')!;
+      setUserId(_id)
+    }
+    s();
   }, [])
-  useEffect(() => { }, [result])
+  useEffect(() => { }, [isLoading])
+
 
   return (
-    // <div>
-    <div className={classes.root}>
+    !isLoading ? <div className={classes.root}>
       <div style={{ display: 'flex', justifyContent: 'space-between' }} >
         <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
           <div className={classes.accountsText}>Accounts</div>
-          <div className={classes.accountCount}>{accounts.length}</div>
+          <div className={classes.accountCount}>{accounts?.length}</div>
         </div>
         <div>
-          {/* <a href='https://wa.me/+91998643219w'>whatsapp me </a> */}
           <button
             className={classes.newAccountButton}
             onClick={() => handleOpen(true)}
@@ -79,7 +84,11 @@ function AccountList({ }: Props): ReactElement {
         </div>
       </div>
       {
-        open ? <CustomModal open={open} handleClose={handleClose}>
+        open ? <CustomModal
+          open={open}
+          modalName="Create New Account"
+          handleClose={handleClose}
+          styles={{ width: 700, marginTop: 40, minHeight: 400 }}>
           <AccountModal handleClose={handleClose} />
         </CustomModal> : null
       }
@@ -98,31 +107,36 @@ function AccountList({ }: Props): ReactElement {
               </TableRow>
             </TableHead>
             <TableBody>
-              {!isLoading ?
-                accounts.length > 0 && accounts
-                .map((row: any) => {
+              {!isLoading && isFetched ?
+                accounts?.length > 0 && accounts 
+                  .map((row: any, rowIndex: number) => {
                   return (
                     <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                       {columns.map((column: any) => {
                         // const value = row[column.id] == 'name' ? <Link to='/login'>{row[column.id]}</Link> : row[column.id]
                         const value = row[column.id];
-                        console.log('value ---> ', column.id)
                         return (
-                          <TableCell key={column.id} align={column.align}>
+                          <TableCell key={column.id} align={column.align}> 
                             {column.format && typeof value === 'number'
                               ? column.format(value)
-                              : column.id === 'name' ? <Link to={`/app-account/${row._id}`} style={{ textDecoration: 'none', color: '#0E1EBC' }}>{value}</Link> : value}
+                              : column.id === 'name' ?
+                                <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
+                                  <FaHospitalUser style={{ width: 40, height: 40, marginLeft: 1, backgroundColor: AccountStatusColorMapper[accounts[rowIndex]?.status as AccountStatusColorType] || 'pink', padding: 10, borderRadius: '50%', color: '#fff' }} />
+                                  <Link to={`/app-account/${userId}/individual-account/${row._id}`} style={{ marginLeft: 12, textDecoration: 'none', color: '#0E1EBC' }}>{value}</Link>
+                                </div>
+                                : column.id === 'status' ? <div style={{ backgroundColor: AccountStatusColorMapper[value as AccountStatusColorType], textAlign: 'center', borderRadius: 12, padding: 4, fontSize: 14, fontFamily: "sans-serif" }}>{value}</div>
+                                  : value}
                           </TableCell>
                         );
                       })}
                     </TableRow>
                   );
-                }) : <div>Loading,,,</div>}
+                  }) : <Loading />}
             </TableBody>
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[10, 25, 100]}
+          rowsPerPageOptions={[5, 10, 20]}
           component="div"
           count={rows.length}
           rowsPerPage={10}
@@ -131,7 +145,7 @@ function AccountList({ }: Props): ReactElement {
           onRowsPerPageChange={() => { }} //handleChangeRowsPerPage}
           />
       </Paper>
-    </div>
+    </div> : <Loading />
   )
 }
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useFormik } from 'formik'
 import { useDispatch, useSelector, shallowEqual } from 'react-redux'
 import { loginDispatch } from './actions';
@@ -6,7 +6,9 @@ import { useStyles } from './styles'
 import { useHistory } from 'react-router-dom'
 import CustomInput from '../../components/input/CustomInput';
 import Pages from '../header/pages';
-
+import { sleep } from '../../utils/sleep';
+import pacira_image from '../../assets/img/pacira_full.jpg'
+import pacira_logo from '../../assets/img/pacira-logo.png'
 interface Props {
   email: string;
   password: string;
@@ -23,6 +25,8 @@ const Login: React.FC<Props> = ({ email, password }) => {
   const [userRole, setUserRole] = React.useState<any>();
   const [loading, setLoading] = useState(loadingSelector);
   const [userId, setUserId] = useState<string | null>('');
+  const reloadRef = useRef<number>(4)
+
   const { handleChange, handleBlur, handleSubmit, values, } = useFormik<Props>({
     initialValues: {
       email,
@@ -30,20 +34,35 @@ const Login: React.FC<Props> = ({ email, password }) => {
     },
     onSubmit: () => loginSubmit()
   })
+
+  console.log("values ---> ** ", values)
   const loginSubmit = async () => {
     const { email, password } = values;
     dispatch(loginDispatch({ email, password }))
+    setTimeout(async () => {
+      await localStorage.removeItem('userid')
+      await localStorage.removeItem('token')
+      history.push('/app-login')
+      window.location.reload()
+    }, 1000 * 60 * 60 * 24) // automatic logout in 24hrs
   }
+
 
   useEffect(() => {
     const sd = async () => {
       const _id = await localStorage.getItem('userid');
-      _id && history.push(`/account/app-dashboard/${_id}`)
+      console.log("loca sto ---> ", _id)
+      _id && history.push(`/app-account/${_id}`)
       setUserId(_id)
       setLoading(false)
+      // history.go(0)
+      // window.location.reload()
     }
     sd();
   })
+
+
+
   // React.useEffect(() => {
   //   console.log("userrole selec", userRole?._id, emailSelector)
   //   const login_ = async () => {
@@ -59,15 +78,17 @@ const Login: React.FC<Props> = ({ email, password }) => {
   console.log("Sdls", emailSelector)
   console.log("handle this ", values.email)
   return (
-    <div className={classes.root}>
+    <div className={classes.root} style={{ height: '100vh', overflow: 'hidden' }}>
       <div style={{ flex: 0.1 }}>
         <div style={{ width: 700, display: 'flex', justifyContent: 'center' }}>
-        <img src='https://pacira-operations-portal-ui-staging.azurewebsites.net/static/media/pacira-logo.2f28cc6e.png'
+          <img src={pacira_logo}
+          // src='https://pacira-op-ui-staging.azurewebsites.net/static/media/pacira-logo.2f28cc6e.png'
           alt='pacira logo'
           className={classes.logo}
           />
         </div>
-        <img src='https://pacira-operations-portal-ui-staging.azurewebsites.net/static/media/pacirabg.40fae6f2.png'
+        <img src={pacira_image}
+        //src='https://pacira-op-ui-staging.azurewebsites.net/static/media/pacirabg.11665d57.jpg'
           alt='pacira login page'
           className={classes.image}
         />
@@ -81,6 +102,7 @@ const Login: React.FC<Props> = ({ email, password }) => {
             handleChange={handleChange}
             value={values.email}
             placeholder='email'
+            style={{ margin: 20 }}
           />
           {/* <input
             name='password'

@@ -19,6 +19,9 @@ const switchPages = (pageName: string) => {
     case "Configuration": {
       return <Configuration />
     }
+    case "AccountDetail": {
+      return <AccountDetail />
+    }
     default: <Dashboard />
   }
 }

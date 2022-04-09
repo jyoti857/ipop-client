@@ -5,7 +5,7 @@ import { theme } from "../../../../theme/customTheme";
 export const useStyles = makeStyles({
   root: {
     width: '90%',
-    height: 300,
+    // height: 300,
     margin: '20px auto',
     position: 'relative',
     boxShadow: '5px 5px 20px  #151254',
@@ -42,5 +42,17 @@ export const useStyles = makeStyles({
   }, 
   customWidth: {
     width: 439
+  },
+  dropdown: {
+    width: 300,
+    marginLeft: 12,
+  },
+  flex_gen: {
+    display: 'flex',
+    justifyContent: 'space-between', 
+    // backgroundColor: 'red',
+    alignItems: 'center',
+    marginRight: 6,
+    marginBottom: 23, 
   }
 })

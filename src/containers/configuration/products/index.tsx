@@ -2,7 +2,7 @@ import { Button, IconButton, Paper, Table, TableBody, TableCell, tableCellClasse
 import { styled } from '@mui/material/styles';
 import { ReactElement, useEffect, useState } from 'react'
 import CustomModal from '../../../components/modal'
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import CustomInput from '../../../components/input/CustomInput';
 import { createProduct, getAllProducts, updateProductById } from '../../../utils/baseUrl';
 import CustomProductForm from './customProductFormik';
@@ -11,6 +11,8 @@ import { BiX } from "react-icons/bi";
 import { BiCheck } from "react-icons/bi";
 import { useStyles } from './styles'
 import { theme } from '../../../theme/customTheme';
+import Loading from '../../../components/loading';
+import TableTop from '../common/tableTop';
 function createData(
   name: string,
   catoalog: number,
@@ -18,20 +20,20 @@ function createData(
 ) {
   return { name, catoalog, price };
 }
-const headers = ["Name", "Cataolog", "Price", "Actions"]
-const StyledTableCell = styled(TableCell)(() => ({
+const headers = ["Name", "Catalog", "Price", "Actions"]
+export const StyledTableCell = styled(TableCell)(() => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.color?.secondary,
+    backgroundColor: '#942BA8',
     color: 'white',
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 12,
   },
 }));
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette?.action.hover,
-  },
+export const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  // '&:nth-of-type(odd)': {
+  //   backgroundColor: theme.palette?.action.hover,
+  // },
   // hide last border
   '&:last-child td, &:last-child th': {
     border: 0,
@@ -41,46 +43,39 @@ function Products(): ReactElement {
   const [open, setOpen] = useState(false)
   const [editProduct, setEditProduct] = useState(false)
   const [editRowId, setEditRowId] = useState<number>(-2)
-  const [create, setCreate] = useState(true);
   const [selectedRowId, setSelectedRowId] = useState<string>('')
-  const handleProductSubmit = (e: any) => {
+  const queryClient = useQueryClient()
+  const { mutateAsync, isLoading: mutationIsLoading, isSuccess } = useMutation(createProduct)
+  const { data, isLoading } = useQuery('getProducts', getAllProducts);
+  const handleProductSubmit = async (e: any) => {
     e.preventDefault();
     console.log(catalog, name, price, "catoalog, name, price")
-    mutation.mutateAsync({ name, catalog, price })
+    await mutateAsync({ name, catalog, price })
     setOpen(false)
-    setCreate(true)
+    queryClient.invalidateQueries('getProducts')
   }
   const { handleChange, handleSubmit, values: { catalog, name, price } } = CustomProductForm({ onSubmit: handleProductSubmit })
-  const { data, isLoading } = useQuery('getProducts', getAllProducts, { enabled: Boolean(create) });
   const [modifiedProduct, setModifiedProduct] = useState<any[]>(data)
   useEffect(() => {
     setModifiedProduct(data)
   }, [data])
-  // useEffect(() => {
-  //   setModifiedProduct(data)
-  // }, [editProduct])
   const handleModifyProduct = (e: any, id: string) => {
     e.preventDefault();
-    console.log("modified product **8  ---> ", modifiedProduct, data)
     const modifiedProductCopy = [...modifiedProduct]
     const productIndex = modifiedProductCopy.findIndex((mpc: any) => mpc._id === id)
     const selectedProduct = { ...modifiedProductCopy[productIndex] }
     const name = e.target.getAttribute('name');
     const value = e.target.value;
     selectedProduct[name] = value;
-    console.log("******************* ---> ", selectedProduct, name, value, selectedProduct)
     modifiedProductCopy.splice(productIndex, 1, selectedProduct)
     setModifiedProduct(modifiedProductCopy);
     setSelectedRowId('')
-    // setModifiedProduct([...modifiedProductCopy, selectedProduct])
   }
   const handleModalOpen = () => {
     setOpen(true)
-    setCreate(false)
   }
   const handleModalClose = () => setOpen(false)
-  const { data: updatedProductData } = useQuery('updateProductQuery', () => updateProductById(selectedRowId, modifiedProduct.find(m => m._id === selectedRowId)), { enabled: Boolean(selectedRowId) });
-  const mutation = useMutation(createProduct)
+  const { data: updatedProductData } = useQuery(['updateProductQuery', selectedRowId], () => updateProductById(selectedRowId, modifiedProduct.find(m => m._id === selectedRowId)), { enabled: Boolean(selectedRowId) });
   const handleEditRow = (id: number) => {
     setEditRowId(id)
     setEditProduct(!editProduct)
@@ -90,7 +85,7 @@ function Products(): ReactElement {
     setEditProduct(!editProduct)
     setSelectedRowId(id)
   }
-  console.log("update product query ---> ", updatedProductData, selectedRowId);
+  console.log("mutationIsLoading -->", mutationIsLoading, 'isSuccess -->', isSuccess);
   const classes = useStyles()
   return (
     <>
@@ -119,26 +114,11 @@ function Products(): ReactElement {
           </form>
         </CustomModal>
       }
-    <TableContainer component={Paper}>
+      <TableTop tableName='Products' onClick={handleModalOpen} />
+      {
+        !mutationIsLoading ? <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <div style={{ margin: 10, display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'transparent', width: '137%' }}>
-              <div>Products</div>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around', backgroundColor: 'transparent' }}>
-                <CustomInput name='Search' type='text' value='search' placeholder='Search' />
-                <Button
-                  variant='contained'
-                  color='primary'
-                    onClick={handleModalOpen}
-                >Add +</Button>
-                <Button
-                  variant='outlined'
-                  color='primary'
-                >Sync</Button>
-              </div>
-            </div>
-          </TableRow>
+          <TableHead>
           <TableRow>
             {
               headers.map((header) => {
@@ -150,7 +130,7 @@ function Products(): ReactElement {
           </TableRow>
         </TableHead>
           {
-            isLoading ? <div>Loading*****</div> :
+              mutationIsLoading ? <Loading /> :
               <TableBody>
                 {modifiedProduct?.map((row: any, idx: number) => {
                   return (
@@ -186,6 +166,8 @@ function Products(): ReactElement {
           }
       </Table>
     </TableContainer>
+          : <Loading />
+      }
     </>
   )
 }
