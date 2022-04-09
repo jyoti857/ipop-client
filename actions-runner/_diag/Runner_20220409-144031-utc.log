@@ -1,0 +1,129 @@
+[2022-04-09 14:40:31Z INFO HostContext] No proxy settings were found based on environmental variables (http_proxy/https_proxy/HTTP_PROXY/HTTPS_PROXY)
+[2022-04-09 14:40:31Z INFO HostContext] Well known directory 'Bin': 'J:\chd\4thQtr2021\ipop\client-ipop\actions-runner\bin'
+[2022-04-09 14:40:31Z INFO HostContext] Well known directory 'Root': 'J:\chd\4thQtr2021\ipop\client-ipop\actions-runner'
+[2022-04-09 14:40:31Z INFO HostContext] Well known config file 'Credentials': 'J:\chd\4thQtr2021\ipop\client-ipop\actions-runner\.credentials'
+[2022-04-09 14:40:31Z INFO HostContext] Well known directory 'Bin': 'J:\chd\4thQtr2021\ipop\client-ipop\actions-runner\bin'
+[2022-04-09 14:40:31Z INFO HostContext] Well known directory 'Root': 'J:\chd\4thQtr2021\ipop\client-ipop\actions-runner'
+[2022-04-09 14:40:31Z INFO HostContext] Well known config file 'Runner': 'J:\chd\4thQtr2021\ipop\client-ipop\actions-runner\.runner'
+[2022-04-09 14:40:31Z INFO Listener] Runner is built for Windows (X64) - win-x64.
+[2022-04-09 14:40:31Z INFO Listener] RuntimeInformation: Microsoft Windows 10.0.18362.
+[2022-04-09 14:40:31Z INFO Listener] Version: 2.289.2
+[2022-04-09 14:40:31Z INFO Listener] Commit: 529e404063bef464e93475d93affe93f97080dd1
+[2022-04-09 14:40:31Z INFO Listener] Culture: en-IN
+[2022-04-09 14:40:31Z INFO Listener] UI Culture: en-US
+[2022-04-09 14:40:31Z INFO HostContext] Well known directory 'Bin': 'J:\chd\4thQtr2021\ipop\client-ipop\actions-runner\bin'
+[2022-04-09 14:40:31Z INFO HostContext] Well known directory 'Root': 'J:\chd\4thQtr2021\ipop\client-ipop\actions-runner'
+[2022-04-09 14:40:31Z INFO Listener] Validating directory permissions for: 'J:\chd\4thQtr2021\ipop\client-ipop\actions-runner'
+[2022-04-09 14:40:31Z INFO CommandLineParser] Parse
+[2022-04-09 14:40:31Z INFO CommandLineParser] Parsing 1 args
+[2022-04-09 14:40:31Z INFO CommandLineParser] parsing argument
+[2022-04-09 14:40:31Z INFO CommandLineParser] HasArgs: False
+[2022-04-09 14:40:31Z INFO CommandLineParser] Adding Command: run
+[2022-04-09 14:40:31Z INFO Listener] Arguments parsed
+[2022-04-09 14:40:31Z INFO Runner] ExecuteCommand
+[2022-04-09 14:40:31Z INFO ConfigurationStore] currentAssemblyLocation: J:\chd\4thQtr2021\ipop\client-ipop\actions-runner\bin\Runner.Listener.dll
+[2022-04-09 14:40:31Z INFO HostContext] Well known directory 'Bin': 'J:\chd\4thQtr2021\ipop\client-ipop\actions-runner\bin'
+[2022-04-09 14:40:31Z INFO ConfigurationStore] binPath: J:\chd\4thQtr2021\ipop\client-ipop\actions-runner\bin
+[2022-04-09 14:40:31Z INFO HostContext] Well known directory 'Bin': 'J:\chd\4thQtr2021\ipop\client-ipop\actions-runner\bin'
+[2022-04-09 14:40:31Z INFO HostContext] Well known directory 'Root': 'J:\chd\4thQtr2021\ipop\client-ipop\actions-runner'
+[2022-04-09 14:40:31Z INFO ConfigurationStore] RootFolder: J:\chd\4thQtr2021\ipop\client-ipop\actions-runner
+[2022-04-09 14:40:31Z INFO HostContext] Well known directory 'Bin': 'J:\chd\4thQtr2021\ipop\client-ipop\actions-runner\bin'
+[2022-04-09 14:40:31Z INFO HostContext] Well known directory 'Root': 'J:\chd\4thQtr2021\ipop\client-ipop\actions-runner'
+[2022-04-09 14:40:31Z INFO HostContext] Well known config file 'Runner': 'J:\chd\4thQtr2021\ipop\client-ipop\actions-runner\.runner'
+[2022-04-09 14:40:31Z INFO ConfigurationStore] ConfigFilePath: J:\chd\4thQtr2021\ipop\client-ipop\actions-runner\.runner
+[2022-04-09 14:40:31Z INFO HostContext] Well known directory 'Bin': 'J:\chd\4thQtr2021\ipop\client-ipop\actions-runner\bin'
+[2022-04-09 14:40:31Z INFO HostContext] Well known directory 'Root': 'J:\chd\4thQtr2021\ipop\client-ipop\actions-runner'
+[2022-04-09 14:40:31Z INFO HostContext] Well known config file 'Credentials': 'J:\chd\4thQtr2021\ipop\client-ipop\actions-runner\.credentials'
+[2022-04-09 14:40:31Z INFO ConfigurationStore] CredFilePath: J:\chd\4thQtr2021\ipop\client-ipop\actions-runner\.credentials
+[2022-04-09 14:40:31Z INFO HostContext] Well known directory 'Bin': 'J:\chd\4thQtr2021\ipop\client-ipop\actions-runner\bin'
+[2022-04-09 14:40:31Z INFO HostContext] Well known directory 'Root': 'J:\chd\4thQtr2021\ipop\client-ipop\actions-runner'
+[2022-04-09 14:40:31Z INFO HostContext] Well known config file 'MigratedCredentials': 'J:\chd\4thQtr2021\ipop\client-ipop\actions-runner\.credentials_migrated'
+[2022-04-09 14:40:31Z INFO ConfigurationStore] MigratedCredFilePath: J:\chd\4thQtr2021\ipop\client-ipop\actions-runner\.credentials_migrated
+[2022-04-09 14:40:31Z INFO HostContext] Well known directory 'Bin': 'J:\chd\4thQtr2021\ipop\client-ipop\actions-runner\bin'
+[2022-04-09 14:40:31Z INFO HostContext] Well known directory 'Root': 'J:\chd\4thQtr2021\ipop\client-ipop\actions-runner'
+[2022-04-09 14:40:31Z INFO HostContext] Well known config file 'Service': 'J:\chd\4thQtr2021\ipop\client-ipop\actions-runner\.service'
+[2022-04-09 14:40:31Z INFO ConfigurationStore] ServiceConfigFilePath: J:\chd\4thQtr2021\ipop\client-ipop\actions-runner\.service
+[2022-04-09 14:40:31Z INFO CommandSettings] Flag 'help': 'False'
+[2022-04-09 14:40:31Z INFO CommandSettings] Flag 'version': 'False'
+[2022-04-09 14:40:31Z INFO CommandSettings] Flag 'commit': 'False'
+[2022-04-09 14:40:31Z INFO CommandSettings] Flag 'check': 'False'
+[2022-04-09 14:40:31Z INFO CommandSettings] Command 'configure': 'False'
+[2022-04-09 14:40:31Z INFO CommandSettings] Command 'remove': 'False'
+[2022-04-09 14:40:31Z INFO CommandSettings] Command 'warmup': 'False'
+[2022-04-09 14:40:31Z INFO ConfigurationManager] LoadSettings
+[2022-04-09 14:40:31Z INFO ConfigurationStore] IsConfigured()
+[2022-04-09 14:40:31Z INFO ConfigurationStore] IsConfigured: True
+[2022-04-09 14:40:31Z INFO ConfigurationManager] Is configured: True
+[2022-04-09 14:40:31Z INFO ConfigurationStore] Read setting file: 298 chars
+[2022-04-09 14:40:31Z INFO ConfigurationManager] Settings Loaded
+[2022-04-09 14:40:31Z INFO ConfigurationStore] IsServiceConfigured()
+[2022-04-09 14:40:31Z INFO ConfigurationStore] IsServiceConfigured: False
+[2022-04-09 14:40:31Z INFO CommandSettings] Command 'run': 'True'
+[2022-04-09 14:40:31Z INFO ConfigurationStore] IsConfigured()
+[2022-04-09 14:40:31Z INFO ConfigurationStore] IsConfigured: True
+[2022-04-09 14:40:31Z INFO ConfigurationManager] Is configured: True
+[2022-04-09 14:40:31Z INFO Runner] Could not parse the argument value '' for StartupType. Defaulting to Manual
+[2022-04-09 14:40:31Z INFO Runner] Set runner startup type - Manual
+[2022-04-09 14:40:31Z INFO CommandSettings] Flag 'once': 'False'
+[2022-04-09 14:40:31Z INFO CommandSettings] Flag 'once': 'False'
+[2022-04-09 14:40:31Z INFO Runner] RunAsync
+[2022-04-09 14:40:31Z INFO ConfigurationManager] LoadSettings
+[2022-04-09 14:40:31Z INFO ConfigurationStore] IsConfigured()
+[2022-04-09 14:40:31Z INFO ConfigurationStore] IsConfigured: True
+[2022-04-09 14:40:31Z INFO ConfigurationManager] Is configured: True
+[2022-04-09 14:40:31Z INFO ConfigurationManager] Settings Loaded
+[2022-04-09 14:40:31Z INFO MessageListener] {
+  "AgentId": 2,
+  "AgentName": "portal-runner",
+  "PoolId": 1,
+  "PoolName": "Default",
+  "ServerUrl": "https://pipelines.actions.githubusercontent.com/P17suP3uUzHvbnSkpuNDSGqR05leiL0bitZOrWrZcAGOdWpIWE",
+  "GitHubUrl": "https://github.com/jyoti857/ipop-client",
+  "WorkFolder": "_work"
+}
+[2022-04-09 14:40:31Z INFO MessageListener] Loading Credentials
+[2022-04-09 14:40:31Z INFO ConfigurationStore] HasCredentials()
+[2022-04-09 14:40:31Z INFO ConfigurationStore] stored True
+[2022-04-09 14:40:31Z INFO CredentialManager] GetCredentialProvider
+[2022-04-09 14:40:31Z INFO CredentialManager] Creating type OAuth
+[2022-04-09 14:40:31Z INFO CredentialManager] Creating credential type: OAuth
+[2022-04-09 14:40:31Z INFO HostContext] Well known directory 'Bin': 'J:\chd\4thQtr2021\ipop\client-ipop\actions-runner\bin'
+[2022-04-09 14:40:31Z INFO HostContext] Well known directory 'Root': 'J:\chd\4thQtr2021\ipop\client-ipop\actions-runner'
+[2022-04-09 14:40:31Z INFO HostContext] Well known config file 'RSACredentials': 'J:\chd\4thQtr2021\ipop\client-ipop\actions-runner\.credentials_rsaparams'
+[2022-04-09 14:40:31Z INFO RSAEncryptedFileKeyManager] Loading RSA key parameters from file J:\chd\4thQtr2021\ipop\client-ipop\actions-runner\.credentials_rsaparams
+[2022-04-09 14:40:31Z INFO MessageListener] Attempt to create session.
+[2022-04-09 14:40:31Z INFO MessageListener] Connecting to the Runner Server...
+[2022-04-09 14:40:31Z INFO RunnerServer] Establish connection with 100 seconds timeout.
+[2022-04-09 14:40:31Z INFO GitHubActionsService] Starting operation Location.GetConnectionData
+[2022-04-09 14:40:32Z INFO RunnerServer] Establish connection with 60 seconds timeout.
+[2022-04-09 14:40:32Z INFO GitHubActionsService] Starting operation Location.GetConnectionData
+[2022-04-09 14:40:32Z INFO RunnerServer] Establish connection with 60 seconds timeout.
+[2022-04-09 14:40:32Z INFO GitHubActionsService] Starting operation Location.GetConnectionData
+[2022-04-09 14:40:33Z INFO GitHubActionsService] Finished operation Location.GetConnectionData
+[2022-04-09 14:40:33Z INFO GitHubActionsService] Finished operation Location.GetConnectionData
+[2022-04-09 14:40:33Z INFO GitHubActionsService] Finished operation Location.GetConnectionData
+[2022-04-09 14:40:33Z INFO MessageListener] VssConnection created
+[2022-04-09 14:40:33Z INFO Terminal] WRITE LINE: 
+[2022-04-09 14:40:33Z INFO Terminal] WRITE LINE: 
+[2022-04-09 14:40:34Z WARN GitHubActionsService] Authentication failed with status code 401.
+Transfer-Encoding: chunked
+WWW-Authenticate: Bearer
+Strict-Transport-Security: max-age=2592000
+X-TFS-ProcessId: 4f89a2fb-8de6-40b3-a19f-292d2b0891ee
+ActivityId: 6b0fb96f-f773-4814-bc0e-9ad574af9895
+X-TFS-Session: 8b010999-7636-4816-a3b4-78e3de59a3a6
+X-VSS-E2EID: 6f189732-21a2-4e9b-b59f-c94786171c9b
+X-VSS-SenderDeploymentId: 63be6134-28d1-8c82-e969-91f4e88fcdec
+X-TFS-ServiceError: The+user+%27System%3aPublicAccess%3baaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa%27+is+not+authorized+to+access+this+resource.
+X-VSS-S2STargetService: 0000005A-0000-8888-8000-000000000000/visualstudio.com
+X-Cache: CONFIG_NOCACHE
+X-MSEdge-Ref: Ref A: 5D29C367447D4238B5C910D177BDB208 Ref B: DEL01EDGE0421 Ref C: 2022-04-09T14:40:34Z
+Date: Sat, 09 Apr 2022 14:40:33 GMT
+
+[2022-04-09 14:40:34Z INFO RSAEncryptedFileKeyManager] Loading RSA key parameters from file J:\chd\4thQtr2021\ipop\client-ipop\actions-runner\.credentials_rsaparams
+[2022-04-09 14:40:34Z INFO RSAEncryptedFileKeyManager] Loading RSA key parameters from file J:\chd\4thQtr2021\ipop\client-ipop\actions-runner\.credentials_rsaparams
+[2022-04-09 14:40:35Z INFO GitHubActionsService] AAD Correlation ID for this token request: Unknown
+[2022-04-09 14:40:36Z INFO MessageListener] Session created.
+[2022-04-09 14:40:36Z INFO Terminal] WRITE LINE: Current runner version: '2.289.2'
+[2022-04-09 14:40:36Z INFO Terminal] WRITE LINE: 2022-04-09 14:40:36Z: Listening for Jobs
+[2022-04-09 14:40:36Z INFO JobDispatcher] Set runner/worker IPC timeout to 30 seconds.

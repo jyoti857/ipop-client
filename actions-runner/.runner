@@ -1,0 +1,9 @@
+﻿{
+  "agentId": 2,
+  "agentName": "portal-runner",
+  "poolId": 1,
+  "poolName": "Default",
+  "serverUrl": "https://pipelines.actions.githubusercontent.com/P17suP3uUzHvbnSkpuNDSGqR05leiL0bitZOrWrZcAGOdWpIWE",
+  "gitHubUrl": "https://github.com/jyoti857/ipop-client",
+  "workFolder": "_work"
+}
