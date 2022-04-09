@@ -1,5 +1,7 @@
-name: GitHub Actions Demo
-on: [push]
+name: client-order-portal
+on:
+  push: 
+    branches: [develop]
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
@@ -15,3 +17,19 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
+   
+  self-hosted:
+    runs-on: ipop-client-change-in-file
+    strategy:
+      matrix: 
+        node-versions: [12.x, 14.x]
+    steps:
+      - uses: actions/checkout@v3
+      - nmae: Use node.js ${{matrix.node-versions}}
+        uses: actions/checkout@v2
+        with: 
+          node-versions: ${{matrix.node-vsersion}}
+      - run: npm i
+      - run: npm run build --if-present 
+      - run: npm test   
+
