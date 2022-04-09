@@ -1,0 +1,12 @@
+﻿{
+  "repositoryName": "jyoti857/ipop-client",
+  "pipelineDirectory": "ipop-client",
+  "workspaceDirectory": "ipop-client\\ipop-client",
+  "repositories": {
+    "jyoti857/ipop-client": {
+      "repositoryPath": "ipop-client\\ipop-client",
+      "lastRunOn": "04/09/2022 21:07:43 +05:30"
+    }
+  },
+  "lastRunOn": "04/09/2022 21:07:43 +05:30"
+}
